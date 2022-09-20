@@ -1,0 +1,8 @@
+{
+  "name": "ctasca/mage-bundle",
+  "description": "Easily create Magento/Adobe Commerce PHP/XML files from a set of templates",
+  "require": {
+    "php": ">=7.4",
+    "symfony/maker-bundle": "*"
+  }
+}
