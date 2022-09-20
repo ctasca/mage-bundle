@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="ctasca_tab" translate="label" sortOrder="100">
+            <label>Ctasca</label>
+        </tab>
+        <section id="ctasca_magebundle" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+            <tab>ctasca_tab</tab>
+            <label>Mage Bundle</label>
+            <resource>Ctasca_MageBundle::config_general</resource>
+            <group id="settings" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Settings</label>
+                <field id="logging_enabled" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Logging Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Set to 'yes' to enable logging. Logs are found in var/log/mage-bundle.log]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
