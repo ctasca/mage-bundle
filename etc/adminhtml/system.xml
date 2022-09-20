@@ -10,7 +10,7 @@
             <resource>Ctasca_MageBundle::config_general</resource>
             <group id="settings" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Settings</label>
-                <field id="logging_enabled" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="logging_enabled" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Logging Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment><![CDATA[Set to 'yes' to enable logging. Logs are found in var/log/mage-bundle.log]]></comment>
