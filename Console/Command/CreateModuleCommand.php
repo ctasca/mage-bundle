@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Magento\Framework\App\State as AppState;
+use Ctasca\MageBundle\Model\App\Code\LocatorFactory;
 
 class CreateModuleCommand extends Command
 {
@@ -18,13 +19,20 @@ class CreateModuleCommand extends Command
     private $appState;
 
     /**
+     * @var LocatorFactory
+     */
+    private $locatorFactory;
+
+    /**
      * @param AppState $appState
      */
     public function __construct(
-        AppState $appState
+        AppState $appState,
+        LocatorFactory $locatorFactory
     ) {
         parent::__construct();
         $this->appState = $appState;
+        $this->locatorFactory = $locatorFactory;
     }
 
     /**
@@ -37,7 +45,7 @@ class CreateModuleCommand extends Command
 
         parent::configure();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -45,9 +53,14 @@ class CreateModuleCommand extends Command
     {
         $helper = $this->getHelper('question');
         $prompt = new Question('Enter Company Name: ');
+        $prompt->setMaxAttempts(2);
         $companyName = $helper->ask($input, $output, $prompt);
         $prompt = new Question('Enter Module Name: ');
+        $prompt->setMaxAttempts(2);
         $moduleName = $helper->ask($input, $output, $prompt);
-        $output->writeln($companyName . ' ' . $moduleName);
+        /** @var \Ctasca\MageBundle\Model\App\Code\Locator $locator */
+        $locator = $this->locatorFactory->create(['moduleName' => $companyName . DIRECTORY_SEPARATOR . $moduleName]);
+        $locatedDirectory = $locator->locate();
+        $output->writeln($locatedDirectory);
     }
 }
