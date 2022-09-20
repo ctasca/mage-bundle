@@ -53,14 +53,35 @@ class CreateModuleCommand extends Command
     {
         $helper = $this->getHelper('question');
         $prompt = new Question('Enter Company Name: ');
-        $prompt->setMaxAttempts(2);
+        $this->validatePromptQuestion($prompt, "Company Name is required");
         $companyName = $helper->ask($input, $output, $prompt);
         $prompt = new Question('Enter Module Name: ');
-        $prompt->setMaxAttempts(2);
+        $this->validatePromptQuestion($prompt, "Module Name is required");
         $moduleName = $helper->ask($input, $output, $prompt);
         /** @var \Ctasca\MageBundle\Model\App\Code\Locator $locator */
         $locator = $this->locatorFactory->create(['moduleName' => $companyName . DIRECTORY_SEPARATOR . $moduleName]);
         $locatedDirectory = $locator->locate();
         $output->writeln($locatedDirectory);
+    }
+
+    /**
+     * @param Question $question
+     * @param string $exceptionMessage
+     * @return void
+     */
+    private function validatePromptQuestion(Question $question, string $exceptionMessage): void
+    {
+        $question->setValidator(function ($answer) use ($exceptionMessage) {
+            if (empty($answer)) {
+                throw new \RuntimeException($exceptionMessage);
+            }
+            return $answer;
+        });
+
+        $question->setNormalizer(function ($value) {
+            return $value ? trim($value) : '';
+        });
+
+        $question->setMaxAttempts(2);
     }
 }
