@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Composer;
 
+include_once __DIR__ . "../../../magento/framework/Filesystem.php";
+include_once __DIR__ . "../../../magento/framework/Filesystem/Io/File.php";
+include_once __DIR__ . "../../../magento/framework/App/Filesystem/DirectoryList.php";
+
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\Util\Filesystem as ComposerFilesystem;
