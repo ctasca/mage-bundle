@@ -14,14 +14,15 @@ class PostUpdate
 {
     /**
      * Post update scripts execute after install and update
-     * 
+     *
      * @param Event $event
      * @return void
      */
     public static function copyTemplates(Event $event): void
     {
         $magentoFile = new File();
-        $skeletonDir = $event->getComposer()->getConfig()->get('mage-bundle/Bundle/Skeleton');
+        $skeletonDir = $event->getComposer()->getConfig()->get('ctasca/mage-bundle/Bundle/Skeleton');
+        var_dump($skeletonDir);
         $magentoFilesystem = new MagentoFilesystem();
         $composerFilesystem = new ComposerFilesystem();
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
