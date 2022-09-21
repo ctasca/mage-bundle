@@ -7,6 +7,7 @@ include_once __DIR__ . "/../../../magento/framework/Filesystem.php";
 include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/IoInterface.php";
 include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/AbstractIo.php";
 include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/File.php";
+include_once __DIR__ . "/../../../magento/framework/Filesystem/DirectoryList.php";
 include_once __DIR__ . "/../../../magento/framework/App/Filesystem/DirectoryList.php";
 
 use Composer\Script\Event;
