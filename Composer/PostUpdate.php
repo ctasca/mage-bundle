@@ -6,9 +6,9 @@ namespace Ctasca\MageBundle\Composer;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\Util\Filesystem as ComposerFilesystem;
-use Magento\Framework\Filesystem as MagentoFilesystem;
-use Magento\Framework\Filesystem\Io\File;
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Ctasca\MageBundle\Framework\Filesystem as MagentoFilesystem;
+use Ctasca\MageBundle\Framework\File;
+use Ctasca\MageBundle\Framework\DirectoryList;
 
 class PostUpdate
 {

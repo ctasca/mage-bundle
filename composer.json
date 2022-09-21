@@ -22,6 +22,6 @@
     }
   },
   "scripts": {
-    "post-autoload-dump": "Ctasca\\MageBundle\\Composer\\PostUpdate::copyTemplates"
+    "post-install-cmd": "Ctasca\\MageBundle\\Composer\\PostUpdate::copyTemplates"
   }
 }
