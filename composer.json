@@ -18,7 +18,6 @@
       "registration.php"
     ],
     "psr-4": {
-      "Magento\\Framework\\": "",
       "Ctasca\\MageBundle\\": ""
     }
   },
