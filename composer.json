@@ -20,5 +20,8 @@
     "psr-4": {
       "Ctasca\\MageBundle\\": ""
     }
+  },
+  "scripts": {
+    "post-update-cmd": "Ctasca\\MageBundle\\Composer\\PostUpdate::copyTemplates"
   }
 }
