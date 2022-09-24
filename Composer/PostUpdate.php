@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Composer;
 
+include_once __DIR__ . "/../../../magento/framework/App/ObjectManager.php";
 include_once __DIR__ . "/../../../magento/framework/Filesystem.php";
 include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/IoInterface.php";
 include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/AbstractIo.php";
@@ -26,13 +27,13 @@ class PostUpdate
      */
     public static function copyTemplates(Event $event): void
     {
-        $magentoFile = new File();
-        $skeletonDir = $event->getComposer()->getConfig()->get('mage-bundle/Bundle/Skeleton');
-        $magentoFilesystem = new MagentoFilesystem();
+        $objectManager = ObjectManager::getInstance();
+        $magentoFile = $objectManager->create(File::class);
+        $magentoFilesystem = $objectManager->create(MagentoFilesystem::class);
         $composerFilesystem = new ComposerFilesystem();
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath("mage-bundle");
         $magentoFile->checkAndCreateFolder($mediaDirectory);
-        $composerFilesystem->copy($skeletonDir, $mediaDirectory);
+        //$composerFilesystem->copy($skeletonDir, $mediaDirectory);
     }
 }
