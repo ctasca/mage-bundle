@@ -31,7 +31,7 @@ class PostUpdate
      */
     public static function copyTemplates(Event $event): void
     {
-        $objectManager = ObjectManager::getInstance();
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $magentoFile = $objectManager->create(File::class);
         $magentoFilesystem = $objectManager->create(MagentoFilesystem::class);
         $composerFilesystem = new ComposerFilesystem();
