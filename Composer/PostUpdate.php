@@ -25,11 +25,11 @@ class PostUpdate
     public static function copyTemplates(Event $event): void
     {
         $magentoFile = new File();
-        $rootDirectory = realpath("../../../");
+        $rootMagentoDirectory = realpath("../../../");
         $readFactory = new ReadFactory(new DriverPool());
         $writeFactory = new WriteFactory(new DriverPool());
         $magentoFilesystem = new MagentoFilesystem(
-            new DirectoryList($rootDirectory),
+            new DirectoryList($rootMagentoDirectory),
             $readFactory,
             $writeFactory
         );
@@ -37,8 +37,8 @@ class PostUpdate
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath("mage-bundle");
         $magentoFile->checkAndCreateFolder($mediaDirectory);
-        var_dump($magentoFilesystem->getDirectoryRead(DirectoryList::ROOT)
-            ->getAbsolutePath("vendor/ctasca/mage-bundle"));
-        //$composerFilesystem->copy($skeletonDir, $mediaDirectory);
+        $skeletonDir = $magentoFilesystem->getDirectoryRead(DirectoryList::ROOT)
+            ->getAbsolutePath("vendor/ctasca/mage-bundle/Bundle/Skeleton");
+        $composerFilesystem->copy($skeletonDir, $mediaDirectory);
     }
 }
