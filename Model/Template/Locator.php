@@ -36,13 +36,15 @@ class Locator extends AbstractLocator
     {
         $templateFileDirectory = $this->isTemplateFoundInPubMedia();
         if (!is_null($templateFileDirectory)) {
+            $this->logger->info(__METHOD__ . " Locating directory -> caller:", [$templateFileDirectory, debug_backtrace()[1]['function']]);
             return $templateFileDirectory;
         }
         $templateFileDirectory = $this->isTemplateFoundInSkeletonDirectory();
         if (!is_null($templateFileDirectory)) {
+            $this->logger->info(__METHOD__ . " Locating directory -> caller:", [$templateFileDirectory, debug_backtrace()[1]['function']]);
             return $templateFileDirectory;
         }
-        throw new \Exception(__("Could not locate template file: " . $this->getTemplateFilename()));
+        throw new \Exception("Could not locate template file: " . $this->getTemplateFilename());
     }
 
     /**
