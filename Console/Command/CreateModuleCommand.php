@@ -29,7 +29,7 @@ class CreateModuleCommand extends Command
      */
     const MODULE_XML_TEMPLATE_FILENAME = 'module.tpl.xml';
 
-    private LocatorFactory $appCodeLocatorFactory;
+    private AppCodeLocatorFactory $appCodeLocatorFactory;
     private TemplateLocatorFactory $templateLocatorFactory;
 
     /**
