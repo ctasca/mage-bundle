@@ -12,11 +12,11 @@ class Handler extends Base
      * Logging level
      * @var int
      */
-    protected int $loggerType = Logger::INFO;
+    protected $loggerType = Logger::INFO;
 
     /**
      * File name
      * @var string
      */
-    protected string $fileName = '/var/log/mage-bundle.log';
+    protected $fileName = '/var/log/mage-bundle.log';
 }
