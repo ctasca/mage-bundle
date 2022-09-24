@@ -12,9 +12,6 @@ class Logger extends \Monolog\Logger
      */
     const LOGGING_ENABLED_CONFIG_PATH = 'ctasca_magebundle/settings/logging_enabled';
 
-    /**
-     * @var ScopeConfigInterface
-     */
     private ScopeConfigInterface $scopeConfig;
 
     /**
@@ -26,8 +23,8 @@ class Logger extends \Monolog\Logger
     public function __construct(
         string $name,
         ScopeConfigInterface $scopeConfig,
-        array $handlers = array(),
-        array $processors = array()
+        array $handlers = [],
+        array $processors = []
     ) {
         parent::__construct($name, $handlers, $processors);
         $this->scopeConfig = $scopeConfig;

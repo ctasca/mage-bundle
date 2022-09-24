@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Composer;
 
+/**
+ * Require composer autoload file
+ */
 require __DIR__ . '/../../../autoload.php';
 
 use Composer\Script\Event;
@@ -15,17 +18,41 @@ use Magento\Framework\Filesystem\Directory\ReadFactory;
 use Magento\Framework\Filesystem\Directory\WriteFactory;
 use Magento\Framework\Filesystem\DriverPool;
 
+/**
+ * Class used in composer post install command script
+ */
 class PostInstall
 {
     /**
-     * Post update scripts
+     * Argument to be passed to realpath function
+     *
+     * @todo Make this configurable somehow
+     */
+    const MAGENTO_ROOT_REALPATH_ARGUMENT = '../../../';
+
+    /**
+     * Directory name to be created in pub/media directory
+     */
+    const PUB_MEDIA_MAGE_BUNDLE_DIRNAME = 'mage-bundle';
+
+    /**
+     * Bundle/Skeleton directory relative path
+     */
+    const VENDOR_SKELETON_PATH_DIR = 'vendor/ctasca/mage-bundle/Bundle/Skeleton';
+
+    /**
+     * Post install script
+     *
+     * Copy files from Bundle/Skeleton directory to Magento pub/media directory
+     * Allows defining developer own templates
+     *
      * @param Event $event
      * @return void
      */
     public static function copyTemplates(Event $event): void
     {
         $magentoFile = new File();
-        $rootMagentoDirectory = realpath("../../../");
+        $rootMagentoDirectory = realpath(self::MAGENTO_ROOT_REALPATH_ARGUMENT);
         $readFactory = new ReadFactory(new DriverPool());
         $writeFactory = new WriteFactory(new DriverPool());
         $magentoFilesystem = new MagentoFilesystem(
@@ -35,10 +62,10 @@ class PostInstall
         );
         $composerFilesystem = new ComposerFilesystem();
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
-            ->getAbsolutePath("mage-bundle");
+            ->getAbsolutePath(self::PUB_MEDIA_MAGE_BUNDLE_DIRNAME);
         $magentoFile->checkAndCreateFolder($mediaDirectory);
         $skeletonDir = $magentoFilesystem->getDirectoryRead(DirectoryList::ROOT)
-            ->getAbsolutePath("vendor/ctasca/mage-bundle/Bundle/Skeleton");
+            ->getAbsolutePath(self::VENDOR_SKELETON_PATH_DIR);
         $composerFilesystem->copy($skeletonDir, $mediaDirectory);
     }
 }

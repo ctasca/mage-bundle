@@ -9,6 +9,11 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Io\File;
 use Ctasca\MageBundle\Logger\Logger;
 
+/**
+ * Locate a company/module directory within app/code.
+ *
+ * Calling locate method will generate the directory if it doesn't exist.
+ */
 class Locator implements LocatorInterface
 {
     /**
@@ -16,27 +21,10 @@ class Locator implements LocatorInterface
      */
     const CODE_DIR = 'code/';
 
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var File
-     */
-    private $file;
-
-    /**
-     * @var Logger
-     */
-    private $logger;
-
-    /**
-     * To be provided in format Company/Module
-     *
-     * @var string
-     */
-    private $moduleName;
+    private Filesystem $filesystem;
+    private File $file;
+    private Logger $logger;
+    private string $moduleName;
 
     /**
      * @param Filesystem $filesystem
