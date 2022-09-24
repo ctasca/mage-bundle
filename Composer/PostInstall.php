@@ -17,7 +17,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Directory\ReadFactory;
 use Magento\Framework\Filesystem\Directory\WriteFactory;
 use Magento\Framework\Filesystem\DriverPool;
-
+use Ctasca\MageBundle\Api\LocatorInterface;
 /**
  * Class used in composer post install command script
  */
@@ -29,16 +29,6 @@ class PostInstall
      * @todo Make this configurable somehow
      */
     const MAGENTO_ROOT_REALPATH_ARGUMENT = '../../../';
-
-    /**
-     * Directory name to be created in pub/media directory
-     */
-    const PUB_MEDIA_MAGE_BUNDLE_DIRNAME = 'mage-bundle';
-
-    /**
-     * Bundle/Skeleton directory relative path
-     */
-    const VENDOR_SKELETON_PATH_DIR = 'vendor/ctasca/mage-bundle/Bundle/Skeleton';
 
     /**
      * Post install script
@@ -62,10 +52,10 @@ class PostInstall
         );
         $composerFilesystem = new ComposerFilesystem();
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
-            ->getAbsolutePath(self::PUB_MEDIA_MAGE_BUNDLE_DIRNAME);
+            ->getAbsolutePath(LocatorInterface::PUB_MEDIA_MAGE_BUNDLE_DIRNAME);
         $magentoFile->checkAndCreateFolder($mediaDirectory);
         $skeletonDir = $magentoFilesystem->getDirectoryRead(DirectoryList::ROOT)
-            ->getAbsolutePath(self::VENDOR_SKELETON_PATH_DIR);
+            ->getAbsolutePath(LocatorInterface::VENDOR_SKELETON_PATH_DIR);
         $composerFilesystem->copy($skeletonDir, $mediaDirectory);
     }
 }
