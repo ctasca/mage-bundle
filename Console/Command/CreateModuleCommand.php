@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
 use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
@@ -75,14 +76,29 @@ class CreateModuleCommand extends Command
         /** @var \Ctasca\MageBundle\Model\App\Code\Locator $appCodeLocator */
         $appCodeLocator = $this->appCodeLocatorFactory->create(['dirname' => $companyName . DIRECTORY_SEPARATOR . $moduleName]);
         try {
-            $locatedDirectory = $appCodeLocator->locate();
+            $progressBar = new ProgressBar($output);
+            $progressBar->setFormat(
+                "<fg=white;bg=cyan> %status:-45s%</>\n%current%/%max% [%bar%] %percent:3s%%\n?  %estimated:-20s%  %memory:20s%"
+            );
+            $progressBar->setMessage("Starting...", 'status');
+            $progressBar->start();
+            $appCodeDirectory = $appCodeLocator->locate();
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
             $templateLocator = $this->templateLocatorFactory->create(['dirname' => 'module']);
             $registrationTemplateDirectory = $templateLocator
                 ->setTemplateFilename(self::REGISTRATION_TEMPLATE_FILENAME)
                 ->locate();
-            $fileContent = $templateLocator->getRead($registrationTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
-            $output->writeln($fileContent);
+            $registrationTemplateContent = $templateLocator->getRead($registrationTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
+            $progressBar->advance();
+            $moduleTemplateDirectory = $templateLocator
+                ->setTemplateFilename(self::MODULE_XML_TEMPLATE_FILENAME)
+                ->locate();
+            $moduleTemplateContent = $templateLocator->getRead($moduleTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
+            $progressBar->advance();
+            $output->writeln($registrationTemplateContent);
+            $output->writeln($moduleTemplateContent);
+            $progressBar->finish();
+            $progressBar->setMessage("Finished", 'status');
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
             $output->writeln("<error>Something went wrong</error>");

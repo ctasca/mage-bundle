@@ -57,9 +57,7 @@ class Locator extends AbstractLocator
             ->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath(self::PUB_MEDIA_MAGE_BUNDLE_DIRNAME . $this->dirname);
 
-        $templateFile = $pubMediaTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
-
-        if (file_exists($templateFile)) {
+        if (file_exists($pubMediaTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
             return $pubMediaTemplateDir . DIRECTORY_SEPARATOR;
         }
         return null;
@@ -75,9 +73,7 @@ class Locator extends AbstractLocator
             ->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath(self::VENDOR_SKELETON_PATH_DIR . $this->dirname);
 
-        $templateFile = $skeletonDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
-
-        if (file_exists($templateFile)) {
+        if (file_exists($skeletonDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
             return $skeletonDir . DIRECTORY_SEPARATOR;
         }
         return null;
