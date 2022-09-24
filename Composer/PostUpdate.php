@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Composer;
 
+include_once __DIR__ . "/../../../magento/framework/ObjectManager/FactoryInterface.php";
+include_once __DIR__ . "/../../../magento/framework/ObjectManager/ObjectManager.php";
 include_once __DIR__ . "/../../../magento/framework/App/ObjectManager.php";
 include_once __DIR__ . "/../../../magento/framework/Filesystem.php";
 include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/IoInterface.php";
