@@ -38,6 +38,7 @@ abstract class AbstractLocator implements LocatorInterface
         string $dirname
     ) {
         $this->filesystem = $filesystem;
+        $this->file = $file;
         $this->readFactory = $readFactory;
         $this->writeFactory = $writeFactory;
         $this->logger = $logger;
