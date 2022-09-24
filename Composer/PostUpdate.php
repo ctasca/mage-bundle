@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Composer;
 
-require_once __DIR__ . '/../../../autoload.php';
+require __DIR__ . '/../../../autoload.php';
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
@@ -25,12 +25,12 @@ class PostUpdate
     public static function copyTemplates(Event $event): void
     {
         $magentoFile = new File();
-        var_dump(realpath("../../../../"));
+        $rootDirectory = realpath("../../../");
         $skeletonDir = $event->getComposer()->getConfig()->get('vendor-dir');
         $readFactory = new ReadFactory(new DriverPool());
         $writeFactory = new WriteFactory(new DriverPool());
         $magentoFilesystem = new MagentoFilesystem(
-            new DirectoryList(realpath("../../../../")),
+            new DirectoryList($rootDirectory),
             $readFactory,
             $writeFactory
         );
@@ -38,7 +38,7 @@ class PostUpdate
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath("mage-bundle");
         $magentoFile->checkAndCreateFolder($mediaDirectory);
-        var_dump($skeletonDir . "/Bundle/Skeleton");
+        var_dump($skeletonDir . "Bundle/Skeleton");
         //$composerFilesystem->copy($skeletonDir, $mediaDirectory);
     }
 }
