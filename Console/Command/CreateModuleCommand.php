@@ -78,10 +78,10 @@ class CreateModuleCommand extends Command
             $locatedDirectory = $appCodeLocator->locate();
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
             $templateLocator = $this->templateLocatorFactory->create(['dirname' => 'module']);
-            $registrationTemplate = $templateLocator
+            $registrationTemplateDirectory = $templateLocator
                 ->setTemplateFilename(self::REGISTRATION_TEMPLATE_FILENAME)
                 ->locate();
-            $fileContent = $templateLocator->getRead($registrationTemplate)->readFile($registrationTemplate);
+            $fileContent = $templateLocator->getRead($registrationTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
             $output->writeln($fileContent);
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);

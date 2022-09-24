@@ -34,13 +34,13 @@ class Locator extends AbstractLocator
      */
     public function locate(): string
     {
-        $templateFile = $this->isTemplateFoundInPubMedia();
-        if (!is_null($templateFile)) {
-            return $templateFile;
+        $templateFileDirectory = $this->isTemplateFoundInPubMedia();
+        if (!is_null($templateFileDirectory)) {
+            return $templateFileDirectory;
         }
-        $templateFile = $this->isTemplateFoundInSkeletonDirectory();
-        if (!is_null($templateFile)) {
-            return $templateFile;
+        $templateFileDirectory = $this->isTemplateFoundInSkeletonDirectory();
+        if (!is_null($templateFileDirectory)) {
+            return $templateFileDirectory;
         }
         throw new \Exception(__("Could not locate template file: " . $this->getTemplateFilename()));
     }
@@ -58,7 +58,7 @@ class Locator extends AbstractLocator
         $templateFile = $pubMediaTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
 
         if (file_exists($templateFile)) {
-            return $templateFile;
+            return $pubMediaTemplateDir . DIRECTORY_SEPARATOR;
         }
         return null;
     }
@@ -76,7 +76,7 @@ class Locator extends AbstractLocator
         $templateFile = $skeletonDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
 
         if (file_exists($templateFile)) {
-            return $templateFile;
+            return $skeletonDir . DIRECTORY_SEPARATOR;
         }
         return null;
     }
