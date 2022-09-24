@@ -26,7 +26,6 @@ class PostUpdate
     {
         $magentoFile = new File();
         $rootDirectory = realpath("../../../");
-        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
         $readFactory = new ReadFactory(new DriverPool());
         $writeFactory = new WriteFactory(new DriverPool());
         $magentoFilesystem = new MagentoFilesystem(
@@ -38,7 +37,8 @@ class PostUpdate
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath("mage-bundle");
         $magentoFile->checkAndCreateFolder($mediaDirectory);
-        var_dump($vendorDir);
+        var_dump($magentoFilesystem->getDirectoryRead(DirectoryList::ROOT)
+            ->getAbsolutePath("vendor/ctasca/mage-bundle"));
         //$composerFilesystem->copy($skeletonDir, $mediaDirectory);
     }
 }
