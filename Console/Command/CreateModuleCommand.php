@@ -76,7 +76,7 @@ class CreateModuleCommand extends Command
         /** @var \Ctasca\MageBundle\Model\App\Code\Locator $appCodeLocator */
         $appCodeLocator = $this->appCodeLocatorFactory->create(['dirname' => $companyName . DIRECTORY_SEPARATOR . $moduleName]);
         try {
-            $progressBar = new ProgressBar($output);
+            $progressBar = new ProgressBar($output, 3);
             $progressBar->setFormat(
                 "<fg=white;bg=cyan> %status:-45s%</>\n%current%/%max% [%bar%] %percent:3s%%\n?  %estimated:-20s%  %memory:20s%"
             );
