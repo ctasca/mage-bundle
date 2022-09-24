@@ -11,6 +11,9 @@ use Composer\Util\Filesystem as ComposerFilesystem;
 use Magento\Framework\Filesystem as MagentoFilesystem;
 use Magento\Framework\Filesystem\Io\File;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem\Directory\ReadFactory;
+use Magento\Framework\Filesystem\Directory\WriteFactory;
+use Magento\Framework\Filesystem\DriverPool;
 
 class PostUpdate
 {
@@ -23,7 +26,9 @@ class PostUpdate
     {
         $magentoFile = new File();
         $skeletonDir = $event->getComposer()->getConfig()->get('vendor-dir');
-        $magentoFilesystem = new MagentoFilesystem();
+        $readFactory = new ReadFactory(new DriverPool());
+        $writeFactory = new WriteFactory(new DriverPool());
+        $magentoFilesystem = new MagentoFilesystem(new DirectoryList(), $readFactory, $writeFactory);
         $composerFilesystem = new ComposerFilesystem();
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath("mage-bundle");
