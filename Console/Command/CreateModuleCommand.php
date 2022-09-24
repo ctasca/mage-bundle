@@ -11,6 +11,7 @@ use Symfony\Component\Console\Question\Question;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
 use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
+use Ctasca\MageBundle\Logger\Logger;
 
 class CreateModuleCommand extends Command
 {
@@ -31,6 +32,7 @@ class CreateModuleCommand extends Command
 
     private AppCodeLocatorFactory $appCodeLocatorFactory;
     private TemplateLocatorFactory $templateLocatorFactory;
+    private Logger $logger;
 
     /**
      * @param AppCodeLocatorFactory $appCodeLocatorFactory
@@ -38,11 +40,13 @@ class CreateModuleCommand extends Command
      */
     public function __construct(
         AppCodeLocatorFactory $appCodeLocatorFactory,
-        TemplateLocatorFactory $templateLocatorFactory
+        TemplateLocatorFactory $templateLocatorFactory,
+        Logger $logger
     ) {
         parent::__construct();
         $this->appCodeLocatorFactory = $appCodeLocatorFactory;
         $this->templateLocatorFactory = $templateLocatorFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -80,6 +84,7 @@ class CreateModuleCommand extends Command
             $fileContent = $templateLocator->getRead($registrationTemplate)->readFile($registrationTemplate);
             $output->writeln($fileContent);
         } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
             $output->writeln("<error>Something went wrong</error>");
         }
     }
