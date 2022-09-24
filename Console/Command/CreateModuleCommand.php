@@ -91,9 +91,8 @@ class CreateModuleCommand extends Command
             $registrationTemplateContent = $templateLocator->getRead($registrationTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
             $progressBar->advance();
             $moduleTemplateDirectory = $templateLocator
-                ->setTemplateFilename(self::MODULE_XML_TEMPLATE_FILENAME)
+                ->setTemplateFilename('etc' . DIRECTORY_SEPARATOR . self::MODULE_XML_TEMPLATE_FILENAME)
                 ->locate();
-            $templateLocator = $this->templateLocatorFactory->create(['dirname' => 'module/etc']);
             $moduleTemplateContent = $templateLocator->getRead($moduleTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
             $progressBar->advance();
             $output->writeln($registrationTemplateContent);
