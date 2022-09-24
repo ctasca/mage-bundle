@@ -3,18 +3,7 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Composer;
 
-require_once __DIR__ . "/../../../../app/bootstrap.php";
-include_once __DIR__ . "/../../../magento/framework/ObjectManagerInterface.php";
-include_once __DIR__ . "/../../../magento/framework/ObjectManager/ConfigInterface.php";
-include_once __DIR__ . "/../../../magento/framework/ObjectManager/FactoryInterface.php";
-include_once __DIR__ . "/../../../magento/framework/ObjectManager/ObjectManager.php";
-include_once __DIR__ . "/../../../magento/framework/App/ObjectManager.php";
-include_once __DIR__ . "/../../../magento/framework/Filesystem.php";
-include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/IoInterface.php";
-include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/AbstractIo.php";
-include_once __DIR__ . "/../../../magento/framework/Filesystem/Io/File.php";
-include_once __DIR__ . "/../../../magento/framework/Filesystem/DirectoryList.php";
-include_once __DIR__ . "/../../../magento/framework/App/Filesystem/DirectoryList.php";
+require_once __DIR__ . '/../../../autoload.php';
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
@@ -32,13 +21,14 @@ class PostUpdate
      */
     public static function copyTemplates(Event $event): void
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $magentoFile = $objectManager->create(File::class);
-        $magentoFilesystem = $objectManager->create(MagentoFilesystem::class);
+        $magentoFile = new File();
+        $skeletonDir = $event->getComposer()->getConfig()->get('vendor-dir');
+        $magentoFilesystem = new MagentoFilesystem();
         $composerFilesystem = new ComposerFilesystem();
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath("mage-bundle");
         $magentoFile->checkAndCreateFolder($mediaDirectory);
+        var_dump($skeletonDir . "/Bundle/Skeleton");
         //$composerFilesystem->copy($skeletonDir, $mediaDirectory);
     }
 }
