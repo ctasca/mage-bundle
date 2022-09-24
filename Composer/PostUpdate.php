@@ -28,7 +28,11 @@ class PostUpdate
         $skeletonDir = $event->getComposer()->getConfig()->get('vendor-dir');
         $readFactory = new ReadFactory(new DriverPool());
         $writeFactory = new WriteFactory(new DriverPool());
-        $magentoFilesystem = new MagentoFilesystem(new DirectoryList(), $readFactory, $writeFactory);
+        $magentoFilesystem = new MagentoFilesystem(
+            new DirectoryList(realpath("../../../../")),
+            $readFactory,
+            $writeFactory
+        );
         $composerFilesystem = new ComposerFilesystem();
         $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath("mage-bundle");
