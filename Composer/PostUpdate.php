@@ -25,6 +25,7 @@ class PostUpdate
     public static function copyTemplates(Event $event): void
     {
         $magentoFile = new File();
+        var_dump(realpath("../../../../"));
         $skeletonDir = $event->getComposer()->getConfig()->get('vendor-dir');
         $readFactory = new ReadFactory(new DriverPool());
         $writeFactory = new WriteFactory(new DriverPool());
