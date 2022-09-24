@@ -77,7 +77,8 @@ class CreateModuleCommand extends Command
             $registrationTemplate = $templateLocator
                 ->setTemplateFilename(self::REGISTRATION_TEMPLATE_FILENAME)
                 ->locate();
-            $output->writeln($registrationTemplate);
+            $fileContent = $templateLocator->getRead($registrationTemplate)->readFile($registrationTemplate);
+            $output->writeln($fileContent);
         } catch (\Exception $e) {
             $output->writeln("<error>Something went wrong</error>");
         }
