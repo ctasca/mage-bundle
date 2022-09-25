@@ -6,6 +6,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="createModuleCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateModuleCommand</item>
+                <item name="createControllerCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateControllerCommand</item>
             </argument>
         </arguments>
     </type>
