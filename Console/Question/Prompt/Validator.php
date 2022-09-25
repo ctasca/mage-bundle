@@ -8,6 +8,11 @@ use Symfony\Component\Console\Question\Question;
 class Validator
 {
     /**
+     * Validate a module name as per specified in Magento/Framework/Module/etc/module.xsd
+     */
+    const MODULE_NAME_VALIDATION_PATTERN = '/[A-Z]+[a-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}/';
+
+    /**
      * @param Question $question
      * @param string $exceptionMessage
      * @param int $maxAttempts
@@ -22,6 +27,36 @@ class Validator
             return $answer;
         });
 
+        self::setNormalizerAndMaxAttempts($question, $maxAttempts);
+    }
+
+    /**
+     * @param Question $question
+     * @param string $exceptionMessage
+     * @param int $maxAttempts
+     * @return void
+     */
+    public static function validateModuleName(Question $question, string $exceptionMessage, int $maxAttempts): void
+    {
+        $question->setValidator(function ($answer) use ($exceptionMessage) {
+            if (empty($answer) || !preg_match(self::MODULE_NAME_VALIDATION_PATTERN, $answer)) {
+                throw new \RuntimeException($exceptionMessage);
+            }
+            return $answer;
+        });
+
+        self::setNormalizerAndMaxAttempts($question, $maxAttempts);
+    }
+
+    /**
+     * Set normalizer and max-attempts on a question
+     *
+     * @param Question $question
+     * @param int $maxAttempts
+     * @return void
+     */
+    private static function setNormalizerAndMaxAttempts(Question $question, int $maxAttempts): void
+    {
         $question->setNormalizer(function ($value) {
             return $value ? trim($value) : '';
         });

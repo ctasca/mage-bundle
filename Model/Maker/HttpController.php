@@ -24,6 +24,11 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
             "Module Name is required",
             self::MAX_QUESTION_ATTEMPTS
         );
+        QuestionValidator::validateModuleName(
+            $question,
+            "Module Name is in the wrong format.",
+            self::MAX_QUESTION_ATTEMPTS
+        );
         $moduleName = $helper->ask($input, $output, $question);
         $question = new CommandQuestion('Enter Controller Name (e.g. Test)');
         QuestionValidator::validate(
