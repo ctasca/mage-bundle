@@ -87,6 +87,7 @@ class DataProvider
      */
     public function setCustomData(array $customData): void
     {
+        $this->logger->info(__METHOD__ . " custom data loaded", $customData);
         $customDataIterator = new \ArrayIterator($customData);
         while ($customDataIterator->valid()) {
             $currentCustomData = $customDataIterator->current();
