@@ -26,9 +26,9 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
         );
         $moduleName = $helper->ask($input, $output, $question);
         $question = new CommandQuestion('Enter Controller Name (e.g. Test)');
-        QuestionValidator::validate(
+        QuestionValidator::validateControllerName(
             $question,
-            "Controller Name is required",
+            "Controller Name is not valid.",
             self::MAX_QUESTION_ATTEMPTS
         );
         $controllerName = $helper->ask($input, $output, $question);
