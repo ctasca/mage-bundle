@@ -34,7 +34,7 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
         $controllerName = $helper->ask($input, $output, $question);
         try {
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
-            $templateLocator = $this->templateLocatorFactory->create(['dirname' => 'http-get-controller']);
+            $templateLocator = $this->templateLocatorFactory->create(['dirname' => 'http-controller']);
             $question = new ChoiceQuestion(
                 sprintf('Please choose the action template to use for the %s controller', $controllerName),
                 $templateLocator->getTemplatesChoices()
