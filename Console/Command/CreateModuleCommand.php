@@ -12,6 +12,8 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
 use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
+use Ctasca\MageBundle\Model\Template\DataProviderFactory;
+use Ctasca\MageBundle\Model\File\MakerFactory;
 use Ctasca\MageBundle\Logger\Logger;
 
 class CreateModuleCommand extends Command
@@ -33,21 +35,28 @@ class CreateModuleCommand extends Command
 
     private AppCodeLocatorFactory $appCodeLocatorFactory;
     private TemplateLocatorFactory $templateLocatorFactory;
+    private DataProviderFactory $dataProviderFactory;
+    private MakerFactory $makerFactory;
     private Logger $logger;
 
     /**
      * @param AppCodeLocatorFactory $appCodeLocatorFactory
      * @param TemplateLocatorFactory $templateLocatorFactory
+     * @param DataProviderFactory $dataProviderFactory
      * @param Logger $logger
      */
     public function __construct(
         AppCodeLocatorFactory $appCodeLocatorFactory,
         TemplateLocatorFactory $templateLocatorFactory,
+        DataProviderFactory $dataProviderFactory,
+        MakerFactory $makerFactory,
         Logger $logger
     ) {
         parent::__construct();
         $this->appCodeLocatorFactory = $appCodeLocatorFactory;
         $this->templateLocatorFactory = $templateLocatorFactory;
+        $this->dataProviderFactory = $dataProviderFactory;
+        $this->makerFactory = $makerFactory;
         $this->logger = $logger;
     }
 
@@ -76,8 +85,9 @@ class CreateModuleCommand extends Command
         $moduleName = $helper->ask($input, $output, $question);
         try {
             /** @var \Ctasca\MageBundle\Model\App\Code\Locator $appCodeLocator */
+            $module = $companyName . '_' . $moduleName;
             $appCodeLocator = $this->appCodeLocatorFactory->create(['dirname' => $companyName . DIRECTORY_SEPARATOR . $moduleName]);
-            $progressBar = new ProgressBar($output, 3);
+            $progressBar = new ProgressBar($output, 5);
             $progressBar->setFormat(
                 "<fg=white;bg=cyan> %status:-45s%</>\n%current%/%max% [%bar%] %percent:3s%%\n?  %estimated:-20s%  %memory:20s%"
             );
@@ -89,15 +99,22 @@ class CreateModuleCommand extends Command
             $registrationTemplateDirectory = $templateLocator
                 ->setTemplateFilename(self::REGISTRATION_TEMPLATE_FILENAME)
                 ->locate();
-            $registrationTemplateContent = $templateLocator->getRead($registrationTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
+            $registrationTemplate = $templateLocator->getRead($registrationTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
             $progressBar->advance();
             $moduleTemplateDirectory = $templateLocator
                 ->setTemplateFilename('etc' . DIRECTORY_SEPARATOR . self::MODULE_XML_TEMPLATE_FILENAME)
                 ->locate();
-            $moduleTemplateContent = $templateLocator->getRead($moduleTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
+            $moduleXmlTemplate = $templateLocator->getRead($moduleTemplateDirectory)->readFile($templateLocator->getTemplateFilename());
             $progressBar->advance();
-            $output->writeln($registrationTemplateContent);
-            $output->writeln($moduleTemplateContent);
+            /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
+            $dataProvider = $this->dataProviderFactory->create();
+            $dataProvider->setModule($module);
+            $registrationMaker = $this->makerFactory->create($dataProvider, $registrationTemplate);
+            $registration = $registrationMaker->make();
+            $moduleXmlMaker = $this->makerFactory->create($dataProvider, $moduleXmlTemplate);
+            $moduleXml = $moduleXmlMaker->make();
+            $output->writeln($registration);
+            $output->writeln($moduleXml);
             $progressBar->setMessage("Finished", 'status');
             $progressBar->finish();
             $output->writeln('');
