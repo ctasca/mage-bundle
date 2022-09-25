@@ -57,7 +57,7 @@ class Module extends AbstractMaker  implements MakerModuleInterface
             $dataProvider->setPhp('<?php');
             $dataProvider->setModule($module);
             /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocatorFactory */
-            $customDataLocatorFactory = $this->customDataLocatorFactory->create();
+            $customDataLocatorFactory = $this->customDataLocatorFactory->create(['dirname' => '']);
             $customDataLocatorFactory->setTemplateFilename('module.tpl.php');
             $customData = $customDataLocatorFactory->getCustomData();
             $dataProvider->setCustomData($customData);
