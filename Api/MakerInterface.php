@@ -9,6 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 interface MakerInterface
 {
     /**
+     * Max Attempts for required commands questions
+     */
+    const MAX_QUESTION_ATTEMPTS = 2;
+
+    /**
      * Make magebundle bin/magento commands logic
      *
      * @param InputInterface $input

@@ -6,19 +6,19 @@ namespace Ctasca\MageBundle\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Ctasca\MageBundle\Api\MakerModuleInterface;
+use Ctasca\MageBundle\Api\MakerHttpGetControllerInterface;
 
-class CreateModuleCommand extends Command
+class CreateControllerCommand extends Command
 {
-    private MakerModuleInterface $makerModule;
+    private MakerHttpGetControllerInterface $makerHttpGetController;
 
     /**
-     * @param MakerModuleInterface $makerModule
+     * @param MakerHttpGetControllerInterface $makerHttpGetController
      */
     public function __construct(
-        MakerModuleInterface $makerModule
+        MakerHttpGetControllerInterface $makerHttpGetController
     ) {
-        $this->makerModule = $makerModule;
+        $this->makerHttpGetController = $makerHttpGetController;
         parent::__construct();
     }
 
@@ -27,8 +27,8 @@ class CreateModuleCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('magebundle:module:create')
-            ->setDescription('Creates a Magento module skeleton in app/code');
+        $this->setName('magebundle:controller:create')
+            ->setDescription('Creates a Controller action in specified Company/Module');
 
         parent::configure();
     }
@@ -38,6 +38,6 @@ class CreateModuleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->makerModule->make($input, $output);
+        $this->makerHttpGetController->make($input, $output);
     }
 }

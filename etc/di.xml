@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Ctasca\MageBundle\Api\MakerModuleInterface" type="Ctasca\MageBundle\Model\Maker\Module"/>
+    <preference for="Ctasca\MageBundle\Api\MakerHttpGetControllerInterface" type="Ctasca\MageBundle\Model\Maker\HttpGetController"/>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">

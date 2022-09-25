@@ -4,56 +4,27 @@ declare(strict_types=1);
 namespace Ctasca\MageBundle\Model\Maker;
 
 use Ctasca\MageBundle\Api\MakerModuleInterface;
+use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question as CommandQuestion;
-use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
-use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
-use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
-use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
-use Ctasca\MageBundle\Model\Template\DataProviderFactory;
-use Ctasca\MageBundle\Model\File\MakerFactory as FileMakerFactory;
-use Ctasca\MageBundle\Logger\Logger;
 
-class Module implements MakerModuleInterface
+class Module extends AbstractMaker  implements MakerModuleInterface
 {
-    private SymfonyQuestionHelper $questionHelper;
-    private AppCodeLocatorFactory $appCodeLocatorFactory;
-    private TemplateLocatorFactory $templateLocatorFactory;
-    private DataProviderFactory $dataProviderFactory;
-    private FileMakerFactory $fileMakerFactory;
-    private Logger $logger;
-
-    public function __construct(
-        SymfonyQuestionHelper $questionHelper,
-        AppCodeLocatorFactory $appCodeLocatorFactory,
-        TemplateLocatorFactory $templateLocatorFactory,
-        DataProviderFactory $dataProviderFactory,
-        FileMakerFactory $fileMakerFactory,
-        Logger $logger
-    ) {
-        $this->questionHelper = $questionHelper;
-        $this->appCodeLocatorFactory = $appCodeLocatorFactory;
-        $this->templateLocatorFactory = $templateLocatorFactory;
-        $this->dataProviderFactory = $dataProviderFactory;
-        $this->fileMakerFactory = $fileMakerFactory;
-        $this->logger = $logger;
-    }
-
     /**
      * {@inheritdoc}
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
         $helper = $this->questionHelper;
-        $question = new CommandQuestion('Enter Company Name: ');
+        $question = new CommandQuestion('Enter Company Name');
         QuestionValidator::validate(
             $question,
             "Company Name is required",
             self::MAX_QUESTION_ATTEMPTS
         );
         $companyName = $helper->ask($input, $output, $question);
-        $question = new CommandQuestion('Enter Module Name: ');
+        $question = new CommandQuestion('Enter Module Name');
         QuestionValidator::validate(
             $question,
             "Module Name is required",

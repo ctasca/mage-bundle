@@ -48,6 +48,16 @@ class Locator extends AbstractLocator
     }
 
     /**
+     * @return array
+     * @throws \Exception
+     */
+    public function getTemplatesChoices(): array
+    {
+        $templatesDirectory = $this->locate();
+        return $this->getRead($templatesDirectory)->read();
+    }
+
+    /**
      * Returns whether template file is found in pub/media/mage-bundle/* directory
      * @return string|null
      */
@@ -56,15 +66,16 @@ class Locator extends AbstractLocator
         $pubMediaTemplateDir = $this->filesystem
             ->getDirectoryRead(DirectoryList::MEDIA)
             ->getAbsolutePath(self::PUB_MEDIA_MAGE_BUNDLE_DIRNAME . $this->dirname);
-
-        if (file_exists($pubMediaTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
+        if (!empty($this->getTemplateFilename()) && file_exists($pubMediaTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
+            return $pubMediaTemplateDir . DIRECTORY_SEPARATOR;
+        } elseif (file_exists($pubMediaTemplateDir)) {
             return $pubMediaTemplateDir . DIRECTORY_SEPARATOR;
         }
         return null;
     }
 
     /**
-     * Returns whether template file is found in pub/media/mage-bundle/* directory
+     * Returns whether template file is found in vendor/ctasca/mage-bundle/Bundle/Skeleton/* directory
      * @return string|null
      */
     private function isTemplateFoundInSkeletonDirectory(): ?string
@@ -73,7 +84,9 @@ class Locator extends AbstractLocator
             ->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath(self::VENDOR_SKELETON_PATH_DIR . $this->dirname);
 
-        if (file_exists($skeletonDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
+        if (!empty($this->getTemplateFilename()) && file_exists($skeletonDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
+            return $skeletonDir . DIRECTORY_SEPARATOR;
+        } elseif (file_exists($skeletonDir)) {
             return $skeletonDir . DIRECTORY_SEPARATOR;
         }
         return null;
