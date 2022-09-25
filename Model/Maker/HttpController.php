@@ -19,11 +19,6 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
     {
         $helper = $this->questionHelper;
         $question = new CommandQuestion('Enter Module Name (e.g. Company_Module)');
-        QuestionValidator::validate(
-            $question,
-            "Module Name is required",
-            self::MAX_QUESTION_ATTEMPTS
-        );
         QuestionValidator::validateModuleName(
             $question,
             "Module Name is in the wrong format.",
