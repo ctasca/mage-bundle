@@ -8,7 +8,7 @@ use Ctasca\MageBundle\Model\AbstractLocator;
 
 class Locator extends AbstractLocator
 {
-    private string $templateFilename;
+    private string $templateFilename = '';
 
     /**
      * @return string
