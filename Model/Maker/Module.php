@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question as CommandQuestion;
 
-class Module extends AbstractMaker  implements MakerModuleInterface
+class Module extends AbstractMaker implements MakerModuleInterface
 {
     /**
      * {@inheritdoc}
