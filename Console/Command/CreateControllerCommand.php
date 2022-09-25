@@ -6,19 +6,19 @@ namespace Ctasca\MageBundle\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Ctasca\MageBundle\Api\MakerHttpGetControllerInterface;
+use Ctasca\MageBundle\Api\MakerHttpControllerInterface;
 
 class CreateControllerCommand extends Command
 {
-    private MakerHttpGetControllerInterface $makerHttpGetController;
+    private MakerHttpControllerInterface $makerHttpController;
 
     /**
-     * @param MakerHttpGetControllerInterface $makerHttpGetController
+     * @param MakerHttpControllerInterface $makerHttpGetController
      */
     public function __construct(
-        MakerHttpGetControllerInterface $makerHttpGetController
+        MakerHttpControllerInterface $makerHttpGetController
     ) {
-        $this->makerHttpGetController = $makerHttpGetController;
+        $this->makerHttpController = $makerHttpGetController;
         parent::__construct();
     }
 
@@ -38,6 +38,6 @@ class CreateControllerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->makerHttpGetController->make($input, $output);
+        $this->makerHttpController->make($input, $output);
     }
 }

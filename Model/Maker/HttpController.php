@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
 
-use Ctasca\MageBundle\Api\MakerHttpGetControllerInterface;
+use Ctasca\MageBundle\Api\MakerHttpControllerInterface;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question as CommandQuestion;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
-class HttpGetController extends AbstractMaker implements MakerHttpGetControllerInterface
+class HttpController extends AbstractMaker implements MakerHttpControllerInterface
 {
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class HttpGetController extends AbstractMaker implements MakerHttpGetControllerI
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
             $templateLocator = $this->templateLocatorFactory->create(['dirname' => 'http-get-controller']);
             $question = new ChoiceQuestion(
-                sprintf('Please choose the template to use for the %s action', $controllerName),
+                sprintf('Please choose the action template to use for the %s controller', $controllerName),
                 $templateLocator->getTemplatesChoices()
             );
             $question->setErrorMessage('Chosen template %s is invalid.');
