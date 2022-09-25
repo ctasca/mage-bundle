@@ -11,6 +11,10 @@ class Maker implements FileMakerInterface
     private DataProvider $dataProvider;
     private string $template;
 
+    /**
+     * @param DataProvider $dataProvider
+     * @param string $template
+     */
     public function __construct(
         DataProvider $dataProvider,
         string $template

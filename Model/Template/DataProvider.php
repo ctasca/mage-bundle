@@ -3,13 +3,22 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Template;
 
+use Ctasca\MageBundle\Logger\Logger;
+
 /**
  * Data provider class for template makers
  */
 class DataProvider
 {
+    private Logger $logger;
     protected array $data = [];
-    protected static array $_underscoreCache = [];
+
+    /**
+     * @param Logger $logger
+     */
+    public function __construct(Logger $logger) {
+        $this->logger = $logger;
+    }
 
     /**
      * Set/Get attribute wrapper
@@ -22,12 +31,16 @@ class DataProvider
     public function __call(string $method, array $args)
     {
         $key = substr($method, 0, 3);
+        $this->logger->info(__METHOD__ . " __call method:", [$method]);
+        $this->logger->info(__METHOD__ . " __call extracted key:", [$key]);
         switch ($key) {
             case 'get':
+                $this->logger->info(__METHOD__ . " get data:", $this->data);
                 return $this->getData($key);
             case 'set':
                 $value = $args[0] ?? null;
                 $this->data[$key] = $value;
+                $this->logger->info(__METHOD__ . " set data:", $this->data);
                 break;
             default:
                 return null;
@@ -65,24 +78,5 @@ class DataProvider
     public function getData(string $key): ?string
     {
         return $this->data[$key] ?? null;
-    }
-
-    /**
-     * Converts field names for setters and getters
-     *
-     * $this->setMyField($value) === $this->setData('my_field', $value)
-     * Uses cache to eliminate unnecessary preg_replace
-     *
-     * @param string $name
-     * @return string
-     */
-    protected function _underscore(string $name): string
-    {
-        if (isset(self::$_underscoreCache[$name])) {
-            return self::$_underscoreCache[$name];
-        }
-        $result = strtolower(trim(preg_replace('/([A-Z]|[0-9]+)/', "_$1", $name), '_'));
-        self::$_underscoreCache[$name] = $result;
-        return $result;
     }
 }
