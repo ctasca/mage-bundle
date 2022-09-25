@@ -31,7 +31,7 @@ class DataProvider
     public function __call(string $method, array $args)
     {
         $methodType = strtolower(substr($method, 0, 3));
-        $dataKey = $this->_underscore(strtolower(substr($method, 3)));
+        $dataKey = $this->_underscore(substr($method, 3));
         $this->logger->info(__METHOD__ . " __call method:", [$method]);
         $this->logger->info(__METHOD__ . " __call extracted key:", [$dataKey]);
         switch ($methodType) {
