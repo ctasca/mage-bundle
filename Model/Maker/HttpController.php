@@ -42,7 +42,7 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
             $question->setErrorMessage('Chosen template %s is invalid.');
             $template = $helper->ask($input, $output, $question);
             $output->writeln('You have selected: '. $template);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) {   
             $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
             $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
         }

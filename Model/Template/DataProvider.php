@@ -82,10 +82,25 @@ class DataProvider
     }
 
     /**
+     * @param array $customData
+     * @return void
+     */
+    public function setCustomData(array $customData): void
+    {
+        $customDataIterator = new \ArrayIterator($customData);
+        while ($customDataIterator->valid()) {
+            $currentCustomData = $customDataIterator->current();
+            $setter = $currentCustomData[0];
+            $value = $currentCustomData[1];
+            $this->{$setter}($value);
+            $customDataIterator->next();
+        }
+    }
+
+    /**
      * Converts field names for setters and getters
      *
-     * $this->setMyField($value) === $this->setData('my_field', $value)
-     * Uses cache to eliminate unnecessary preg_replace
+     * E.g. $this->setMyField($value)
      *
      * @param string $name
      * @return string

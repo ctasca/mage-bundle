@@ -7,6 +7,7 @@ use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
 use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
 use Ctasca\MageBundle\Model\Template\DataProviderFactory;
+use Ctasca\MageBundle\Model\Template\CustomData\LocatorFactory as CustomDataLocatorFactory;
 use Ctasca\MageBundle\Model\File\MakerFactory as FileMakerFactory;
 use Ctasca\MageBundle\Logger\Logger;
 
@@ -16,6 +17,7 @@ abstract class AbstractMaker
     protected AppCodeLocatorFactory $appCodeLocatorFactory;
     protected TemplateLocatorFactory $templateLocatorFactory;
     protected DataProviderFactory $dataProviderFactory;
+    protected CustomDataLocatorFactory $customDataLocatorFactory;
     protected FileMakerFactory $fileMakerFactory;
     protected Logger $logger;
 
@@ -24,6 +26,7 @@ abstract class AbstractMaker
      * @param AppCodeLocatorFactory $appCodeLocatorFactory
      * @param TemplateLocatorFactory $templateLocatorFactory
      * @param DataProviderFactory $dataProviderFactory
+     * @param CustomDataLocatorFactory $customDataLocatorFactory
      * @param FileMakerFactory $fileMakerFactory
      * @param Logger $logger
      */
@@ -32,6 +35,7 @@ abstract class AbstractMaker
         AppCodeLocatorFactory $appCodeLocatorFactory,
         TemplateLocatorFactory $templateLocatorFactory,
         DataProviderFactory $dataProviderFactory,
+        CustomDataLocatorFactory $customDataLocatorFactory,
         FileMakerFactory $fileMakerFactory,
         Logger $logger
     ) {
@@ -39,6 +43,7 @@ abstract class AbstractMaker
         $this->appCodeLocatorFactory = $appCodeLocatorFactory;
         $this->templateLocatorFactory = $templateLocatorFactory;
         $this->dataProviderFactory = $dataProviderFactory;
+        $this->customDataLocatorFactory = $customDataLocatorFactory;
         $this->fileMakerFactory = $fileMakerFactory;
         $this->logger = $logger;
     }
