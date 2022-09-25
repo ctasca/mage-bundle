@@ -90,10 +90,9 @@ class DataProvider
         $this->logger->info(__METHOD__ . " custom data loaded", $customData);
         $customDataIterator = new \ArrayIterator($customData);
         while ($customDataIterator->valid()) {
-            $currentCustomData = $customDataIterator->current();
-            $setter = $currentCustomData[0];
-            $value = $currentCustomData[1];
-            $this->{$setter}($value);
+            $currentCustomDataSetter = $customDataIterator->key();
+            $currentCustomDataValue = $customDataIterator->current();
+            $this->{$currentCustomDataSetter}($currentCustomDataValue);
             $customDataIterator->next();
         }
     }
