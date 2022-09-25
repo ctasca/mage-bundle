@@ -91,8 +91,6 @@ class DataProvider
      */
     protected function _underscore(string $name): string
     {
-        $result = strtolower(trim(preg_replace('/([A-Z]|[0-9]+)/', "_$1", $name), '_'));
-        self::$_underscoreCache[$name] = $result;
-        return $result;
+        return strtolower(trim(preg_replace('/([A-Z]|[0-9]+)/', "_$1", $name), '_'));
     }
 }
