@@ -8,9 +8,9 @@ use Symfony\Component\Console\Question\Question;
 class Validator
 {
     /**
-     * Validate a module name as per specified in Magento/Framework/Module/etc/module.xsd
+     * Module name validation pattern
      */
-    const MODULE_NAME_VALIDATION_PATTERN = '/[A-Z]+[a-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}/';
+    const MODULE_NAME_VALIDATION_PATTERN = '/[A-Z]+[A-Za-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}/';
 
     /**
      * @param Question $question
