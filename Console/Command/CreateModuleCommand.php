@@ -18,8 +18,8 @@ class CreateModuleCommand extends Command
     public function __construct(
         MakerModuleInterface $makerModule
     ) {
-        parent::__construct();
         $this->makerModule = $makerModule;
+        parent::__construct();
     }
 
     /**
