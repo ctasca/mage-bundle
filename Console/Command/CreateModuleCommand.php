@@ -110,7 +110,7 @@ class CreateModuleCommand extends Command
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
-            //$dataProvider->setModule($module);
+            $dataProvider->setModule($module);
             $registrationMaker = $this->makerFactory->create($dataProvider, $registrationTemplate);
             $registration = $registrationMaker->make();
             $moduleXmlMaker = $this->makerFactory->create($dataProvider, $moduleXmlTemplate);
