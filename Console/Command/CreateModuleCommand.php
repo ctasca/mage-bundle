@@ -38,6 +38,7 @@ class CreateModuleCommand extends Command
     /**
      * @param AppCodeLocatorFactory $appCodeLocatorFactory
      * @param TemplateLocatorFactory $templateLocatorFactory
+     * @param Logger $logger
      */
     public function __construct(
         AppCodeLocatorFactory $appCodeLocatorFactory,
@@ -73,9 +74,9 @@ class CreateModuleCommand extends Command
         $question = new Question('Enter Module Name: ');
         QuestionValidator::validate($question, "Module Name is required", self::MAX_QUESTION_ATTEMPTS);
         $moduleName = $helper->ask($input, $output, $question);
-        /** @var \Ctasca\MageBundle\Model\App\Code\Locator $appCodeLocator */
-        $appCodeLocator = $this->appCodeLocatorFactory->create(['dirname' => $companyName . DIRECTORY_SEPARATOR . $moduleName]);
         try {
+            /** @var \Ctasca\MageBundle\Model\App\Code\Locator $appCodeLocator */
+            $appCodeLocator = $this->appCodeLocatorFactory->create(['dirname' => $companyName . DIRECTORY_SEPARATOR . $moduleName]);
             $progressBar = new ProgressBar($output, 3);
             $progressBar->setFormat(
                 "<fg=white;bg=cyan> %status:-45s%</>\n%current%/%max% [%bar%] %percent:3s%%\n?  %estimated:-20s%  %memory:20s%"
@@ -97,11 +98,12 @@ class CreateModuleCommand extends Command
             $progressBar->advance();
             $output->writeln($registrationTemplateContent);
             $output->writeln($moduleTemplateContent);
-            $progressBar->finish();
             $progressBar->setMessage("Finished", 'status');
+            $progressBar->finish();
+            $output->writeln('');
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
-            $output->writeln("<error>Something went wrong</error>");
+            $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
         }
     }
 }
