@@ -30,7 +30,7 @@ class DataProvider
      */
     public function __call(string $method, array $args)
     {
-        $key = substr($method, 0, 3);
+        $key = $this->_underscore(strtolower(substr($method, 3)));
         $this->logger->info(__METHOD__ . " __call method:", [$method]);
         $this->logger->info(__METHOD__ . " __call extracted key:", [$key]);
         switch ($key) {
@@ -78,5 +78,21 @@ class DataProvider
     public function getData(string $key): ?string
     {
         return $this->data[$key] ?? null;
+    }
+
+    /**
+     * Converts field names for setters and getters
+     *
+     * $this->setMyField($value) === $this->setData('my_field', $value)
+     * Uses cache to eliminate unnecessary preg_replace
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function _underscore(string $name): string
+    {
+        $result = strtolower(trim(preg_replace('/([A-Z]|[0-9]+)/', "_$1", $name), '_'));
+        self::$_underscoreCache[$name] = $result;
+        return $result;
     }
 }
