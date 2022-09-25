@@ -30,16 +30,17 @@ class DataProvider
      */
     public function __call(string $method, array $args)
     {
-        $key = $this->_underscore(strtolower(substr($method, 3)));
+        $methodType = strtolower(substr($method, 0, 3));
+        $dataKey = $this->_underscore(strtolower(substr($method, 3)));
         $this->logger->info(__METHOD__ . " __call method:", [$method]);
-        $this->logger->info(__METHOD__ . " __call extracted key:", [$key]);
-        switch ($key) {
+        $this->logger->info(__METHOD__ . " __call extracted key:", [$dataKey]);
+        switch ($methodType) {
             case 'get':
                 $this->logger->info(__METHOD__ . " get data:", $this->data);
-                return $this->getData($key);
+                return $this->getData($dataKey);
             case 'set':
                 $value = $args[0] ?? null;
-                $this->data[$key] = $value;
+                $this->data[$dataKey] = $value;
                 $this->logger->info(__METHOD__ . " set data:", $this->data);
                 break;
             default:
