@@ -109,7 +109,7 @@ class CreateModuleCommand extends Command
             $progressBar->advance();
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
-            //$dataProvider->setPhp('<?php');
+            $dataProvider->setPhp('<?php');
             //$dataProvider->setModule($module);
             $registrationMaker = $this->makerFactory->create($dataProvider, $registrationTemplate);
             $registration = $registrationMaker->make();

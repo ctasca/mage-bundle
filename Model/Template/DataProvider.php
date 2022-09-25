@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Template;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Phrase;
-
 /**
  * Data provider class for template makers
  */
@@ -19,25 +16,22 @@ class DataProvider
      *
      * @param   string $method
      * @param   array $args
-     * @return  string|DataProvider
+     * @return  string|null
      * @throws LocalizedException
      */
     public function __call(string $method, array $args)
     {
-        $method = substr($method, 0, 3);
-        switch ($method) {
+        $key = substr($method, 0, 3);
+        switch ($key) {
             case 'get':
-                $key = $this->_underscore($method);
                 return $this->getData($key);
             case 'set':
-                $key = $this->_underscore($method);
                 $value = $args[0] ?? null;
                 $this->data[$key] = $value;
-                return $this;
+                break;
+            default:
+                return null;
         }
-        throw new LocalizedException(
-            new Phrase('Invalid method %1::%2', [get_class($this), $method])
-        );
     }
 
     /**
@@ -53,6 +47,15 @@ class DataProvider
         } else {
             $this->data[$key] = $value;
         }
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function __get(string $key): string
+    {
+        return $this->data[$key];
     }
 
     /**
