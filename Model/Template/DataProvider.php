@@ -25,14 +25,14 @@ class DataProvider
     public function __call(string $method, array $args)
     {
         $method = substr($method, 0, 3);
-        switch (substr($method, 0, 3)) {
+        switch ($method) {
             case 'get':
                 $key = $this->_underscore($method);
                 return $this->getData($key);
             case 'set':
                 $key = $this->_underscore($method);
                 $value = $args[0] ?? null;
-                $this->__set($key, $value);
+                $this->data[$key] = $value;
                 return $this;
         }
         throw new LocalizedException(
