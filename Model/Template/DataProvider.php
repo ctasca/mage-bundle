@@ -3,12 +3,40 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Template;
 
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Phrase;
+
 /**
  * Data provider class for template makers
  */
 class DataProvider
 {
     protected array $data = [];
+    protected static array $_underscoreCache = [];
+
+    /**
+     * Set/Get attribute wrapper
+     *
+     * @param   string $method
+     * @param   array $args
+     * @return  string|null
+     * @throws LocalizedException
+     */
+    public function __call(string $method, array $args): ?string
+    {
+        switch (substr($method, 0, 3)) {
+            case 'get':
+                $key = $this->_underscore(substr($method, 3));
+                return $this->getData($key);
+            case 'set':
+                $key = $this->_underscore(substr($method, 3));
+                $value = $args[0] ?? null;
+                $this->__set($key, $value);
+        }
+        throw new LocalizedException(
+            new Phrase('Invalid method %1::%2', [get_class($this), $method])
+        );
+    }
 
     /**
      * @param string $key
@@ -27,18 +55,29 @@ class DataProvider
 
     /**
      * @param string $key
-     * @return string
+     * @return string|null
      */
-    public function __get(string $key): string
+    public function getData(string $key): ?string
     {
-        return $this->data[$key];
+        return $this->data[$key] ?? null;
     }
 
     /**
-     * @return array
+     * Converts field names for setters and getters
+     *
+     * $this->setMyField($value) === $this->setData('my_field', $value)
+     * Uses cache to eliminate unnecessary preg_replace
+     *
+     * @param string $name
+     * @return string
      */
-    public function getData(): array
+    protected function _underscore(string $name): string
     {
-        return $this->data;
+        if (isset(self::$_underscoreCache[$name])) {
+            return self::$_underscoreCache[$name];
+        }
+        $result = strtolower(trim(preg_replace('/([A-Z]|[0-9]+)/', "_$1", $name), '_'));
+        self::$_underscoreCache[$name] = $result;
+        return $result;
     }
 }
