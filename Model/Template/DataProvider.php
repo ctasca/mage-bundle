@@ -19,19 +19,21 @@ class DataProvider
      *
      * @param   string $method
      * @param   array $args
-     * @return  string|null
+     * @return  string|DataProvider
      * @throws LocalizedException
      */
-    public function __call(string $method, array $args): ?string
+    public function __call(string $method, array $args)
     {
+        $method = substr($method, 0, 3);
         switch (substr($method, 0, 3)) {
             case 'get':
-                $key = $this->_underscore(substr($method, 3));
+                $key = $this->_underscore($method);
                 return $this->getData($key);
             case 'set':
-                $key = $this->_underscore(substr($method, 3));
+                $key = $this->_underscore($method);
                 $value = $args[0] ?? null;
                 $this->__set($key, $value);
+                return $this;
         }
         throw new LocalizedException(
             new Phrase('Invalid method %1::%2', [get_class($this), $method])
