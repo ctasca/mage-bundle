@@ -34,14 +34,20 @@ class Locator extends AbstractLocator
      */
     public function locate(): string
     {
-        $templateFileDirectory = $this->isTemplateFoundInPubMedia();
+        $templateFileDirectory = $this->isTemplateFoundInDevDirectory();
         if (!is_null($templateFileDirectory)) {
-            $this->logger->info(__METHOD__ . " Locating directory -> caller:", [$templateFileDirectory, debug_backtrace()[1]['function']]);
+            $this->logger->info(
+                __METHOD__ . " Locating directory -> caller:",
+                [$templateFileDirectory, debug_backtrace()[1]['function']]
+            );
             return $templateFileDirectory;
         }
         $templateFileDirectory = $this->isTemplateFoundInSkeletonDirectory();
         if (!is_null($templateFileDirectory)) {
-            $this->logger->info(__METHOD__ . " Locating directory -> caller:", [$templateFileDirectory, debug_backtrace()[1]['function']]);
+            $this->logger->info(
+                __METHOD__ . " Locating directory -> caller:",
+                [$templateFileDirectory, debug_backtrace()[1]['function']]
+            );
             return $templateFileDirectory;
         }
         throw new \Exception("Could not locate template file: " . $this->getTemplateFilename());
@@ -69,18 +75,18 @@ class Locator extends AbstractLocator
     }
 
     /**
-     * Returns whether template file is found in pub/media/mage-bundle/* directory
+     * Returns whether template file is found in dev/mage-bundle/* directory
      * @return string|null
      */
-    private function isTemplateFoundInPubMedia(): ?string
+    private function isTemplateFoundInDevDirectory(): ?string
     {
-        $pubMediaTemplateDir = $this->filesystem
-            ->getDirectoryRead(DirectoryList::MEDIA)
-            ->getAbsolutePath(self::PUB_MEDIA_MAGE_BUNDLE_DIRNAME . $this->dirname);
-        if (!empty($this->getTemplateFilename()) && file_exists($pubMediaTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
-            return $pubMediaTemplateDir . DIRECTORY_SEPARATOR;
-        } elseif (file_exists($pubMediaTemplateDir)) {
-            return $pubMediaTemplateDir . DIRECTORY_SEPARATOR;
+        $devTemplateDir = $this->filesystem
+            ->getDirectoryRead(DirectoryList::ROOT)
+            ->getAbsolutePath('dev' . DIRECTORY_SEPARATOR . self::DEV_MAGEBUNDLE_DIRNAME . $this->dirname);
+        if (!empty($this->getTemplateFilename()) && file_exists($devTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
+            return $devTemplateDir . DIRECTORY_SEPARATOR;
+        } elseif (file_exists($devTemplateDir)) {
+            return $devTemplateDir . DIRECTORY_SEPARATOR;
         }
         return null;
     }

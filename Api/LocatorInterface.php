@@ -11,9 +11,9 @@ interface LocatorInterface
     const CODE_DIR = 'code/';
 
     /**
-     * Directory name to be created in pub/media directory
+     * Directory name to be created in dev directory
      */
-    const PUB_MEDIA_MAGE_BUNDLE_DIRNAME = 'mage-bundle/';
+    const DEV_MAGEBUNDLE_DIRNAME = 'mage-bundle/';
 
     /**
      * Bundle/Skeleton directory relative path

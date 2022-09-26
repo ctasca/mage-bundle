@@ -51,11 +51,11 @@ class PostInstall
             $writeFactory
         );
         $composerFilesystem = new ComposerFilesystem();
-        $mediaDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::MEDIA)
-            ->getAbsolutePath(LocatorInterface::PUB_MEDIA_MAGE_BUNDLE_DIRNAME);
-        $magentoFile->checkAndCreateFolder($mediaDirectory);
+        $devDirectory = $magentoFilesystem->getDirectoryRead(DirectoryList::ROOT)
+            ->getAbsolutePath('dev' . DIRECTORY_SEPARATOR . LocatorInterface::DEV_MAGEBUNDLE_DIRNAME);
+        $magentoFile->checkAndCreateFolder($devDirectory);
         $skeletonDir = $magentoFilesystem->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath(LocatorInterface::VENDOR_SKELETON_PATH_DIR);
-        $composerFilesystem->copy($skeletonDir, $mediaDirectory);
+        $composerFilesystem->copy($skeletonDir, $devDirectory);
     }
 }
