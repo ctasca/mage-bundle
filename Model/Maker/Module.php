@@ -18,16 +18,16 @@ class Module extends AbstractMaker implements MakerModuleInterface
     {
         $helper = $this->questionHelper;
         $question = new CommandQuestion('Enter Company Name');
-        QuestionValidator::validate(
+        QuestionValidator::validateUcFirst(
             $question,
-            "Company Name is required",
+            "Company Name is required and must be start with an uppercase character",
             self::MAX_QUESTION_ATTEMPTS
         );
         $companyName = $helper->ask($input, $output, $question);
         $question = new CommandQuestion('Enter Module Name');
-        QuestionValidator::validate(
+        QuestionValidator::validateUcFirst(
             $question,
-            "Module Name is required",
+            "Module Name is required and must start with an uppercase character",
             self::MAX_QUESTION_ATTEMPTS
         );
         $moduleName = $helper->ask($input, $output, $question);
