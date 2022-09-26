@@ -47,12 +47,11 @@ class Module extends AbstractMaker implements MakerModuleInterface
             $registrationTemplate = $templateLocator
                 ->getRead($registrationTemplateDirectory)
                 ->readFile($templateLocator->getTemplateFilename());
-            $moduleTemplateDirectory = $templateLocator
-                ->setTemplateFilename('etc' . DIRECTORY_SEPARATOR)
-                ->locate();
+            $moduleXmlTemplateLocator = $this->templateLocatorFactory->create(['dirname' => 'module/etc']);
+            $moduleTemplateDirectory = $moduleXmlTemplateLocator->locate();
             $question = new ChoiceQuestion(
                 sprintf('Please choose the module.xml template to use for the %s_%s module', $companyName, $moduleName),
-                $templateLocator->getTemplatesChoices()
+                $moduleXmlTemplateLocator->getTemplatesChoices()
             );
             $question->setErrorMessage('Chosen template %s is invalid.');
             $template = $helper->ask($input, $output, $question);
