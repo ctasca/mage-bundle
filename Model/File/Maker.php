@@ -33,9 +33,13 @@ class Maker implements FileMakerInterface
         while ($matchesIterator->valid()) {
             $match = $matchesIterator->current();
             $dataProviderMethod = 'get' . ucfirst($match);
+            $data = $this->dataProvider->{$dataProviderMethod}();
+            if (is_array($data)) {
+                $data = implode(PHP_EOL, $data);
+            }
             $this->template = str_replace(
                 '{{'.$match.'}}',
-                $this->dataProvider->{$dataProviderMethod}(),
+                $data,
                 $this->template
             );
             $matchesIterator->next();

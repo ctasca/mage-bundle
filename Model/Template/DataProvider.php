@@ -47,7 +47,7 @@ class DataProvider
                 return null;
         }
     }
-    
+
     /**
      * @param string $key
      * @return mixed
