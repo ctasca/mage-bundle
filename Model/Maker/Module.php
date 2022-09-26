@@ -20,7 +20,7 @@ class Module extends AbstractMaker implements MakerModuleInterface
         $question = new CommandQuestion('Enter Company Name');
         QuestionValidator::validateUcFirst(
             $question,
-            "Company Name is required and must be start with an uppercase character",
+            "Company Name is required and must start with an uppercase character",
             self::MAX_QUESTION_ATTEMPTS
         );
         $companyName = $helper->ask($input, $output, $question);
@@ -47,11 +47,18 @@ class Module extends AbstractMaker implements MakerModuleInterface
                 ->getRead($registrationTemplateDirectory)
                 ->readFile($templateLocator->getTemplateFilename());
             $moduleTemplateDirectory = $templateLocator
-                ->setTemplateFilename('etc' . DIRECTORY_SEPARATOR . self::MODULE_XML_TEMPLATE_FILENAME)
+                ->setTemplateFilename('etc' . DIRECTORY_SEPARATOR)
                 ->locate();
+            $question = new ChoiceQuestion(
+                sprintf('Please choose the module.xml template to use for the %s_%s module', $companyName, $moduleName),
+                $templateLocator->getTemplatesChoices()
+            );
+            $question->setErrorMessage('Chosen template %s is invalid.');
+            $template = $helper->ask($input, $output, $question);
+            $output->writeln('You have selected: '. $template);
             $moduleXmlTemplate = $templateLocator
                 ->getRead($moduleTemplateDirectory)
-                ->readFile($templateLocator->getTemplateFilename());
+                ->readFile($template);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
@@ -68,7 +75,9 @@ class Module extends AbstractMaker implements MakerModuleInterface
             $writer = $appCodeLocator->getWrite($moduleDirectory);
             $writer->writeFile('registration.php', $registration);
             $writer->writeFile('etc' . DIRECTORY_SEPARATOR . 'module.xml', $moduleXml);
-            $output->writeln('Completed!');
+            $output->writeln(
+                sprintf('Completed! Module successfully create in app/code/%s/%s', $companyName, $moduleName)
+            );
             $output->writeln('');
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
