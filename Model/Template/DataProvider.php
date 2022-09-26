@@ -47,36 +47,12 @@ class DataProvider
                 return null;
         }
     }
-
+    
     /**
      * @param string $key
-     * @param string $value
-     * @return void
+     * @return mixed
      */
-    public function __set(string $key, string $value)
-    {
-        $method = 'set' . ucfirst($key);
-        if (is_callable([$this, $method])) {
-            $this->{$method}($value);
-        } else {
-            $this->data[$key] = $value;
-        }
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    public function __get(string $key): string
-    {
-        return $this->data[$key];
-    }
-
-    /**
-     * @param string $key
-     * @return string|null
-     */
-    public function getData(string $key): ?string
+    public function getData(string $key)
     {
         return $this->data[$key] ?? null;
     }
