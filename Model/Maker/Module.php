@@ -8,6 +8,7 @@ use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question as CommandQuestion;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class Module extends AbstractMaker implements MakerModuleInterface
 {
