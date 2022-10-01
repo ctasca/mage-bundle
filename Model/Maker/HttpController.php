@@ -32,15 +32,60 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
             self::MAX_QUESTION_ATTEMPTS
         );
         $controllerName = $helper->ask($input, $output, $question);
+        /** @var \Ctasca\MageBundle\Model\App\Code\Locator $moduleLocator */
+        $controllerDirectoryPath = str_replace(
+            '_',
+            DIRECTORY_SEPARATOR,
+            $moduleName) .
+            DIRECTORY_SEPARATOR .
+            'Controller' .
+            DIRECTORY_SEPARATOR .
+            $controllerName;
+        $moduleLocator = $this->appCodeLocatorFactory->create(
+            ['dirname' => $controllerDirectoryPath]
+        );
+        $controllerDirectory = $moduleLocator->locate();
+        $question = new CommandQuestion('Enter Action Name (e.g. Test)');
+        QuestionValidator::validateUcFirst(
+            $question,
+            "Action Name is not valid.",
+            self::MAX_QUESTION_ATTEMPTS
+        );
+        $actionName = $helper->ask($input, $output, $question);
         try {
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
             $templateLocator = $this->templateLocatorFactory->create(['dirname' => 'http-controller']);
+            $controllerTemplateDirectory = $templateLocator->locate();
             $question = new ChoiceQuestion(
                 sprintf('Please choose the action template to use for the %s controller', $controllerName),
                 $templateLocator->getTemplatesChoices()
             );
             $question->setErrorMessage('Chosen template %s is invalid.');
             $template = $helper->ask($input, $output, $question);
+            $controllerTemplate = $templateLocator
+                ->getRead($controllerTemplateDirectory)
+                ->readFile($template);
+            /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
+            $dataProvider = $this->dataProviderFactory->create();
+            $dataProvider->setPhp('<?php');
+            $dataProvider->setNamespace(str_replace(DIRECTORY_SEPARATOR), '\\', $controllerDirectoryPath);
+            $dataProvider->setClassName($actionName);
+            /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocatorFactory */
+            $customDataLocatorFactory = $this->customDataLocatorFactory->create(['dirname' => '']);
+            $customDataLocatorFactory->setTemplateFilename($template);
+            $customData = $customDataLocatorFactory->getCustomData();
+            $dataProvider->setCustomData($customData);
+            $actionMaker = $this->fileMakerFactory->create($dataProvider, $controllerTemplate);
+            $action = $actionMaker->make();
+            $writer = $moduleLocator->getWrite($controllerDirectory);
+            $writer->writeFile($actionName . '.php', $action);
+            $output->writeln(
+                sprintf(
+                    'Completed! Controller action successfully create in app/code/%s',
+                    $controllerDirectoryPath
+                )
+            );
+            $output->writeln('');
             $output->writeln('You have selected: '. $template);
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
