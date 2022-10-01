@@ -40,15 +40,12 @@ class Module extends AbstractMaker implements MakerModuleInterface
             );
             $moduleDirectory = $appCodeLocator->locate();
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
-            $templateLocator = $this->templateLocatorFactory->create(['dirname' => 'module']);
-            $registrationTemplateDirectory = $templateLocator
-                ->setTemplateFilename(self::REGISTRATION_TEMPLATE_FILENAME)
-                ->locate();
-            $registrationTemplate = $templateLocator
-                ->getRead($registrationTemplateDirectory)
-                ->readFile($templateLocator->getTemplateFilename());
-            $moduleXmlTemplateLocator = $this->templateLocatorFactory->create(['dirname' => 'module/etc']);
-            $moduleTemplateDirectory = $moduleXmlTemplateLocator->locate();
+            list($templateLocator, $registrationTemplateDirectory) = $this->locateTemplateDirectory(
+                'module',
+                self::REGISTRATION_TEMPLATE_FILENAME
+            );
+            $registrationTemplate = $this->getTemplateContent($templateLocator, $registrationTemplateDirectory);
+            list($moduleXmlTemplateLocator, $moduleTemplateDirectory) = $this->locateTemplateDirectory('module/etc');
             $question = new ChoiceQuestion(
                 sprintf('Please choose the module.xml template to use for the %s_%s module', $companyName, $moduleName),
                 $moduleXmlTemplateLocator->getTemplatesChoices()
@@ -56,25 +53,17 @@ class Module extends AbstractMaker implements MakerModuleInterface
             $question->setErrorMessage('Chosen template %s is invalid.');
             $template = $helper->ask($input, $output, $question);
             $output->writeln('You have selected: '. $template);
-            $moduleXmlTemplate = $templateLocator
-                ->getRead($moduleTemplateDirectory)
-                ->readFile($template);
+            $templateLocator->setTemplateFilename($template);
+            $moduleXmlTemplate = $this->getTemplateContent($templateLocator, $moduleTemplateDirectory);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
             $dataProvider->setModule($module);
-            /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocatorFactory */
-            $customDataLocatorFactory = $this->customDataLocatorFactory->create(['dirname' => '']);
-            $customDataLocatorFactory->setTemplateFilename('module.tpl.php');
-            $customData = $customDataLocatorFactory->getCustomData();
-            $dataProvider->setCustomData($customData);
-            $registrationMaker = $this->fileMakerFactory->create($dataProvider, $registrationTemplate);
-            $registration = $registrationMaker->make();
-            $moduleXmlMaker = $this->fileMakerFactory->create($dataProvider, $moduleXmlTemplate);
-            $moduleXml = $moduleXmlMaker->make();
-            $writer = $appCodeLocator->getWrite($moduleDirectory);
-            $writer->writeFile('registration.php', $registration);
-            $writer->writeFile('etc' . DIRECTORY_SEPARATOR . 'module.xml', $moduleXml);
+            $this->setDataProviderCustomData($dataProvider, 'module.tpl.php');
+            $registration = $this->makeFile($dataProvider, $registrationTemplate);
+            $moduleXml = $this->makeFile($dataProvider, $moduleXmlTemplate);
+            $this->writeFile($appCodeLocator, $moduleDirectory, 'registration.php', $registration);
+            $this->writeFile($appCodeLocator, $moduleDirectory, 'etc' . DIRECTORY_SEPARATOR . 'module.xml', $moduleXml);
             $output->writeln(
                 sprintf('Completed! Module successfully created in app/code/%s/%s', $companyName, $moduleName)
             );
