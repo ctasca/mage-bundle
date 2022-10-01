@@ -50,11 +50,19 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
                 DIRECTORY_SEPARATOR .
                 'etc' .
                 DIRECTORY_SEPARATOR .
-                $area;
+                $areaDirectory;
             $moduleLocator = $this->appCodeLocatorFactory->create(
                 ['dirname' => $etcDirectoryPath]
             );
-            $this->writeFile($moduleLocator, $etcDirectoryPath, str_replace('.tpl', '', $template), $xml);
+            $xmlDirectory = $moduleLocator->locate();
+            $this->writeFile($moduleLocator, $xmlDirectory, str_replace('.tpl', '', $template), $xml);
+            $output->writeln(
+                sprintf(
+                    '<info>Completed! Xml file successfully created in app/code/%s</info>',
+                    $etcDirectoryPath
+                )
+            );
+            $output->writeln('');
         } catch(\Exception $e) {
             $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
             $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
