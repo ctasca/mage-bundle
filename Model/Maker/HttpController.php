@@ -62,7 +62,7 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
             );
             $question->setErrorMessage('Chosen template %s is invalid.');
             $template = $helper->ask($input, $output, $question);
-            $output->writeln('You have selected: '. $template);
+            $output->writeln('<info>You have selected: '. $template . '</info>');
             $controllerTemplate = $templateLocator
                 ->getRead($controllerTemplateDirectory)
                 ->readFile($template);
@@ -82,7 +82,7 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
             $writer->writeFile($actionName . '.php', $action);
             $output->writeln(
                 sprintf(
-                    'Completed! Controller action successfully create in app/code/%s',
+                    '<info>Completed! Controller action successfully created in app/code/%s</info>',
                     $controllerDirectoryPath
                 )
             );

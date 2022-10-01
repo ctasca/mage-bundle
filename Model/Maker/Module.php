@@ -76,7 +76,7 @@ class Module extends AbstractMaker implements MakerModuleInterface
             $writer->writeFile('registration.php', $registration);
             $writer->writeFile('etc' . DIRECTORY_SEPARATOR . 'module.xml', $moduleXml);
             $output->writeln(
-                sprintf('Completed! Module successfully create in app/code/%s/%s', $companyName, $moduleName)
+                sprintf('Completed! Module successfully created in app/code/%s/%s', $companyName, $moduleName)
             );
             $output->writeln('');
         } catch (\Exception $e) {
