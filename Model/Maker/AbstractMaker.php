@@ -120,8 +120,16 @@ abstract class AbstractMaker implements MakerInterface
         return $question;
     }
 
-    protected function setDataProviderCustomData(DataProvider $dataProvider,string $template)
+    /**
+     * @param DataProvider $dataProvider
+     * @param string $template
+     * @return void
+     */
+    protected function setDataProviderCustomData(DataProvider $dataProvider, string $template): void
     {
+        if (strpos('.xml', $template)) {
+            $template = str_replace('xml', 'php', $template);
+        }
         /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocatorFactory */
         $customDataLocatorFactory = $this->customDataLocatorFactory->create(['dirname' => '']);
         $customDataLocatorFactory->setTemplateFilename($template);

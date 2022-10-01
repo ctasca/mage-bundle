@@ -64,6 +64,14 @@ class Locator extends AbstractLocator
     }
 
     /**
+     * @return array
+     */
+    public function getAreaChoices(): array
+    {
+        return ['base', 'adminhtml', 'frontend', 'crontab', 'webapi_rest', 'webapi_soap', 'graphql'];
+    }
+
+    /**
      * @return string
      */
     public function getCustomDataFilename(): string
