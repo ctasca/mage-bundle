@@ -6,6 +6,7 @@ namespace Ctasca\MageBundle\Model\Maker;
 use Ctasca\MageBundle\Api\MakerEtcXmlInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
 {
