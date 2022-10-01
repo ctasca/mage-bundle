@@ -68,7 +68,7 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
-            $dataProvider->setNamespace(str_replace(DIRECTORY_SEPARATOR), '\\', $controllerDirectoryPath);
+            $dataProvider->setNamespace(str_replace(DIRECTORY_SEPARATOR, '\\', $controllerDirectoryPath));
             $dataProvider->setClassName($actionName);
             /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocatorFactory */
             $customDataLocatorFactory = $this->customDataLocatorFactory->create(['dirname' => '']);
