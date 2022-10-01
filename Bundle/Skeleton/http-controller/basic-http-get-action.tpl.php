@@ -1,7 +1,7 @@
 {{php}}
 declare(strict_types=1);
 
-namespace {{namespace}}
+namespace {{namespace}};
 
 use Magento\Framework\App\Action\HttpGetActionInterface;
 
