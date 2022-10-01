@@ -29,7 +29,7 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             if ('base' === $area) {
                 $areaDirectory = '';
             }
-            list($templateLocator, $xmlTemplateDirectory)  = $this->locateTemplateDirectory('etc' . DIRECTORY_SEPARATOR . $areaDirectory);
+            list($templateLocator, $xmlTemplateDirectory)  = $this->locateTemplateDirectory('etc' . DIRECTORY_SEPARATOR . $area);
             $question = new ChoiceQuestion(
                 sprintf('Please choose the xml template to use for the %s area', $area),
                 $templateLocator->getTemplatesChoices()
