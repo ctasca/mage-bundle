@@ -17,6 +17,18 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
+        /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
+        list($templateLocator,)  = $this->locateTemplateDirectory('');
+        $question = new ChoiceQuestion(
+            'Please choose the router for this controller',
+            $templateLocator->getRouteChoices()
+        );
+        $question->setErrorMessage('Chosen router %s is invalid.');
+        $router = $this->questionHelper->ask($input, $output, $question);
+        $controllerTemplatesDirectory = 'http-controller';
+        if ($router === 'admin') {
+            $controllerTemplatesDirectory = 'adminhtml-http-controller';
+        }
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         $question = new CommandQuestion('Enter Controller Name (e.g. Test)');
@@ -27,6 +39,9 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
         );
         $controllerName = $this->questionHelper->ask($input, $output, $question);
         $pathArray = [$this->makeModulePathFromName($moduleName), 'Controller', $controllerName];
+        if ($router === 'admin') {
+            $pathArray = [$this->makeModulePathFromName($moduleName), 'Controller', 'Adminhtml', $controllerName];
+        }
         $controllerDirectoryPath = $this->makePathFromArray($pathArray);
         $moduleLocator = $this->getAppCodeLocator($controllerDirectoryPath);
         $controllerDirectory = $moduleLocator->locate();
@@ -38,10 +53,11 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
         );
         $actionName = $this->questionHelper->ask($input, $output, $question);
         try {
-            list($template, $controllerTemplate) = $this->getTemplateContentFromChoice($input, $output, 'http-controller');
+            list($template, $controllerTemplate) = $this->getTemplateContentFromChoice($input, $output, $controllerTemplatesDirectory);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
+            $dataProvider->setModule($moduleName);
             $dataProvider->setNamespace($this->makeNamespace($controllerDirectoryPath));
             $dataProvider->setClassName($actionName);
             $this->setDataProviderCustomData($dataProvider, $template);

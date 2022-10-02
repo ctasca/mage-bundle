@@ -69,6 +69,14 @@ class Locator extends AbstractLocator
     }
 
     /**
+     * @return array
+     */
+    public function getRouteChoices(): array
+    {
+        return ['standard', 'admin'];
+    }
+
+    /**
      * @return string
      */
     public function getCustomDataFilename(): string

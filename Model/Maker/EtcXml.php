@@ -13,9 +13,8 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
 
     public function make(InputInterface $input, OutputInterface $output): void
     {
-        $helper = $this->questionHelper;
         $question = $this->makeModuleNameQuestion();
-        $moduleName = $helper->ask($input, $output, $question);
+        $moduleName = $this->questionHelper->ask($input, $output, $question);
         try {
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
             list($templateLocator,)  = $this->locateTemplateDirectory('etc');
@@ -24,7 +23,7 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
                 $templateLocator->getAreaChoices()
             );
             $question->setErrorMessage('Chosen area %s is invalid.');
-            $area = $helper->ask($input, $output, $question);
+            $area = $this->questionHelper->ask($input, $output, $question);
             $areaDirectory = $area . DIRECTORY_SEPARATOR;
             if ('base' === $area) {
                 $areaDirectory = '';
