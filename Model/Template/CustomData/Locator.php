@@ -15,6 +15,9 @@ class Locator extends AbstractLocator
      */
     public function getTemplateFilename(): string
     {
+        if (strpos('.xml', $this->templateFilename) > 0) {
+            $this->templateFilename = str_replace('.xml', '.php', $this->templateFilename);
+        }
         return $this->templateFilename;
     }
 
@@ -37,7 +40,12 @@ class Locator extends AbstractLocator
             ->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath(self::DEV_CUSTOM_DATA_DIR);
         $this->file->checkAndCreateFolder($customDataDirectory);
-        $this->logger->info(__METHOD__ . " Locating directory -> caller:", [$customDataDirectory, debug_backtrace()[1]['function']]);
+        $this->logger->info(__METHOD__ . " Locating directory -> caller:",
+            [
+                $customDataDirectory,
+                debug_backtrace()[1]['function']
+            ]
+        );
         return $customDataDirectory;
     }
 
