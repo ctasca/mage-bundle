@@ -29,33 +29,16 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             if ('base' === $area) {
                 $areaDirectory = '';
             }
-            list($templateLocator, $xmlTemplateDirectory)  = $this->locateTemplateDirectory('etc' . DIRECTORY_SEPARATOR . $area);
-            $question = new ChoiceQuestion(
-                sprintf('Please choose the xml template to use for the %s area', $area),
-                $templateLocator->getTemplatesChoices()
-            );
-            $question->setErrorMessage('Chosen template %s is invalid.');
-            $template = $helper->ask($input, $output, $question);
-            $output->writeln('<info>You have selected: '. $template . '</info>');
-            $templateLocator->setTemplateFilename($template);
-            $xmlTemplate = $this->getTemplateContent($templateLocator, $xmlTemplateDirectory);
+            list($template, $xmlTemplate) = $this->getTemplateContentFromChoice($input, $output, 'etc' . DIRECTORY_SEPARATOR . $area);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setModule($moduleName);
             $dataProvider->setLowercaseModule(strtolower($moduleName));
             $this->setDataProviderCustomData($dataProvider, 'etc' . DIRECTORY_SEPARATOR . $areaDirectory . $template);
             $xml = $this->makeFile($dataProvider, $xmlTemplate);
-            $etcDirectoryPath = str_replace(
-                    '_',
-                    DIRECTORY_SEPARATOR,
-                    $moduleName) .
-                DIRECTORY_SEPARATOR .
-                'etc' .
-                DIRECTORY_SEPARATOR .
-                $areaDirectory;
-            $moduleLocator = $this->appCodeLocatorFactory->create(
-                ['dirname' => $etcDirectoryPath]
-            );
+            $pathArray = [$this->makeModulePathFromName($moduleName), 'etc', $areaDirectory];
+            $etcDirectoryPath = $this->makePathFromArray($pathArray);
+            $moduleLocator = $this->getAppCodeLocator($etcDirectoryPath);
             $xmlDirectory = $moduleLocator->locate();
             $this->writeFile($moduleLocator, $xmlDirectory, str_replace('.tpl', '', $template), $xml);
             $output->writeln(

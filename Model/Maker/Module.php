@@ -17,21 +17,20 @@ class Module extends AbstractMaker implements MakerModuleInterface
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
-        $helper = $this->questionHelper;
         $question = new CommandQuestion('Enter Company Name');
         QuestionValidator::validateUcFirst(
             $question,
             "Company Name is required and must start with an uppercase character",
             self::MAX_QUESTION_ATTEMPTS
         );
-        $companyName = $helper->ask($input, $output, $question);
+        $companyName = $this->questionHelper->ask($input, $output, $question);
         $question = new CommandQuestion('Enter Module Name');
         QuestionValidator::validateUcFirst(
             $question,
             "Module Name is required and must start with an uppercase character",
             self::MAX_QUESTION_ATTEMPTS
         );
-        $moduleName = $helper->ask($input, $output, $question);
+        $moduleName = $this->questionHelper->ask($input, $output, $question);
         try {
             $module = $companyName . '_' . $moduleName;
             /** @var \Ctasca\MageBundle\Model\App\Code\Locator $appCodeLocator */
@@ -45,16 +44,7 @@ class Module extends AbstractMaker implements MakerModuleInterface
                 self::REGISTRATION_TEMPLATE_FILENAME
             );
             $registrationTemplate = $this->getTemplateContent($templateLocator, $registrationTemplateDirectory);
-            list($moduleXmlTemplateLocator, $moduleTemplateDirectory) = $this->locateTemplateDirectory('module/etc');
-            $question = new ChoiceQuestion(
-                sprintf('Please choose the module.xml template to use for the %s_%s module', $companyName, $moduleName),
-                $moduleXmlTemplateLocator->getTemplatesChoices()
-            );
-            $question->setErrorMessage('Chosen template %s is invalid.');
-            $template = $helper->ask($input, $output, $question);
-            $output->writeln('You have selected: '. $template);
-            $templateLocator->setTemplateFilename($template);
-            $moduleXmlTemplate = $this->getTemplateContent($templateLocator, $moduleTemplateDirectory);
+            list($template, $moduleXmlTemplate) = $this->getTemplateContentFromChoice($input, $output, 'module/etc');
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
@@ -65,12 +55,11 @@ class Module extends AbstractMaker implements MakerModuleInterface
             $this->writeFile($appCodeLocator, $moduleDirectory, 'registration.php', $registration);
             $this->writeFile($appCodeLocator, $moduleDirectory, 'etc' . DIRECTORY_SEPARATOR . 'module.xml', $moduleXml);
             $output->writeln(
-                sprintf('Completed! Module successfully created in app/code/%s/%s', $companyName, $moduleName)
+                sprintf('<info>Completed! Module successfully created in app/code/%s/%s</info>', $companyName, $moduleName)
             );
             $output->writeln('');
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
-            $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
+            $this->logAndOutputErrorMessage($e, $output);
         }
     }
 }

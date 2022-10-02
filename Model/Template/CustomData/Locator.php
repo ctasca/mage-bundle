@@ -60,12 +60,12 @@ class Locator extends AbstractLocator
             ]
         );
         if (!empty($this->getTemplateFilename()) &&
-            file_exists($devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
+            file_exists($devMageBundleCustomDataDir . $this->getTemplateFilename())
         ) {
             $this->logger->info(
                 __METHOD__ . " Found custom data file",
                 [
-                    $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename(),
+                    $devMageBundleCustomDataDir . $this->getTemplateFilename(),
                     debug_backtrace()[1]['function']
                 ]
             );
@@ -74,7 +74,7 @@ class Locator extends AbstractLocator
         $this->logger->info(
             __METHOD__ . " Did not get custom data file",
             [
-                $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename(),
+                $devMageBundleCustomDataDir . $this->getTemplateFilename(),
                 debug_backtrace()[1]['function']
             ]
         );

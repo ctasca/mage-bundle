@@ -7,7 +7,10 @@ use Ctasca\MageBundle\Api\LocatorInterface;
 use Ctasca\MageBundle\Api\MakerInterface;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Ctasca\MageBundle\Model\Template\DataProvider;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
 use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
@@ -51,6 +54,35 @@ abstract class AbstractMaker implements MakerInterface
         $this->customDataLocatorFactory = $customDataLocatorFactory;
         $this->fileMakerFactory = $fileMakerFactory;
         $this->logger = $logger;
+    }
+
+    /**
+     * @param string $moduleName
+     * @return string
+     */
+    protected function makeModulePathFromName(string $moduleName): string
+    {
+        return str_replace('_', DIRECTORY_SEPARATOR, $moduleName);
+    }
+
+    /**
+     * @param array $a
+     * @return string
+     */
+    protected function makePathFromArray(array $a): string
+    {
+        return implode(DIRECTORY_SEPARATOR, $a);
+    }
+
+    /**
+     * @param string $locatorDirectory
+     * @return LocatorInterface
+     */
+    protected function getAppCodeLocator(string $locatorDirectory): LocatorInterface
+    {
+        return $this->appCodeLocatorFactory->create(
+            ['dirname' => $locatorDirectory]
+        );
     }
 
     /**
@@ -121,6 +153,35 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param string $templateDirectory
+     * @param string|null $templateFilename
+     * @return array
+     * @throws \Exception
+     */
+    protected function getTemplateContentFromChoice(
+        InputInterface $input,
+        OutputInterface $output,
+        string $templateDirectory,
+        ?string $templateFilename = null
+    ): array
+    {
+        /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
+        list($templateLocator, $locatedTemplateDirectory)  =
+            $this->locateTemplateDirectory($templateDirectory, $templateFilename);
+        $question = new ChoiceQuestion(
+            'Please choose a template',
+            $templateLocator->getTemplatesChoices()
+        );
+        $question->setErrorMessage('Chosen template %s is invalid.');
+        $template = $this->questionHelper->ask($input, $output, $question);
+        $output->writeln('<info>You have selected: '. $template . '</info>');
+        $templateLocator->setTemplateFilename($template);
+        return [$template, $this->getTemplateContent($templateLocator, $locatedTemplateDirectory)];
+    }
+
+    /**
      * @param DataProvider $dataProvider
      * @param string $template
      * @return void
@@ -147,5 +208,16 @@ abstract class AbstractMaker implements MakerInterface
     protected function makeNamespace(string $path)
     {
         return str_replace(DIRECTORY_SEPARATOR, '\\', $path);
+    }
+
+    /**
+     * @param \Exception $e
+     * @param OutputInterface $output
+     * @return void
+     */
+    protected function logAndOutputErrorMessage(\Exception $e, OutputInterface $output): void
+    {
+        $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
+        $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
     }
 }
