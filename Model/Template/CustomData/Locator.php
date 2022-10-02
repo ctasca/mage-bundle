@@ -47,11 +47,31 @@ class Locator extends AbstractLocator
     public function getCustomData(): array
     {
         $devMageBundleCustomDataDir = $this->locate();
+        $this->logger->info(__METHOD__ . " Locating file -> caller:",
+            [
+                $this->getTemplateFilename(),
+                debug_backtrace()[1]['function']
+            ]
+        );
         if (!empty($this->getTemplateFilename()) &&
             file_exists($devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
         ) {
+            $this->logger->info(
+                __METHOD__ . " Found custom data file -> caller:",
+                [
+                    $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename(),
+                    debug_backtrace()[1]['function']
+                ]
+            );
             return include $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
         }
+        $this->logger->info(
+            __METHOD__ . "Did not get custom data file -> caller:",
+            [
+                $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename(),
+                debug_backtrace()[1]['function']
+            ]
+        );
         return [];
     }
 }
