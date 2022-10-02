@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<validation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Validator/etc/validation.xsd">
+    <entity name="">
+        <rules>
+            <rule name="">
+            </rule>
+        </rules>
+        <groups>
+            <group name="">
+                <uses>
+                    <use rule=""/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>
