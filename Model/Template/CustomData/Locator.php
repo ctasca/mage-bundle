@@ -15,9 +15,6 @@ class Locator extends AbstractLocator
      */
     public function getTemplateFilename(): string
     {
-        if (strpos('.xml', $this->templateFilename) > 0) {
-            $this->templateFilename = str_replace('.xml', '.php', $this->templateFilename);
-        }
         return $this->templateFilename;
     }
 
@@ -27,6 +24,9 @@ class Locator extends AbstractLocator
      */
     public function setTemplateFilename(string $templateFilename): Locator
     {
+        if (strpos('.xml', $templateFilename) > 0) {
+            $templateFilename = str_replace('.xml', '.php', $templateFilename);
+        }
         $this->templateFilename = $templateFilename;
         return $this;
     }
