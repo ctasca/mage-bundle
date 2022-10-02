@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\App\Code;
 
+use Ctasca\MageBundle\Api\LocatorInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Ctasca\MageBundle\Model\AbstractLocator;
 
@@ -13,6 +14,7 @@ use Ctasca\MageBundle\Model\AbstractLocator;
  */
 class Locator extends AbstractLocator
 {
+
     /**
      * {@inheritdoc}
      * @throws \Exception
@@ -31,5 +33,22 @@ class Locator extends AbstractLocator
             $this->logger->error(__METHOD__ . " Exception message", [$e->getMessage()]);
             throw $e;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateFilename(): string
+    {
+        return $this->templateFilename;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTemplateFilename(string $templateFilename): LocatorInterface
+    {
+        $this->templateFilename = $templateFilename;
+        return $this;
     }
 }

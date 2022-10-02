@@ -133,15 +133,6 @@ abstract class AbstractMaker implements MakerInterface
                 $template
             ]
         );
-        if (strpos('.xml', $template) > 0) {
-            $template = str_replace('xml', 'php', $template);
-            $this->logger->info(
-                __METHOD__ . " replaced template file",
-                [
-                    $template
-                ]
-            );
-        }
         /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocatorFactory */
         $customDataLocator = $this->customDataLocatorFactory->create(['dirname' => '']);
         $customDataLocator->setTemplateFilename($template);

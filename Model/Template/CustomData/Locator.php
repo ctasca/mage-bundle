@@ -8,8 +8,6 @@ use Ctasca\MageBundle\Model\AbstractLocator;
 
 class Locator extends AbstractLocator
 {
-    private string $templateFilename = '';
-
     /**
      * @return string
      */
@@ -24,7 +22,7 @@ class Locator extends AbstractLocator
      */
     public function setTemplateFilename(string $templateFilename): Locator
     {
-        if (strpos('.xml', $templateFilename) > 0) {
+        if (strpos($templateFilename, '.xml', ) > 0) {
             $templateFilename = str_replace('.xml', '.php', $templateFilename);
         }
         $this->templateFilename = $templateFilename;
@@ -55,7 +53,7 @@ class Locator extends AbstractLocator
     public function getCustomData(): array
     {
         $devMageBundleCustomDataDir = $this->locate();
-        $this->logger->info(__METHOD__ . " Locating file -> caller:",
+        $this->logger->info(__METHOD__ . " Locating file",
             [
                 $this->getTemplateFilename(),
                 debug_backtrace()[1]['function']
@@ -65,7 +63,7 @@ class Locator extends AbstractLocator
             file_exists($devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
         ) {
             $this->logger->info(
-                __METHOD__ . " Found custom data file -> caller:",
+                __METHOD__ . " Found custom data file",
                 [
                     $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename(),
                     debug_backtrace()[1]['function']
@@ -74,7 +72,7 @@ class Locator extends AbstractLocator
             return include $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
         }
         $this->logger->info(
-            __METHOD__ . " Did not get custom data file -> caller:",
+            __METHOD__ . " Did not get custom data file",
             [
                 $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename(),
                 debug_backtrace()[1]['function']

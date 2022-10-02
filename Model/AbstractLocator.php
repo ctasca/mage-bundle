@@ -20,6 +20,7 @@ abstract class AbstractLocator implements LocatorInterface
     protected WriteFactory $writeFactory;
     protected Logger $logger;
     protected string $dirname;
+    protected string $templateFilename = '';
 
     /**
      * @param Filesystem $filesystem
@@ -44,6 +45,17 @@ abstract class AbstractLocator implements LocatorInterface
         $this->logger = $logger;
         $this->dirname = $dirname;
     }
+
+    /**
+     * @return string
+     */
+    abstract public function getTemplateFilename(): string;
+
+    /**
+     * @param string $templateFilename
+     * @return LocatorInterface
+     */
+    abstract public function setTemplateFilename(string $templateFilename): LocatorInterface;
 
     /**
      * @param string $path

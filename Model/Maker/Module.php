@@ -59,7 +59,7 @@ class Module extends AbstractMaker implements MakerModuleInterface
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
             $dataProvider->setModule($module);
-            $this->setDataProviderCustomData($dataProvider, 'module.tpl.php');
+            $this->setDataProviderCustomData($dataProvider, $template);
             $registration = $this->makeFile($dataProvider, $registrationTemplate);
             $moduleXml = $this->makeFile($dataProvider, $moduleXmlTemplate);
             $this->writeFile($appCodeLocator, $moduleDirectory, 'registration.php', $registration);
