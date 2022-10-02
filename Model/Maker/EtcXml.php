@@ -25,7 +25,7 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             );
             $question->setErrorMessage('Chosen area %s is invalid.');
             $area = $helper->ask($input, $output, $question);
-            $areaDirectory = $area;
+            $areaDirectory = $area . DIRECTORY_SEPARATOR;
             if ('base' === $area) {
                 $areaDirectory = '';
             }
@@ -41,7 +41,9 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             $xmlTemplate = $this->getTemplateContent($templateLocator, $xmlTemplateDirectory);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
-            $this->setDataProviderCustomData($dataProvider, $template);
+            $dataProvider->setModule($moduleName);
+            $dataProvider->setLowercaseModule(strtolower($moduleName));
+            $this->setDataProviderCustomData($dataProvider, 'etc' . DIRECTORY_SEPARATOR . $areaDirectory . $template);
             $xml = $this->makeFile($dataProvider, $xmlTemplate);
             $etcDirectoryPath = str_replace(
                     '_',

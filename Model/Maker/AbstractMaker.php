@@ -131,9 +131,9 @@ abstract class AbstractMaker implements MakerInterface
             $template = str_replace('xml', 'php', $template);
         }
         /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocatorFactory */
-        $customDataLocatorFactory = $this->customDataLocatorFactory->create(['dirname' => '']);
-        $customDataLocatorFactory->setTemplateFilename($template);
-        $customData = $customDataLocatorFactory->getCustomData();
+        $customDataLocator = $this->customDataLocatorFactory->create(['dirname' => '']);
+        $customDataLocator->setTemplateFilename($template);
+        $customData = $customDataLocator->getCustomData();
         $dataProvider->setCustomData($customData);
     }
 
