@@ -74,7 +74,7 @@ class Locator extends AbstractLocator
             return include $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
         }
         $this->logger->info(
-            __METHOD__ . "Did not get custom data file -> caller:",
+            __METHOD__ . " Did not get custom data file -> caller:",
             [
                 $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename(),
                 debug_backtrace()[1]['function']
