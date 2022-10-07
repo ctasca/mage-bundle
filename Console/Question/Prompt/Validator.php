@@ -19,6 +19,16 @@ class Validator
     const UC_FIRST_VALIDATION_PATTERN = '/^[A-Z]{1}/';
 
     /**
+     * Validates path like:
+     *  - Dir/AnotherDir/ClassName
+     *
+     * Invalid paths:
+     *  - /Dir/AnotherDir/ClassName
+     *  - Dir/AnotherDir/ClassName/
+     */
+    const PATH_VALIDATION_PATTERN = '/^([A-Z][a-zA-Z0-9]{0,}\/)+([A-Z][a-zA-Z0-9]{0,})$/';
+
+    /**
      * @param Question $question
      * @param string $exceptionMessage
      * @param int $maxAttempts
@@ -46,6 +56,24 @@ class Validator
     {
         $question->setValidator(function ($answer) use ($exceptionMessage) {
             if (empty($answer) || !preg_match(self::UC_FIRST_VALIDATION_PATTERN, $answer)) {
+                throw new \RuntimeException($exceptionMessage);
+            }
+            return $answer;
+        });
+
+        self::setNormalizerAndMaxAttempts($question, $maxAttempts);
+    }
+
+    /**
+     * @param Question $question
+     * @param string $exceptionMessage
+     * @param int $maxAttempts
+     * @return void
+     */
+    public static function validatePath(Question $question, string $exceptionMessage, int $maxAttempts): void
+    {
+        $question->setValidator(function ($answer) use ($exceptionMessage) {
+            if (empty($answer) || !preg_match(self::PATH_VALIDATION_PATTERN, $answer)) {
                 throw new \RuntimeException($exceptionMessage);
             }
             return $answer;

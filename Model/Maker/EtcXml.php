@@ -10,7 +10,9 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
 {
-
+    /**
+     * {@inheritdoc}
+     */
     public function make(InputInterface $input, OutputInterface $output): void
     {
         $question = $this->makeModuleNameQuestion();
@@ -25,7 +27,7 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             $question->setErrorMessage('Chosen area %s is invalid.');
             $area = $this->questionHelper->ask($input, $output, $question);
             $areaDirectory = $area . DIRECTORY_SEPARATOR;
-            if ('base' === $area) {
+            if (self::BASE_AREA_NAME === $area) {
                 $areaDirectory = '';
             }
             list($template, $xmlTemplate) = $this->getTemplateContentFromChoice($input, $output, 'etc' . DIRECTORY_SEPARATOR . $area);
@@ -48,8 +50,7 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             );
             $output->writeln('');
         } catch(\Exception $e) {
-            $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
-            $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
+            $this->logAndOutputErrorMessage($e, $output);
         }
     }
 }

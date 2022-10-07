@@ -125,6 +125,23 @@ abstract class AbstractMaker implements MakerInterface
         $writer->writeFile($filename, $bytes);
     }
 
+    protected function writeFileFromTemplateChoice(
+        string $locatorDirectory,
+        InputInterface $input,
+        OutputInterface $output,
+        string $templateDirectory,
+        DataProvider $dataProvider,
+        string $filename
+    ): void
+    {
+        $appCodeLocator = $this->getAppCodeLocator($locatorDirectory);
+        $modelDirectory = $appCodeLocator->locate();
+        list($template, $fileTemplate) = $this->getTemplateContentFromChoice($input, $output, $templateDirectory);
+        $this->setDataProviderCustomData($dataProvider, $template);
+        $file = $this->makeFile($dataProvider, $fileTemplate);
+        $this->writeFile($appCodeLocator, $modelDirectory, $filename . '.php', $file);
+    }
+
     /**
      * @param LocatorInterface $templateLocator
      * @param string $directory
@@ -202,12 +219,41 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
-     * @param string $path
-     * @return array|string|string[]
+     * @param string|array $path
+     * @return string
      */
-    protected function makeNamespace(string $path)
+    protected function makeNamespace($path): string
     {
+        if (is_array($path)) {
+            $path = implode(DIRECTORY_SEPARATOR, $path);
+        }
         return str_replace(DIRECTORY_SEPARATOR, '\\', $path);
+    }
+
+    /**
+     * Returns path parts array
+     * First array value is the path to the class
+     * Second array value is the class name
+     * Third array value is exploded path array without the class name
+     * Fourth array value is a boolean specifying if $path is only a class name
+     *
+     * For example if Dir/Dirname/ClassName is the path this method will return
+     * ["Dir/Dirname", "ClassName", ["Dir","Dirname"]]
+     *
+     * @param string $path
+     * @return array
+     */
+    protected function extractPathParts(string $path): array
+    {
+        $explodedPath = explode(DIRECTORY_SEPARATOR, $path);
+        $isOnlyClassName = false;
+        if (count($explodedPath) > 1) {
+            $className = array_pop($explodedPath);
+        } else {
+            $isOnlyClassName = true;
+            $className = $path;
+        }
+        return [implode(DIRECTORY_SEPARATOR, $explodedPath), $className, $explodedPath, $isOnlyClassName];
     }
 
     /**
