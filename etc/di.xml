@@ -9,6 +9,7 @@
     <preference for="Ctasca\MageBundle\Api\MakerHelperInterface" type="Ctasca\MageBundle\Model\Maker\Helper"/>
     <preference for="Ctasca\MageBundle\Api\MakerCustomerDataInterface" type="Ctasca\MageBundle\Model\Maker\CustomerData"/>
     <preference for="Ctasca\MageBundle\Api\MakerViewModelInterface" type="Ctasca\MageBundle\Model\Maker\ViewModel"/>
+    <preference for="Ctasca\MageBundle\Api\MakerObserverInterface" type="Ctasca\MageBundle\Model\Maker\Observer"/>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
@@ -21,6 +22,7 @@
                 <item name="createHelperCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateHelperCommand</item>
                 <item name="createCustomerDataCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateCustomerDataCommand</item>
                 <item name="createViewModelCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateViewModelCommand</item>
+                <item name="createObserverCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateObserverCommand</item>
             </argument>
         </arguments>
     </type>
