@@ -5,5 +5,5 @@ namespace Ctasca\MageBundle\Api;
 
 interface MakerHelperInterface extends MakerInterface
 {
-    const HELPER_TEMPLATE_DIR = 'helper';
+    const HELPER_TEMPLATES_DIR = 'helper';
 }

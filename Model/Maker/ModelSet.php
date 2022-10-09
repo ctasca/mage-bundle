@@ -18,10 +18,10 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         // model name question
-        $question = $this->questionFactory->create('Enter Model Name. It can be also a directory. (e.g. Test or Test/MyModel)');
+        $question = $this->questionFactory->create('Enter Model class name. It can be also a directory. (e.g. Test or Test/MyModel)');
         QuestionValidator::validatePath(
             $question,
-            "Model Name is not valid.",
+            "Model class name is not valid.",
             self::MAX_QUESTION_ATTEMPTS
         );
         $modelPath = $this->questionHelper->ask($input, $output, $question);
@@ -76,14 +76,14 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
                 $modelDirectoryPath,
                 $input,
                 $output,
-                self::MODEL_TEMPLATE_DIR,
+                self::MODEL_TEMPLATES_DIR,
                 $dataProvider,
                 $modelClassName
             );
 
             $output->writeln(
                 sprintf(
-                    '<info>Model created app/code/%s</info>',
+                    '<info>Model created in app/code/%s</info>',
                     $modelDirectoryPath
                 )
             );
@@ -92,14 +92,14 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
                 $resourceModelDirectoryPath,
                 $input,
                 $output,
-                self::RESOURCE_MODEL_TEMPLATE_DIR,
+                self::RESOURCE_MODEL_TEMPLATES_DIR,
                 $dataProvider,
                 $modelClassName
             );
 
             $output->writeln(
                 sprintf(
-                    '<info>Resource model created app/code/%s</info>',
+                    '<info>Resource model created in app/code/%s</info>',
                     $resourceModelDirectoryPath
                 )
             );
@@ -108,14 +108,14 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
                 $collectionDirectoryPath,
                 $input,
                 $output,
-                self::COLLECTION_MODEL_TEMPLATE_DIR,
+                self::COLLECTION_MODEL_TEMPLATES_DIR,
                 $dataProvider,
                 'Collection'
             );
 
             $output->writeln(
                 sprintf(
-                    '<info>Collection class created app/code/%s</info>',
+                    '<info>Collection class created in app/code/%s</info>',
                     $collectionDirectoryPath
                 )
             );

@@ -1,7 +1,7 @@
 {{php}}
 declare(strict_types=1);
 
-namespace {{model_namespace}};
+namespace {{namespace}};
 
 class {{class_name}}
 {

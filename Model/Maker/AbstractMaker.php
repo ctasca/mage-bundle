@@ -184,7 +184,58 @@ abstract class AbstractMaker implements MakerInterface
                 $file
             );
         }
+    }
 
+    /**
+     * @param string $path
+     * @param string $moduleName
+     * @param string $classDirectory
+     * @param string $templatesDirectory
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param string $successMessage
+     * @return void
+     * @throws \Exception
+     */
+    protected function writeCommonDataClassByPath(
+        string $path,
+        string $moduleName,
+        string $classDirectory,
+        string $templatesDirectory,
+        InputInterface $input,
+        OutputInterface $output,
+        string $successMessage
+    ): void
+    {
+        list($pathToClass, $className, , $isOnlyClassName) = $this->extractPathParts($path);
+        if ($isOnlyClassName) {
+            $classPathArray = [$this->makeModulePathFromName($moduleName), $classDirectory];
+        } else {
+            $classPathArray = [$this->makeModulePathFromName($moduleName), $classDirectory, $pathToClass];
+        }
+        $classDirectoryPath = $this->makePathFromArray($classPathArray);
+        // create data provider
+        /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
+        $dataProvider = $this->dataProviderFactory->create();
+        $dataProvider->setPhp('<?php');
+        $dataProvider->setNamespace($this->makeNamespace($classDirectoryPath));
+        $dataProvider->setClassName($className);
+
+        $this->writeFileFromTemplateChoice(
+            $classDirectoryPath,
+            $input,
+            $output,
+            $templatesDirectory,
+            $dataProvider,
+            $className
+        );
+
+        $output->writeln(
+            sprintf(
+                "<info>$successMessage</info>",
+                $classDirectoryPath
+            )
+        );
     }
 
     /**

@@ -5,5 +5,5 @@ namespace Ctasca\MageBundle\Api;
 
 interface MakerModelInterface extends MakerInterface
 {
-    const MODEL_TEMPLATE_DIR = 'model';
+    const MODEL_TEMPLATES_DIR = 'model';
 }

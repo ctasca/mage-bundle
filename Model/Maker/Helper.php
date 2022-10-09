@@ -17,43 +17,22 @@ class Helper extends AbstractMaker implements MakerHelperInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        // helper name question
-        $question = $this->questionFactory->create('Enter Helper Name. It can be also a directory. (e.g. Data or Test/Data)');
+        $question = $this->questionFactory->create('Enter Helper class name. It can be also a directory. (e.g. Data or Test/Data)');
         QuestionValidator::validatePath(
             $question,
-            "Helper Name is not valid.",
+            "Helper class name is not valid.",
             self::MAX_QUESTION_ATTEMPTS
         );
         $helperPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            list($pathToHelper, $helperClassName, , $isOnlyClassName) = $this->extractPathParts($helperPath);
-            if ($isOnlyClassName) {
-                $helperPathArray = [$this->makeModulePathFromName($moduleName), 'Helper'];
-            } else {
-                $helperPathArray = [$this->makeModulePathFromName($moduleName), 'Helper', $pathToHelper];
-            }
-            $helperDirectoryPath = $this->makePathFromArray($helperPathArray);
-            // create data provider
-            /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
-            $dataProvider = $this->dataProviderFactory->create();
-            $dataProvider->setPhp('<?php');
-            $dataProvider->setHelperNamespace($this->makeNamespace($helperDirectoryPath));
-            $dataProvider->setClassName($helperClassName);
-
-            $this->writeFileFromTemplateChoice(
-                $helperDirectoryPath,
+            $this->writeCommonDataClassByPath(
+                $helperPath,
+                $moduleName,
+                'Helper',
+                self::HELPER_TEMPLATES_DIR,
                 $input,
                 $output,
-                self::HELPER_TEMPLATE_DIR,
-                $dataProvider,
-                $helperClassName
-            );
-
-            $output->writeln(
-                sprintf(
-                    '<info>Helper created app/code/%s</info>',
-                    $helperDirectoryPath
-                )
+                "Helper created in app/code/%s"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
