@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
 
-use Ctasca\MageBundle\Api\MakerBlockInterface;
+use Ctasca\MageBundle\Api\MakerHelperInterface;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Block extends AbstractMaker implements MakerBlockInterface
+class Helper extends AbstractMaker implements MakerHelperInterface
 {
     /**
      * {@inheritdoc}
@@ -17,42 +17,42 @@ class Block extends AbstractMaker implements MakerBlockInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        // block name question
-        $question = $this->questionFactory->create('Enter Block Name. It can be also a directory. (e.g. Test or Test/MyBlock)');
+        // helper name question
+        $question = $this->questionFactory->create('Enter Helper Name. It can be also a directory. (e.g. Data or Test/Data)');
         QuestionValidator::validatePath(
             $question,
-            "Block Name is not valid.",
+            "Helper Name is not valid.",
             self::MAX_QUESTION_ATTEMPTS
         );
-        $blockPath = $this->questionHelper->ask($input, $output, $question);
+        $helperPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            list($pathToBlock, $blockClassName, , $isOnlyClassName) = $this->extractPathParts($blockPath);
+            list($pathToHelper, $helperClassName, , $isOnlyClassName) = $this->extractPathParts($helperPath);
             if ($isOnlyClassName) {
-                $blockPathArray = [$this->makeModulePathFromName($moduleName), 'Block'];
+                $helperPathArray = [$this->makeModulePathFromName($moduleName), 'Helper'];
             } else {
-                $blockPathArray = [$this->makeModulePathFromName($moduleName), 'Block', $pathToBlock];
+                $helperPathArray = [$this->makeModulePathFromName($moduleName), 'Helper', $pathToHelper];
             }
-            $blockDirectoryPath = $this->makePathFromArray($blockPathArray);
+            $helperDirectoryPath = $this->makePathFromArray($helperPathArray);
             // create data provider
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
-            $dataProvider->setBlockNamespace($this->makeNamespace($blockDirectoryPath));
-            $dataProvider->setClassName($blockClassName);
+            $dataProvider->setHelperNamespace($this->makeNamespace($helperDirectoryPath));
+            $dataProvider->setClassName($helperClassName);
 
             $this->writeFileFromTemplateChoice(
-                $blockDirectoryPath,
+                $helperDirectoryPath,
                 $input,
                 $output,
-                self::BLOCK_TEMPLATES_DIR,
+                self::HELPER_TEMPLATE_DIR,
                 $dataProvider,
-                $blockClassName
+                $helperClassName
             );
 
             $output->writeln(
                 sprintf(
-                    '<info>Block created app/code/%s</info>',
-                    $blockDirectoryPath
+                    '<info>Helper created app/code/%s</info>',
+                    $helperDirectoryPath
                 )
             );
         } catch (\Exception $e) {
