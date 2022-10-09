@@ -49,34 +49,44 @@ class {{class_name}} implements HttpGetActionInterface
 }
 </pre>
 
-<p>To set your own template just place it in the <code>MAGNETO_ROOT/dev/mage-bundle/http-controllers</code> directory and choose the template when executing the create controller command.</p>
+<p>To set your own template just place it in the <code>MAGNETO_ROOT/dev/mage-bundle/http-controller</code> directory and choose the template when executing the create controller command.</p>
 
 ### Available commands
 ```bash
 bin/magento magebundle:module:create
 ```
-This command creates a skeleton Magento module in app/code directory, generating the required registration.php and etc/module.xml files
+Creates a skeleton Magento module in app/code directory, generating the required registration.php and etc/module.xml files
 
 ```bash
 bin/magento magebundle:controller:create
 ```
-This command creates a Controller namespace and Action class in specified module.
-Developer is prompted to choose an Action template from the ones available in <code>mage-bundle/controller</code> directory.
+Creates a Controller namespace and Action class in specified module.
+Developer is prompted to choose an Action template from the ones available in <code>mage-bundle/http-controller</code> directory.
 
 ```bash
 bin/magento magebundle:etc:xml:create
 ```
-This command creates an XML file in Company/Module/etc directory. Templates can be chosen after specifying the area where the template applies to.
+Creates an XML file in Company/Module/etc directory. Templates can be chosen after specifying the area where the template applies to.
 
 ```bash
 bin/magento magebundle:model:set:create
 ```
 Creates a Model, Resource Model and Collection classes in specified Company/Module.
 
+```bash
+bin/magento magebundle:model:create
+```
+Creates a Model class in specified Company/Module. There is also the template to create an interface instead of a class.
+
+```bash
+bin/magento magebundle:block:create
+```
+Creates a template Block class in specified Company/Module.
+
 
 ### Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>
-<p>In order to do so, simply create a php file in the <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/#path-to-template#</code> directory, naming the file exactly as the template file that is being generated and returning an array with setter methods as keys.</p>
+<p>In order to do so, simply create a php file in the <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/#path-to-template#</code> directory, naming the file exactly as the template file that is being generated and returning an array with setter methods as keys and corresponding values.</p>
 <p>For <code>Company/Module/etc</code> directories, these are stored in a sub-directory <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/etc/#area#/#template_name#.tpl.php</code></p>
 <p>Values can be a string or an array.</p>
 
