@@ -98,6 +98,16 @@ bin/magento magebundle:view-model:create
 ```
 Creates a View Model class in specified Company/Module.
 
+```bash
+bin/magento magebundle:observer:create
+```
+Creates an Observer class in specified Company/Module.
+
+```bash
+bin/magento magebundle:plugin:create
+```
+Creates a Plugin class in specified Company/Module.
+
 
 ### Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>
