@@ -88,6 +88,16 @@ bin/magento magebundle:helper:create
 ```
 Creates a Helper class in specified Company/Module.
 
+```bash
+bin/magento magebundle:customer-data:create
+```
+Creates a CustomerData class in specified Company/Module. 
+
+```bash
+bin/magento magebundle:view-model:create
+```
+Creates a View Model class in specified Company/Module.
+
 
 ### Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>

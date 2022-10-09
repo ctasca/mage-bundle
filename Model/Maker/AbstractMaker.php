@@ -187,6 +187,12 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
+     * Create a class with common data provider data by specified path:
+     *
+     * - {{php}}
+     * - {{namespace}}
+     * - {{class_name}}
+     *
      * @param string $path
      * @param string $moduleName
      * @param string $classDirectory
