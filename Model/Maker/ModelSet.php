@@ -7,7 +7,6 @@ use Ctasca\MageBundle\Api\MakerModelSetInterface;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question as CommandQuestion;
 
 class ModelSet extends AbstractMaker implements MakerModelSetInterface
 {
@@ -19,7 +18,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         // model name question
-        $question = new CommandQuestion('Enter Model Name. It can be also a directory. (e.g. Test or Test/MyModel)');
+        $question = $this->questionFactory->create('Enter Model Name. It can be also a directory. (e.g. Test or Test/MyModel)');
         QuestionValidator::validatePath(
             $question,
             "Model Name is not valid.",
@@ -27,7 +26,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
         );
         $modelPath = $this->questionHelper->ask($input, $output, $question);
         // main table question
-        $question = new CommandQuestion('Enter main table name');
+        $question = $this->questionFactory->create('Enter main table name');
         QuestionValidator::validateRequired(
             $question,
             "Main table name is not valid.",
@@ -35,7 +34,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
         );
         $mainTableName = $this->questionHelper->ask($input, $output, $question);
         // field name id question
-        $question = new CommandQuestion('Enter field name id');
+        $question = $this->questionFactory->create('Enter field name id');
         QuestionValidator::validateRequired(
             $question,
             "Field name id is not valid.",

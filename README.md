@@ -68,9 +68,15 @@ bin/magento magebundle:etc:xml:create
 ```
 This command creates an XML file in Company/Module/etc directory. Templates can be chosen after specifying the area where the template applies to.
 
+```bash
+bin/magento magebundle:model:set:create
+```
+Creates a Model, Resource Model and Collection classes in specified Company/Module.
+
+
 ### Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>
-<p>In order to do so, simply create a php file in the <code>MAGENTO_ROOT/dev/mage-bundle/custom-data</code> directory, naming the file exactly as the template file that is being generated and returning an array with setter methods as keys and values.</p>
+<p>In order to do so, simply create a php file in the <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/#path-to-template#</code> directory, naming the file exactly as the template file that is being generated and returning an array with setter methods as keys.</p>
 <p>For <code>Company/Module/etc</code> directories, these are stored in a sub-directory <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/etc/#area#/#template_name#.tpl.php</code></p>
 <p>Values can be a string or an array.</p>
 

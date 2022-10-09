@@ -10,13 +10,14 @@ use Ctasca\MageBundle\Model\Template\DataProvider;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
 use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
 use Ctasca\MageBundle\Model\Template\DataProviderFactory;
 use Ctasca\MageBundle\Model\Template\CustomData\LocatorFactory as CustomDataLocatorFactory;
 use Ctasca\MageBundle\Model\File\MakerFactory as FileMakerFactory;
+use Ctasca\MageBundle\Console\Question\Factory as QuestionFactory;
+use Ctasca\MageBundle\Console\Question\Choice\Factory as QuestionChoiceFactory;
 use Ctasca\MageBundle\Logger\Logger;
 
 abstract class AbstractMaker implements MakerInterface
@@ -27,6 +28,8 @@ abstract class AbstractMaker implements MakerInterface
     protected DataProviderFactory $dataProviderFactory;
     protected CustomDataLocatorFactory $customDataLocatorFactory;
     protected FileMakerFactory $fileMakerFactory;
+    protected QuestionFactory $questionFactory;
+    protected QuestionChoiceFactory $questionChoiceFactory;
     protected Logger $logger;
 
     /**
@@ -36,6 +39,8 @@ abstract class AbstractMaker implements MakerInterface
      * @param DataProviderFactory $dataProviderFactory
      * @param CustomDataLocatorFactory $customDataLocatorFactory
      * @param FileMakerFactory $fileMakerFactory
+     * @param QuestionFactory $questionFactory
+     * @param QuestionChoiceFactory $questionChoiceFactory
      * @param Logger $logger
      */
     public function __construct(
@@ -45,6 +50,8 @@ abstract class AbstractMaker implements MakerInterface
         DataProviderFactory $dataProviderFactory,
         CustomDataLocatorFactory $customDataLocatorFactory,
         FileMakerFactory $fileMakerFactory,
+        QuestionFactory $questionFactory,
+        QuestionChoiceFactory $questionChoiceFactory,
         Logger $logger
     ) {
         $this->questionHelper = $questionHelper;
@@ -53,6 +60,8 @@ abstract class AbstractMaker implements MakerInterface
         $this->dataProviderFactory = $dataProviderFactory;
         $this->customDataLocatorFactory = $customDataLocatorFactory;
         $this->fileMakerFactory = $fileMakerFactory;
+        $this->questionFactory = $questionFactory;
+        $this->questionChoiceFactory = $questionChoiceFactory;
         $this->logger = $logger;
     }
 
@@ -125,21 +134,57 @@ abstract class AbstractMaker implements MakerInterface
         $writer->writeFile($filename, $bytes);
     }
 
+    /**
+     * Write file from a template choice.
+     *
+     * It locates the directory, get the template content from chosen one,
+     * sets data provider custom data, prepare the file, and writes it.
+     *
+     * Note: if no filename is passed as argument, the file written will have the same filename name
+     * as the chosen template, without the .tpl extension.
+     *
+     *
+     * @param string $locatorDirectory
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param string $templateDirectory
+     * @param DataProvider $dataProvider
+     * @param string $filename
+     * @param string $fileExtension
+     * @return void
+     * @throws \Exception
+     */
     protected function writeFileFromTemplateChoice(
         string $locatorDirectory,
         InputInterface $input,
         OutputInterface $output,
         string $templateDirectory,
         DataProvider $dataProvider,
-        string $filename
+        string $filename = '',
+        string $fileExtension = '.php'
     ): void
     {
         $appCodeLocator = $this->getAppCodeLocator($locatorDirectory);
-        $modelDirectory = $appCodeLocator->locate();
+        $appCodeDirectory = $appCodeLocator->locate();
         list($template, $fileTemplate) = $this->getTemplateContentFromChoice($input, $output, $templateDirectory);
         $this->setDataProviderCustomData($dataProvider, $template);
         $file = $this->makeFile($dataProvider, $fileTemplate);
-        $this->writeFile($appCodeLocator, $modelDirectory, $filename . '.php', $file);
+        if (empty($filename)) {
+            $this->writeFile(
+                $appCodeLocator,
+                $appCodeDirectory,
+                str_replace('.tpl', '', $template),
+                $file
+            );
+        } else {
+            $this->writeFile(
+                $appCodeLocator,
+                $appCodeDirectory,
+                $filename . $fileExtension,
+                $file
+            );
+        }
+
     }
 
     /**
@@ -159,7 +204,7 @@ abstract class AbstractMaker implements MakerInterface
      */
     protected function makeModuleNameQuestion(): Question
     {
-        $question = new Question('Enter Module Name (e.g. Company_Module)');
+        $question = $this->questionFactory->create('Enter Module Name (e.g. Company_Module)');
         QuestionValidator::validateModuleName(
             $question,
             "Module Name is in the wrong format.",
@@ -187,7 +232,7 @@ abstract class AbstractMaker implements MakerInterface
         /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
         list($templateLocator, $locatedTemplateDirectory)  =
             $this->locateTemplateDirectory($templateDirectory, $templateFilename);
-        $question = new ChoiceQuestion(
+        $question = $this->questionChoiceFactory->create(
             'Please choose a template',
             $templateLocator->getTemplatesChoices()
         );

@@ -6,7 +6,6 @@ namespace Ctasca\MageBundle\Model\Maker;
 use Ctasca\MageBundle\Api\MakerEtcXmlInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
 {
@@ -19,8 +18,8 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         try {
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
-            list($templateLocator,)  = $this->locateTemplateDirectory('etc');
-            $question = new ChoiceQuestion(
+            list($templateLocator,)  = $this->locateTemplateDirectory(self::XML_TEMPLATES_DIR);
+            $question = $this->questionChoiceFactory->create(
                 'Please choose the area for the xml template',
                 $templateLocator->getAreaChoices()
             );
@@ -30,18 +29,20 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             if (self::BASE_AREA_NAME === $area) {
                 $areaDirectory = '';
             }
-            list($template, $xmlTemplate) = $this->getTemplateContentFromChoice($input, $output, 'etc' . DIRECTORY_SEPARATOR . $area);
+            $pathArray = [$this->makeModulePathFromName($moduleName), self::XML_TEMPLATES_DIR, $areaDirectory];
+            $etcDirectoryPath = $this->makePathFromArray($pathArray);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setModule($moduleName);
             $dataProvider->setLowercaseModule(strtolower($moduleName));
-            $this->setDataProviderCustomData($dataProvider, 'etc' . DIRECTORY_SEPARATOR . $areaDirectory . $template);
-            $xml = $this->makeFile($dataProvider, $xmlTemplate);
-            $pathArray = [$this->makeModulePathFromName($moduleName), 'etc', $areaDirectory];
-            $etcDirectoryPath = $this->makePathFromArray($pathArray);
-            $moduleLocator = $this->getAppCodeLocator($etcDirectoryPath);
-            $xmlDirectory = $moduleLocator->locate();
-            $this->writeFile($moduleLocator, $xmlDirectory, str_replace('.tpl', '', $template), $xml);
+            // write xml file. Note: No need to pass the filename as it will be picked up from the template filename
+            $this->writeFileFromTemplateChoice(
+                $etcDirectoryPath,
+                $input,
+                $output,
+                self::XML_TEMPLATES_DIR . DIRECTORY_SEPARATOR . $area,
+                $dataProvider
+            );
             $output->writeln(
                 sprintf(
                     '<info>Completed! Xml file successfully created in app/code/%s</info>',
