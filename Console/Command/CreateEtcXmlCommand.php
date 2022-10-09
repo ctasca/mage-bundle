@@ -10,15 +10,15 @@ use Ctasca\MageBundle\Api\MakerEtcXmlInterface;
 
 class CreateEtcXmlCommand extends Command
 {
-    private MakerEtcXmlInterface $makerEtcXml;
+    private MakerEtcXmlInterface $maker;
 
     /**
-     * @param MakerEtcXmlInterface $makerEtcXml
+     * @param MakerEtcXmlInterface $maker
      */
     public function __construct(
-        MakerEtcXmlInterface $makerEtcXml
+        MakerEtcXmlInterface $maker
     ) {
-        $this->makerEtcXml = $makerEtcXml;
+        $this->maker = $maker;
         parent::__construct();
     }
 
@@ -38,6 +38,6 @@ class CreateEtcXmlCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->makerEtcXml->make($input, $output);
+        $this->maker->make($input, $output);
     }
 }

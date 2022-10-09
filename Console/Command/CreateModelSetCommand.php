@@ -10,15 +10,15 @@ use Ctasca\MageBundle\Api\MakerModelSetInterface;
 
 class CreateModelSetCommand extends Command
 {
-    private MakerModelSetInterface $makerModelSet;
+    private MakerModelSetInterface $maker;
 
     /**
-     * @param MakerModelSetInterface $makerModelSet
+     * @param MakerModelSetInterface $maker
      */
     public function __construct(
-        MakerModelSetInterface $makerModelSet
+        MakerModelSetInterface $maker
     ) {
-        $this->makerModelSet = $makerModelSet;
+        $this->maker = $maker;
         parent::__construct();
     }
 
@@ -38,6 +38,6 @@ class CreateModelSetCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->makerModelSet->make($input, $output);
+        $this->maker->make($input, $output);
     }
 }

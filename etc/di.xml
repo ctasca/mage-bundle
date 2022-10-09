@@ -4,6 +4,7 @@
     <preference for="Ctasca\MageBundle\Api\MakerHttpControllerInterface" type="Ctasca\MageBundle\Model\Maker\HttpController"/>
     <preference for="Ctasca\MageBundle\Api\MakerEtcXmlInterface" type="Ctasca\MageBundle\Model\Maker\EtcXml"/>
     <preference for="Ctasca\MageBundle\Api\MakerModelSetInterface" type="Ctasca\MageBundle\Model\Maker\ModelSet"/>
+    <preference for="Ctasca\MageBundle\Api\MakerModelInterface" type="Ctasca\MageBundle\Model\Maker\Model"/>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
@@ -11,6 +12,7 @@
                 <item name="createControllerCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateControllerCommand</item>
                 <item name="createEtcXmlCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateEtcXmlCommand</item>
                 <item name="createModelSetCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateModelSetCommand</item>
+                <item name="createModelCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateModelCommand</item>
             </argument>
         </arguments>
     </type>

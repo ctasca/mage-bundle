@@ -10,15 +10,15 @@ use Ctasca\MageBundle\Api\MakerModuleInterface;
 
 class CreateModuleCommand extends Command
 {
-    private MakerModuleInterface $makerModule;
+    private MakerModuleInterface $maker;
 
     /**
-     * @param MakerModuleInterface $makerModule
+     * @param MakerModuleInterface $maker
      */
     public function __construct(
-        MakerModuleInterface $makerModule
+        MakerModuleInterface $maker
     ) {
-        $this->makerModule = $makerModule;
+        $this->maker = $maker;
         parent::__construct();
     }
 
@@ -38,6 +38,6 @@ class CreateModuleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->makerModule->make($input, $output);
+        $this->maker->make($input, $output);
     }
 }

@@ -59,23 +59,18 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
             $modelDirectoryPath = $this->makePathFromArray($modelPathArray);
             $resourceModelDirectoryPath = $this->makePathFromArray($resourceModelPathArray);
             $collectionDirectoryPath = $this->makePathFromArray($collectionPathArray);
-            $modelNamespace = $this->makeNamespace($modelDirectoryPath);
-            $resourceModelNamespace = $this->makeNamespace($resourceModelDirectoryPath);
-            $collectionNamespace = $this->makeNamespace($collectionDirectoryPath);
-            $useModelNamespace = $this->makeNamespace($useModelPathArray);
-            $useResourceModelNamespace = $this->makeNamespace($useResourceModelPathArray);
             // create data provider
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
-            $dataProvider->setModelNamespace($modelNamespace);
+            $dataProvider->setModelNamespace($this->makeNamespace($modelDirectoryPath));
             $dataProvider->setClassName($modelClassName);
-            $dataProvider->setResourceModelNamespace($resourceModelNamespace);
+            $dataProvider->setResourceModelNamespace($this->makeNamespace($resourceModelDirectoryPath));
             $dataProvider->setMainTable($mainTableName);
             $dataProvider->setIdFieldName($fieldNameId);
-            $dataProvider->setCollectionNamespace($collectionNamespace);
-            $dataProvider->setUseModel($useModelNamespace);
-            $dataProvider->setUseResourceModel($useResourceModelNamespace);
+            $dataProvider->setCollectionNamespace($this->makeNamespace($collectionDirectoryPath));
+            $dataProvider->setUseModel($this->makeNamespace($useModelPathArray));
+            $dataProvider->setUseResourceModel($this->makeNamespace($useResourceModelPathArray));
 
             $this->writeFileFromTemplateChoice(
                 $modelDirectoryPath,
