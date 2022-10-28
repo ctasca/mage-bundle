@@ -61,7 +61,7 @@ Creates a skeleton Magento module in app/code directory, generating the required
 bin/magento magebundle:controller:create
 ```
 Creates a Controller namespace and Action class in specified module.
-Developer is prompted to choose an Action template from the ones available in <code>mage-bundle/http-controller</code> directory.
+Developer is prompted to choose a router (either standard or admin), and an Action template from the ones available in <code>mage-bundle/http-controller</code> or <code>mage-bundle/adminhtml-http-controller</code> directories.
 
 ```bash
 bin/magento magebundle:etc:xml:create
@@ -107,6 +107,11 @@ Creates an Observer class in specified Company/Module.
 bin/magento magebundle:plugin:create
 ```
 Creates a Plugin class in specified Company/Module.
+
+```bash
+bin/magento magebundle:cron:create
+```
+Creates a Cron class in specified Company/Module.
 
 
 ### Templates Data Provider

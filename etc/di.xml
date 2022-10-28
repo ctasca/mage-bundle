@@ -11,6 +11,7 @@
     <preference for="Ctasca\MageBundle\Api\MakerViewModelInterface" type="Ctasca\MageBundle\Model\Maker\ViewModel"/>
     <preference for="Ctasca\MageBundle\Api\MakerObserverInterface" type="Ctasca\MageBundle\Model\Maker\Observer"/>
     <preference for="Ctasca\MageBundle\Api\MakerPluginInterface" type="Ctasca\MageBundle\Model\Maker\Plugin"/>
+    <preference for="Ctasca\MageBundle\Api\MakerCronInterface" type="Ctasca\MageBundle\Model\Maker\Cron"/>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
@@ -25,6 +26,7 @@
                 <item name="createViewModelCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateViewModelCommand</item>
                 <item name="createObserverCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateObserverCommand</item>
                 <item name="createPluginCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreatePluginCommand</item>
+                <item name="createCronCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateCronCommand</item>
             </argument>
         </arguments>
     </type>
