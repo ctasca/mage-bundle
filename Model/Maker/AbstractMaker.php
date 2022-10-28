@@ -167,7 +167,7 @@ abstract class AbstractMaker implements MakerInterface
         $appCodeLocator = $this->getAppCodeLocator($locatorDirectory);
         $appCodeDirectory = $appCodeLocator->locate();
         list($template, $fileTemplate) = $this->getTemplateContentFromChoice($input, $output, $templateDirectory);
-        $this->setDataProviderCustomData($dataProvider, $template);
+        $this->setDataProviderCustomData($dataProvider, $templateDirectory . DIRECTORY_SEPARATOR . $template);
         $file = $this->makeFile($dataProvider, $fileTemplate);
         if (empty($filename)) {
             $this->writeFile(

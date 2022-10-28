@@ -5,7 +5,10 @@ namespace {{namespace}};
 
 class {{class_name}}
 {
-    public function execute()
+    /**
+     * @return void
+     */
+    public function execute(): void
     {
 
     }
