@@ -113,6 +113,21 @@ bin/magento magebundle:cron:create
 ```
 Creates a Cron class in specified Company/Module.
 
+```bash
+bin/magento magebundle:console-command:create
+```
+Creates a Console Command class in specified Company/Module.
+
+```bash
+bin/magento magebundle:data-patch:create
+```
+Creates a Setup Data Patch class in specified Company/Module.
+
+```bash
+bin/magento magebundle:schema-patch:create
+```
+Creates a Setup Schema Patch class in specified Company/Module.
+
 
 ### Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>

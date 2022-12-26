@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
 
-use Ctasca\MageBundle\Api\MakerConsoleCommandInterface;
+use Ctasca\MageBundle\Api\MakerSchemaPatchInterface;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
-class ConsoleCommand extends AbstractMaker implements MakerConsoleCommandInterface
+class SchemaPatch extends AbstractMaker implements MakerSchemaPatchInterface
 {
     /**
      * {@inheritdoc}
@@ -17,22 +16,22 @@ class ConsoleCommand extends AbstractMaker implements MakerConsoleCommandInterfa
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter Console Command class name. It can be also a directory. (e.g. Data or Test/Data)');
-        QuestionValidator::validatePath(
+        $question = $this->questionFactory->create('Enter Schema Patch class name. File is created in Setup/Patch/Schema directory.');
+        QuestionValidator::validateUcFirst(
             $question,
-            "Console Command class name is not valid.",
+            "Schema Patch class name is not valid.",
             self::MAX_QUESTION_ATTEMPTS
         );
-        $consoleCommandPath = $this->questionHelper->ask($input, $output, $question);
+        $schemaPatchClassname = $this->questionHelper->ask($input, $output, $question);
         try {
             $this->writeCommonDataClassByPath(
-                $consoleCommandPath,
+                $schemaPatchClassname,
                 $moduleName,
-                'Console',
-                self::CONSOLE_COMMAND_TEMPLATES_DIR,
+                'Setup/Patch/Schema',
+                self::SCHEMA_PATCH_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Console Command created in app/code/%s"
+                "Setup Schema Patch created in app/code/%s"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
