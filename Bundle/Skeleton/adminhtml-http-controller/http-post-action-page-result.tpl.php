@@ -13,6 +13,13 @@ use Magento\Framework\View\Result\Page;
 class {{class_name}} extends Action implements HttpPostActionInterface
 {
     /**
+    * Authorization level of a basic admin session
+    *
+    * @see _isAllowed()
+    */
+    const ADMIN_RESOURCE = '{{module}}::';
+
+    /**
      * @param Context $context
      * @param RequestInterface $request
      * @param PageFactory $resultPageFactory
