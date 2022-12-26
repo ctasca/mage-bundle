@@ -4,9 +4,6 @@
 composer require --dev ctasca/mage-bundle
 ```
 ### To move template files to Magento root dev/ directory
-<p>This should happen automatically after installing the module.</p>
-<p><code>post-install-cmd:</code> occurs after the install command has been executed with a lock file present.</p>
-<p>If it doesn't, it is possible to manually execute the composer post install command with the following:</p>
 
 ```bash
 cd <magento_root>/vendor/ctasca/mage-bundle && composer run-script post-install-cmd

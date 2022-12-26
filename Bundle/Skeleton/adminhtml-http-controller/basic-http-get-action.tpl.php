@@ -16,8 +16,11 @@ class {{class_name}} extends Action implements HttpGetActionInterface
     */
     const ADMIN_RESOURCE = '{{module}}::';
 
+    /**
+     * @param Context $context
+     */
     public function __construct(
-        Context $context
+        private readonly Context $context
     ) {
         parent::__construct($context);
     }
