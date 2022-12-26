@@ -313,7 +313,7 @@ abstract class AbstractMaker implements MakerInterface
                 $template
             ]
         );
-        /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocatorFactory */
+        /** @var \Ctasca\MageBundle\Model\Template\CustomData\Locator  $customDataLocator */
         $customDataLocator = $this->customDataLocatorFactory->create(['dirname' => '']);
         $customDataLocator->setTemplateFilename($template);
         $customData = $customDataLocator->getCustomData();

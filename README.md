@@ -1,7 +1,7 @@
 # ctasca/mage-bundle
 ### Installation
 ```bash
-composer require --dev ctasca/mage-bundle
+composer require --dev ctasca/mage-bundle:dev-main
 ```
 ### To move template files to Magento root dev/ directory
 
@@ -125,6 +125,12 @@ bin/magento magebundle:schema-patch:create
 ```
 Creates a Setup Schema Patch class in specified Company/Module.
 
+```bash
+bin/magento magebundle:api-interface:create
+```
+<p>Creates an API interface in specified Company/Module. Templates can be chosen after specifying the area where the template applies to.</p>
+<p>For functional API interfaces, the generated file will be created in the Company/Module/Api directory</p>
+<p>For data API interfaces, the generated file will be created in the Company/Module/Api/Data directory</p>
 
 ### Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>

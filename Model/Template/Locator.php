@@ -71,6 +71,14 @@ class Locator extends AbstractLocator
     /**
      * @return array
      */
+    public function getApiAreaChoices(): array
+    {
+        return ['functional', 'data'];
+    }
+
+    /**
+     * @return array
+     */
     public function getRouteChoices(): array
     {
         return ['standard', 'admin'];

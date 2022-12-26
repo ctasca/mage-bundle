@@ -15,6 +15,7 @@
     <preference for="Ctasca\MageBundle\Api\MakerConsoleCommandInterface" type="Ctasca\MageBundle\Model\Maker\ConsoleCommand"/>
     <preference for="Ctasca\MageBundle\Api\MakerDataPatchInterface" type="Ctasca\MageBundle\Model\Maker\DataPatch"/>
     <preference for="Ctasca\MageBundle\Api\MakerSchemaPatchInterface" type="Ctasca\MageBundle\Model\Maker\SchemaPatch"/>
+    <preference for="Ctasca\MageBundle\Api\MakerApiInterfaceInterface" type="Ctasca\MageBundle\Model\Maker\ApiInterface"/>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
@@ -33,6 +34,7 @@
                 <item name="createConsoleCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateConsoleCommandCommand</item>
                 <item name="createDataPatchCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateDataPatchCommand</item>
                 <item name="createSchemaPatchCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateSchemaPatchCommand</item>
+                <item name="createApiInterfaceCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateApiInterfaceCommand</item>
             </argument>
         </arguments>
     </type>
