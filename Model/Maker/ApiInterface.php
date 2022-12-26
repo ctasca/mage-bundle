@@ -26,12 +26,12 @@ class ApiInterface extends AbstractMaker implements MakerApiInterfaceInterface
             );
             $question->setErrorMessage('Chosen area %s is invalid.');
             $area = $this->questionHelper->ask($input, $output, $question);
-            $areaDirectory = $area . DIRECTORY_SEPARATOR;
+            $areaDirectory = $area;
             if (self::FUNCTIONAL_AREA_NAME === $area) {
                 $areaDirectory = '';
             }
             if (!empty($areaDirectory)) {
-                $pathArray = [$this->makeModulePathFromName($moduleName), 'Api' . DIRECTORY_SEPARATOR . ucfirst($areaDirectory)];
+                $pathArray = [$this->makeModulePathFromName($moduleName), 'Api', ucfirst($areaDirectory)];
             } else {
                 $pathArray = [$this->makeModulePathFromName($moduleName), 'Api'];
             }
