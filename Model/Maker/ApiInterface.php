@@ -31,7 +31,7 @@ class ApiInterface extends AbstractMaker implements MakerApiInterfaceInterface
                 $areaDirectory = '';
             }
             if (!empty($areaDirectory)) {
-                $pathArray = [$this->makeModulePathFromName($moduleName), 'Api', ucfirst($areaDirectory)];
+                $pathArray = [$this->makeModulePathFromName($moduleName), 'Api' . DIRECTORY_SEPARATOR . ucfirst($areaDirectory)];
             } else {
                 $pathArray = [$this->makeModulePathFromName($moduleName), 'Api'];
             }
