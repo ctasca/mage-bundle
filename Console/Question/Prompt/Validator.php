@@ -27,7 +27,7 @@ class Validator
      *  - /Dir/AnotherDir/ClassName
      *  - Dir/AnotherDir/ClassName/
      */
-    const PATH_VALIDATION_PATTERN = '/^[A-Z]([A-Z]|[a-zA-Z0-9]{0,}[\/]{0,})+([A-Z][a-zA-Z0-9]{0,})+$/';
+    const PATH_VALIDATION_PATTERN = '/^[A-Z]([\w]{0,}[\/]{0,})+([A-Z]|[\w]{0,})+[^\/]$/';
 
     /**
      * @param Question $question
