@@ -1,16 +1,35 @@
 # ctasca/mage-bundle
-### Installation
+
+## Installation
 ```bash
 composer require --dev ctasca/mage-bundle:dev-main
 ```
-### To move template files to Magento root dev/ directory
+### Copy template files to Magento root dev/ directory
 
 ```bash
 cd <magento_root>/vendor/ctasca/mage-bundle && composer run-script post-install-cmd
 ```
+<p>After executing the above command, check that <code>dev/</code> directory of your Magento installation contains a <code>mage-bundle/</code> directory.</p>
 
-#### Note:
-<p>Template files are written in PHP version 8.1</p>
+### Enable the module
+```bash
+bin/magento module:enable Ctasca_MageBundle
+```
+
+### Run <code>setup:upgrade</code> command
+```bash
+bin/magento setup:upgrade
+```
+
+### Run <code>setup:di:compile</code> command (optional)
+<p>If Magento is running in <code>production</code> mode you will need to also run:</p>
+
+```bash
+bin/magento setup:di:compile
+```
+
+## About template files:
+<p>Template files are written in PHP version 8.1.</p>
 <p>For example the <code>http-get-action-json-result.tpl.php</code> contains the following</p>
 
 <pre>
@@ -50,7 +69,11 @@ class {{class_name}} implements HttpGetActionInterface
 <p><strong>Note:</strong> When executing the <code>magebundle:etc:xml:create</code> command, files are generated with the same name as the template file.<br>To create your own templates, use the filename for the xml file to be generated appending __$STRING to the template filename.<br>For example to define your own global acl.xml template, create, for example, the template file naming like so: acl__custom.tpl.xml. Then simply place it in the dev/mage-bundle/etc/global directory and select it when executing the create command.</p>
 <p><strong>IMPORTANT:</strong> If a filename already exists in a module's directory, the create command will not be executed and an error is output to the console.<br>This is to prevent overwriting an existing file.</p>
 
-### Available commands
+<p>For a list of the templates defined within the module go to...</p>
+
+[The repository wiki page](https://github.com/ctasca/mage-bundle/wiki)
+
+## Available commands
 ```bash
 bin/magento magebundle:module:create
 ```
@@ -134,7 +157,7 @@ bin/magento magebundle:api-interface:create
 <p>For functional API interfaces, the generated file will be created in the Company/Module/Api directory</p>
 <p>For data API interfaces, the generated file will be created in the Company/Module/Api/Data directory</p>
 
-### Templates Data Provider
+## Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>
 <p>In order to do so, simply create a php file in the <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/#path-to-template#</code> directory, naming the file exactly as the template file that is being generated and returning an array with setter methods as keys and corresponding values.</p>
 <p>For <code>Company/Module/etc</code> directories, these are stored in a sub-directory <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/etc/#area#/#template_name#.tpl.php</code></p>
