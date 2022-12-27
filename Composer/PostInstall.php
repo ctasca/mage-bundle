@@ -33,7 +33,7 @@ class PostInstall
     /**
      * Post install script
      *
-     * Copy files from Bundle/Skeleton directory to Magento pub/media directory
+     * Copy files from Bundle/Skeleton directory to Magento /dev directory
      * Allows defining developer own templates
      *
      * @param Event $event
