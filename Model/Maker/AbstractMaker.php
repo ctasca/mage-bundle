@@ -175,26 +175,21 @@ abstract class AbstractMaker implements MakerInterface
         list($template, $fileTemplate) = $this->getTemplateContentFromChoice($input, $output, $templateDirectory);
         $this->setDataProviderCustomData($dataProvider, $templateDirectory . DIRECTORY_SEPARATOR . $template);
         $file = $this->makeFile($dataProvider, $fileTemplate);
-        try {
-            if (empty($filename)) {
-                $template = preg_replace(self::CUSTOM_TEMPLATE_PATTERN_MATCH, '', $template);
-                $this->writeFile(
-                    $appCodeLocator,
-                    $appCodeDirectory,
-                    str_replace('.tpl', '', $template),
-                    $file
-                );
-            } else {
-                $this->writeFile(
-                    $appCodeLocator,
-                    $appCodeDirectory,
-                    $filename . $fileExtension,
-                    $file
-                );
-            }
-        } catch (FileExistsException $e) {
-            $output->writeln('<error>' . $e->getMessage() . '</error>');
-            throw new FileExistsException($e->getMessage());
+        if (empty($filename)) {
+            $template = preg_replace(self::CUSTOM_TEMPLATE_PATTERN_MATCH, '', $template);
+            $this->writeFile(
+                $appCodeLocator,
+                $appCodeDirectory,
+                str_replace('.tpl', '', $template),
+                $file
+            );
+        } else {
+            $this->writeFile(
+                $appCodeLocator,
+                $appCodeDirectory,
+                $filename . $fileExtension,
+                $file
+            );
         }
     }
 
@@ -380,6 +375,8 @@ abstract class AbstractMaker implements MakerInterface
         $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
         if (!is_a($e, FileExistsException::class)) {
             $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
+        } else {
+            $output->writeln('<error>' . $e->getMessage() . '</error>');
         }
     }
 }
