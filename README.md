@@ -65,7 +65,7 @@ class {{class_name}} implements HttpGetActionInterface
 }
 </pre>
 
-<p>To set your own templates just place them in the <code>MAGNETO_ROOT/dev/mage-bundle/$TEMPLATES_DIRECTORY/</code> directory and choose the template when executing the magebundle create commands.</p>
+<p>To set your own templates just place them in the <code>MAGENTO_ROOT/dev/mage-bundle/$TEMPLATES_DIRECTORY/</code> directory and choose the template when executing the magebundle create commands.</p>
 <p><strong>Note:</strong> When executing the <code>magebundle:etc:xml:create</code> command, files are generated with the same name as the template file.<br>To create your own templates, use the filename for the xml file to be generated appending __$STRING to the template filename.<br>For example to define your own global acl.xml template, create, for example, the template file naming like so: acl__custom.tpl.xml. Then simply place it in the dev/mage-bundle/etc/global directory and select it when executing the create command.</p>
 <p><strong>IMPORTANT:</strong> If a filename already exists in a module's directory, the create command will not be executed and an error is output to the console.<br>This is to prevent overwriting an existing file.</p>
 
