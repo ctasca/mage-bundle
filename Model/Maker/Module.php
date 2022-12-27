@@ -33,7 +33,7 @@ class Module extends AbstractMaker implements MakerModuleInterface
             $module = $companyName . '_' . $moduleName;
             /** @var \Ctasca\MageBundle\Model\App\Code\Locator $appCodeLocator */
             $appCodeLocator = $this->appCodeLocatorFactory->create(
-                ['dirname' => $this->makeModulePathFromName($moduleName)]
+                ['dirname' => $this->makeModulePathFromName($module)]
             );
             $moduleDirectory = $appCodeLocator->locate();
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
