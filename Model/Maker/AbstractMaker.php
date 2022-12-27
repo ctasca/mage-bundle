@@ -192,6 +192,7 @@ abstract class AbstractMaker implements MakerInterface
             }
         } catch (FileExistsException $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
+            throw new FileExistsException($e->getMessage());
         }
     }
 
