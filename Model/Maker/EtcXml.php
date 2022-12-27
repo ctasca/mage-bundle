@@ -26,7 +26,7 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             $question->setErrorMessage('Chosen area %s is invalid.');
             $area = $this->questionHelper->ask($input, $output, $question);
             $areaDirectory = $area . DIRECTORY_SEPARATOR;
-            if (self::BASE_AREA_NAME === $area) {
+            if (self::GLOBAL_AREA_NAME === $area) {
                 $areaDirectory = '';
             }
             $pathArray = [$this->makeModulePathFromName($moduleName), self::XML_TEMPLATES_DIR, $areaDirectory];

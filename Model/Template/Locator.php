@@ -65,7 +65,7 @@ class Locator extends AbstractLocator
      */
     public function getAreaChoices(): array
     {
-        return ['base', 'adminhtml', 'frontend', 'crontab', 'webapi_rest', 'webapi_soap'];
+        return ['global', 'adminhtml', 'frontend', 'crontab', 'webapi_rest', 'webapi_soap'];
     }
 
     /**
