@@ -133,8 +133,8 @@ abstract class AbstractMaker implements MakerInterface
     protected function writeFile(LocatorInterface $locator, string $directory, string $filename, string $bytes): void
     {
         $writer = $locator->getWrite($directory);
-        if (file_exists($directory . DIRECTORY_SEPARATOR . $filename)) {
-            throw new FileExistsException("File $directory" . DIRECTORY_SEPARATOR . "$filename already exists");
+        if (file_exists($directory . $filename)) {
+            throw new FileExistsException("File $filename already exists in $directory");
         }
         $writer->writeFile($filename, $bytes);
     }
@@ -174,20 +174,24 @@ abstract class AbstractMaker implements MakerInterface
         list($template, $fileTemplate) = $this->getTemplateContentFromChoice($input, $output, $templateDirectory);
         $this->setDataProviderCustomData($dataProvider, $templateDirectory . DIRECTORY_SEPARATOR . $template);
         $file = $this->makeFile($dataProvider, $fileTemplate);
-        if (empty($filename)) {
-            $this->writeFile(
-                $appCodeLocator,
-                $appCodeDirectory,
-                str_replace('.tpl', '', $template),
-                $file
-            );
-        } else {
-            $this->writeFile(
-                $appCodeLocator,
-                $appCodeDirectory,
-                $filename . $fileExtension,
-                $file
-            );
+        try {
+            if (empty($filename)) {
+                $this->writeFile(
+                    $appCodeLocator,
+                    $appCodeDirectory,
+                    str_replace('.tpl', '', $template),
+                    $file
+                );
+            } else {
+                $this->writeFile(
+                    $appCodeLocator,
+                    $appCodeDirectory,
+                    $filename . $fileExtension,
+                    $file
+                );
+            }
+        } catch (FileExistsException $e) {
+            $output->writeln('<error>' . $e->getMessage() . '</error>');
         }
     }
 
