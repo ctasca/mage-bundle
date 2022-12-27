@@ -19,6 +19,7 @@ use Ctasca\MageBundle\Model\File\MakerFactory as FileMakerFactory;
 use Ctasca\MageBundle\Console\Question\Factory as QuestionFactory;
 use Ctasca\MageBundle\Console\Question\Choice\Factory as QuestionChoiceFactory;
 use Ctasca\MageBundle\Logger\Logger;
+use Ctasca\MageBundle\Exception\FileExistsException;
 
 abstract class AbstractMaker implements MakerInterface
 {
@@ -127,10 +128,14 @@ abstract class AbstractMaker implements MakerInterface
      * @param string $filename
      * @param string $bytes
      * @return void
+     * @throws FileExistsException
      */
     protected function writeFile(LocatorInterface $locator, string $directory, string $filename, string $bytes): void
     {
         $writer = $locator->getWrite($directory);
+        if (file_exists($directory . DIRECTORY_SEPARATOR . $filename)) {
+            throw new FileExistsException("File $directory" . DIRECTORY_SEPARATOR . "$filename already exists");
+        }
         $writer->writeFile($filename, $bytes);
     }
 
