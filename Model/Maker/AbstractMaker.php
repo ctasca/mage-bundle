@@ -177,6 +177,7 @@ abstract class AbstractMaker implements MakerInterface
         $file = $this->makeFile($dataProvider, $fileTemplate);
         try {
             if (empty($filename)) {
+                $template = preg_replace(self::CUSTOM_TEMPLATE_PATTERN_MATCH, '', $template);
                 $this->writeFile(
                     $appCodeLocator,
                     $appCodeDirectory,
