@@ -375,6 +375,8 @@ abstract class AbstractMaker implements MakerInterface
     protected function logAndOutputErrorMessage(\Exception $e, OutputInterface $output): void
     {
         $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
-        $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
+        if (!is_a($e, FileExistsException::class)) {
+            $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
+        }
     }
 }
