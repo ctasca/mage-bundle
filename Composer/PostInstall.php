@@ -43,7 +43,8 @@ class PostInstall
     public static function copyTemplates(Event $event): void
     {
         $magentoFile = new File();
-        $rootMagentoDirectory = realpath(self::MAGENTO_ROOT_REALPATH_ARGUMENT);
+        $driver = (new DriverPool())->getDriver(DriverPool::FILE);
+        $rootMagentoDirectory = $driver->getRealPath(self::MAGENTO_ROOT_REALPATH_ARGUMENT);
         $readFactory = new ReadFactory(new DriverPool());
         $writeFactory = new WriteFactory(new DriverPool());
         $magentoFilesystem = new MagentoFilesystem(
