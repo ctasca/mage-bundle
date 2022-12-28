@@ -51,7 +51,7 @@ class Module extends AbstractMaker implements MakerModuleInterface
             // write module.xml file from choice. Note: no need to provide a filename as it will be picked up from
             // the template filename
             $this->writeFileFromTemplateChoice(
-                $this->makeModulePathFromName($moduleName) . DIRECTORY_SEPARATOR . 'etc',
+                $this->makeModulePathFromName($module) . DIRECTORY_SEPARATOR . 'etc',
                 $input,
                 $output,
                 self::MODULE_XML_TEMPLATES_DIR,

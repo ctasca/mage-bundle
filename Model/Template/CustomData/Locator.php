@@ -71,7 +71,7 @@ class Locator extends AbstractLocator
                     debug_backtrace()[1]['function']
                 ]
             );
-            return include_once ($devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename());
+            return include_once $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
         }
         $this->logger->info(
             __METHOD__ . " Did not get custom data file",

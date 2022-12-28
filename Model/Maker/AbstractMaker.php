@@ -134,9 +134,9 @@ abstract class AbstractMaker implements MakerInterface
     {
         $writer = $locator->getWrite($directory);
         $this->logger->info(__METHOD__ . " Writing file $filename in $directory");
-        if ($locator->getIoFile()->fileExists(
-            rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename)
-        ) {
+        if ($locator->getIoFile()->fileExists(rtrim(
+            $directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename
+        )) {
             throw new FileExistsException("File $filename already exists in $directory");
         }
         $writer->writeFile($filename, $bytes);

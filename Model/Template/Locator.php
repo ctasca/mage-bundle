@@ -112,7 +112,7 @@ class Locator extends AbstractLocator
             $this->file->fileExists($devTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
         ) {
             return $devTemplateDir . DIRECTORY_SEPARATOR;
-        } elseif (file_exists($devTemplateDir)) {
+        } elseif ($this->file->fileExists($devTemplateDir)) {
             return $devTemplateDir . DIRECTORY_SEPARATOR;
         }
         return null;

@@ -45,7 +45,7 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             );
             $output->writeln(
                 sprintf(
-                    '<info>Completed! Xml file successfully created in app/code/%s</info>',
+                    '<info>Completed! XML file successfully created in app/code/%s</info>',
                     $etcDirectoryPath
                 )
             );

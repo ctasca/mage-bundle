@@ -26,7 +26,10 @@ class Locator extends AbstractLocator
             ->getAbsolutePath(self::CODE_DIR . $this->dirname);
         try {
             $this->file->checkAndCreateFolder($directory);
-            $this->logger->info(__METHOD__ . " Locating directory -> caller:", [$directory, debug_backtrace()[1]['function']]);
+            $this->logger->info(
+                __METHOD__ . " Locating directory -> caller:",
+                [$directory, debug_backtrace()[1]['function']]
+            );
             return $directory;
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . " Exception during creating/locating directory", [$directory]);
