@@ -132,11 +132,10 @@ abstract class AbstractMaker implements MakerInterface
      */
     protected function writeFile(LocatorInterface $locator, string $directory, string $filename, string $bytes): void
     {
+        $directory = rtrim($directory, DIRECTORY_SEPARATOR);
         $writer = $locator->getWrite($directory);
         $this->logger->info(__METHOD__ . " Writing file $filename in $directory");
-        if ($locator->getIoFile()->fileExists(rtrim(
-            $directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename
-        )) {
+        if ($locator->getIoFile()->fileExists($directory . DIRECTORY_SEPARATOR. $filename)) {
             throw new FileExistsException("File $filename already exists in $directory");
         }
         $writer->writeFile($filename, $bytes);
