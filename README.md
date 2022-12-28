@@ -159,27 +159,16 @@ bin/magento magebundle:api-interface:create
 
 ## Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>
-<p>In order to do so, simply create a php file in the <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/#path-to-template#</code> directory, naming the file exactly as the template file that is being generated and returning an array with setter methods as keys and corresponding values.</p>
-<p>For <code>Company/Module/etc</code> directories, these are stored in a sub-directory <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/etc/#area#/#template_name#.tpl.php</code></p>
-<p>Values can be a string or an array.</p>
+<p>In order to do so, simply create a JSON file in the <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/#path-to-template#</code> directory, naming the file exactly as the template file that is being generated and defining a JSON Object with setter methods as keys and their corresponding values.</p>
+<p>As an example, for XML files generated in <code>Company/Module/etc</code> directories, custom data should be stored in <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/etc/#area#/#template_name#.tpl.json</code></p>
 
 #### Example
-```php
-<?php
-return [
-   'setMyCustomValue' => 'custom_value'
-];
+```json
+{
+  "setTestNamespace" : "\\Ctasca\\MageBundle\\Test",
+  "setCustomDataArray" : ["First Value", "Second Value"]
+}
 ```
-#### Note:
-<p>After doing so it will be possible to use the placeholder <code>{{my_custom_value}}</code> in a template file.</p>
-<p>If <code>setMyCustomValue</code> provides an array, this will be imploded with <code>PHP_EOL</code> separator.</p>
-<p>Additional tabs characters should be defined in the array value like so:</p>
-
-
-```php
-<?php
-return [
-   'setMyCustomValue' => ["test", "\ttest2"]
-];
-```
+<p>After creating this JSON file, it will be possible to use the placeholder <code>{{test_namespace}}</code> in a template file.</p>
+<p>As <code>setCustomDataArray</code> provides an array, this will be imploded with <code>PHP_EOL</code> separator. To use it in your template files you would use the placeholder: <code>{{custom_data_array}}</code></p>
 
