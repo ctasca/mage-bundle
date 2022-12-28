@@ -6,7 +6,7 @@ namespace Ctasca\MageBundle\Composer;
 /**
  * Require composer autoload file
  */
-require_once (__DIR__ . '/../../../autoload.php');
+require_once(__DIR__ . '/../../../autoload.php');
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;

@@ -10,6 +10,7 @@ use Magento\Framework\Filesystem\Directory\ReadFactory;
 use Magento\Framework\Filesystem\Directory\WriteFactory;
 use Magento\Framework\Filesystem\Directory\Read;
 use Magento\Framework\Filesystem\Directory\Write;
+use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 use Ctasca\MageBundle\Logger\Logger;
 
 abstract class AbstractLocator implements LocatorInterface
@@ -19,6 +20,7 @@ abstract class AbstractLocator implements LocatorInterface
     protected ReadFactory $readFactory;
     protected WriteFactory $writeFactory;
     protected Logger $logger;
+    protected JsonSerializer $jsonSerializer;
     protected string $dirname;
     protected string $templateFilename = '';
 
@@ -28,6 +30,7 @@ abstract class AbstractLocator implements LocatorInterface
      * @param ReadFactory $readFactory
      * @param WriteFactory $writeFactory
      * @param Logger $logger
+     * @param JsonSerializer $jsonSerializer
      * @param string $dirname
      */
     public function __construct(
@@ -36,6 +39,7 @@ abstract class AbstractLocator implements LocatorInterface
         ReadFactory $readFactory,
         WriteFactory $writeFactory,
         Logger $logger,
+        JsonSerializer $jsonSerializer,
         string $dirname
     ) {
         $this->filesystem = $filesystem;
@@ -43,6 +47,7 @@ abstract class AbstractLocator implements LocatorInterface
         $this->readFactory = $readFactory;
         $this->writeFactory = $writeFactory;
         $this->logger = $logger;
+        $this->jsonSerializer = $jsonSerializer;
         $this->dirname = $dirname;
     }
 

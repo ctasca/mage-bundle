@@ -88,17 +88,6 @@ class Locator extends AbstractLocator
     }
 
     /**
-     * @return string
-     */
-    public function getCustomDataFilename(): string
-    {
-        if (strpos($this->getTemplateFilename(), '.xml') !== false) {
-            return str_replace('xml', 'php', $this->getTemplateFilename());
-        }
-        return $this->getTemplateFilename();
-    }
-
-    /**
      * Returns whether template file is found in dev/mage-bundle/* directory
      *
      * @return string|null

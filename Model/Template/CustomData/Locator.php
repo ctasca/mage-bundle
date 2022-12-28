@@ -22,10 +22,7 @@ class Locator extends AbstractLocator
      */
     public function setTemplateFilename(string $templateFilename): Locator
     {
-        if (strpos($templateFilename, '.xml') !== false) {
-            $templateFilename = str_replace('.xml', '.php', $templateFilename);
-        }
-        $this->templateFilename = $templateFilename;
+        $this->templateFilename = str_replace(['.xml', '.php'], ['.json'], $templateFilename);
         return $this;
     }
 
@@ -71,7 +68,20 @@ class Locator extends AbstractLocator
                     debug_backtrace()[1]['function']
                 ]
             );
-            return include_once $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
+            $fileContent = $this->getRead($devMageBundleCustomDataDir)
+                ->readFile($this->getTemplateFilename());
+
+            $unserializedData = $this->jsonSerializer->unserialize($fileContent);
+
+            $this->logger->info(
+                __METHOD__ . " Unserialized Data",
+                [
+                    $unserializedData,
+                    debug_backtrace()[1]['function']
+                ]
+            );
+
+            return $this->jsonSerializer->unserialize($fileContent);
         }
         $this->logger->info(
             __METHOD__ . " Did not get custom data file",
