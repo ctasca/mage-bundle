@@ -17,7 +17,9 @@ class Model extends AbstractMaker implements MakerModelInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter Model class name. It can be also a directory. (e.g. Test or Test/MyModel)');
+        $question = $this->questionFactory->create(
+            'Enter Model class name. It can be also a directory. (e.g. Test or Test/MyModel)'
+        );
         QuestionValidator::validatePath(
             $question,
             "Model class name is not valid.",

@@ -5,6 +5,7 @@ namespace Ctasca\MageBundle\Model\Template;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Ctasca\MageBundle\Model\AbstractLocator;
+use Ctasca\MageBundle\Exception\CouldNotLocateTemplateException;
 
 class Locator extends AbstractLocator
 {
@@ -32,7 +33,7 @@ class Locator extends AbstractLocator
     public function locate(): string
     {
         $templateFileDirectory = $this->isTemplateFoundInDevDirectory();
-        if (!is_null($templateFileDirectory)) {
+        if ($templateFileDirectory !== null) {
             $this->logger->info(
                 __METHOD__ . " Locating directory -> caller:",
                 [$templateFileDirectory, debug_backtrace()[1]['function']]
@@ -40,14 +41,16 @@ class Locator extends AbstractLocator
             return $templateFileDirectory;
         }
         $templateFileDirectory = $this->isTemplateFoundInSkeletonDirectory();
-        if (!is_null($templateFileDirectory)) {
+        if ($templateFileDirectory !== null) {
             $this->logger->info(
                 __METHOD__ . " Locating directory -> caller:",
                 [$templateFileDirectory, debug_backtrace()[1]['function']]
             );
             return $templateFileDirectory;
         }
-        throw new \Exception("Could not locate template file: " . $this->getTemplateFilename());
+        throw new CouldNotLocateTemplateException(
+            "Could not locate template file: " . $this->getTemplateFilename()
+        );
     }
 
     /**
@@ -89,7 +92,7 @@ class Locator extends AbstractLocator
      */
     public function getCustomDataFilename(): string
     {
-        if (strpos($this->getTemplateFilename(), '.xml') > 0) {
+        if (strpos($this->getTemplateFilename(), '.xml') !== false) {
             return str_replace('xml', 'php', $this->getTemplateFilename());
         }
         return $this->getTemplateFilename();
@@ -97,6 +100,7 @@ class Locator extends AbstractLocator
 
     /**
      * Returns whether template file is found in dev/mage-bundle/* directory
+     *
      * @return string|null
      */
     private function isTemplateFoundInDevDirectory(): ?string
@@ -104,7 +108,9 @@ class Locator extends AbstractLocator
         $devTemplateDir = $this->filesystem
             ->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath('dev' . DIRECTORY_SEPARATOR . self::DEV_MAGEBUNDLE_DIRNAME . $this->dirname);
-        if (!empty($this->getTemplateFilename()) && file_exists($devTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
+        if (!empty($this->getTemplateFilename()) &&
+            $this->file->fileExists($devTemplateDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
+        ) {
             return $devTemplateDir . DIRECTORY_SEPARATOR;
         } elseif (file_exists($devTemplateDir)) {
             return $devTemplateDir . DIRECTORY_SEPARATOR;
@@ -114,6 +120,7 @@ class Locator extends AbstractLocator
 
     /**
      * Returns whether template file is found in vendor/ctasca/mage-bundle/Bundle/Skeleton/* directory
+     *
      * @return string|null
      */
     private function isTemplateFoundInSkeletonDirectory(): ?string
@@ -122,9 +129,11 @@ class Locator extends AbstractLocator
             ->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath(self::VENDOR_SKELETON_PATH_DIR . $this->dirname);
 
-        if (!empty($this->getTemplateFilename()) && file_exists($skeletonDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())) {
+        if (!empty($this->getTemplateFilename()) &&
+            $this->file->fileExists($skeletonDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
+        ) {
             return $skeletonDir . DIRECTORY_SEPARATOR;
-        } elseif (file_exists($skeletonDir)) {
+        } elseif ($this->file->fileExists($skeletonDir)) {
             return $skeletonDir . DIRECTORY_SEPARATOR;
         }
         return null;

@@ -6,7 +6,7 @@ namespace Ctasca\MageBundle\Composer;
 /**
  * Require composer autoload file
  */
-require __DIR__ . '/../../../autoload.php';
+require_once (__DIR__ . '/../../../autoload.php');
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
@@ -18,6 +18,7 @@ use Magento\Framework\Filesystem\Directory\ReadFactory;
 use Magento\Framework\Filesystem\Directory\WriteFactory;
 use Magento\Framework\Filesystem\DriverPool;
 use Ctasca\MageBundle\Api\LocatorInterface;
+
 /**
  * Class used in composer post install command script
  */

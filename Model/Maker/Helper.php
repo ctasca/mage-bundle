@@ -17,7 +17,9 @@ class Helper extends AbstractMaker implements MakerHelperInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter Helper class name. It can be also a directory. (e.g. Data or Test/Data)');
+        $question = $this->questionFactory->create(
+            'Enter Helper class name. It can be also a directory. (e.g. Data or Test/Data)'
+        );
         QuestionValidator::validatePath(
             $question,
             "Helper class name is not valid.",

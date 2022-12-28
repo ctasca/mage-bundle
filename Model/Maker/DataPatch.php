@@ -17,7 +17,9 @@ class DataPatch extends AbstractMaker implements MakerDataPatchInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter Data Patch class name. File is created in Setup/Patch/Data directory.');
+        $question = $this->questionFactory->create(
+            'Enter Data Patch class name. File is created in Setup/Patch/Data directory.'
+        );
         QuestionValidator::validateUcFirst(
             $question,
             "Data Patch class name is not valid.",

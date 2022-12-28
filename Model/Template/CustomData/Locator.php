@@ -22,7 +22,7 @@ class Locator extends AbstractLocator
      */
     public function setTemplateFilename(string $templateFilename): Locator
     {
-        if (strpos($templateFilename, '.xml', ) > 0) {
+        if (strpos($templateFilename, '.xml') !== false) {
             $templateFilename = str_replace('.xml', '.php', $templateFilename);
         }
         $this->templateFilename = $templateFilename;
@@ -38,7 +38,8 @@ class Locator extends AbstractLocator
             ->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath(self::DEV_CUSTOM_DATA_DIR);
         $this->file->checkAndCreateFolder($customDataDirectory);
-        $this->logger->info(__METHOD__ . " Locating directory -> caller:",
+        $this->logger->info(
+            __METHOD__ . " Locating directory -> caller:",
             [
                 $customDataDirectory,
                 debug_backtrace()[1]['function']
@@ -53,14 +54,15 @@ class Locator extends AbstractLocator
     public function getCustomData(): array
     {
         $devMageBundleCustomDataDir = $this->locate();
-        $this->logger->info(__METHOD__ . " Locating file",
+        $this->logger->info(
+            __METHOD__ . " Locating file",
             [
                 $this->getTemplateFilename(),
                 debug_backtrace()[1]['function']
             ]
         );
         if (!empty($this->getTemplateFilename()) &&
-            file_exists($devMageBundleCustomDataDir . $this->getTemplateFilename())
+            $this->file->fileExists($devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
         ) {
             $this->logger->info(
                 __METHOD__ . " Found custom data file",
@@ -69,7 +71,7 @@ class Locator extends AbstractLocator
                     debug_backtrace()[1]['function']
                 ]
             );
-            return include $devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename();
+            return include_once ($devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename());
         }
         $this->logger->info(
             __METHOD__ . " Did not get custom data file",

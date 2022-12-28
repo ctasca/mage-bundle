@@ -17,7 +17,9 @@ class Observer extends AbstractMaker implements MakerObserverInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter Observer class name. It can be also a directory. (e.g. Data or Test/Data)');
+        $question = $this->questionFactory->create(
+            'Enter Observer class name. It can be also a directory. (e.g. Data or Test/Data)'
+        );
         QuestionValidator::validatePath(
             $question,
             "Observer class name is not valid.",

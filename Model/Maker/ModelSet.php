@@ -18,7 +18,9 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         // model name question
-        $question = $this->questionFactory->create('Enter Model class name. It can be also a directory. (e.g. Test or Test/MyModel)');
+        $question = $this->questionFactory->create(
+            'Enter Model class name. It can be also a directory. (e.g. Test or Test/MyModel)'
+        );
         QuestionValidator::validatePath(
             $question,
             "Model class name is not valid.",
@@ -47,14 +49,46 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
                 $modelPathArray = [$this->makeModulePathFromName($moduleName), 'Model'];
                 $useModelPathArray = [$this->makeModulePathFromName($moduleName), 'Model', $modelClassName];
                 $resourceModelPathArray = [$this->makeModulePathFromName($moduleName), 'Model', 'ResourceModel'];
-                $useResourceModelPathArray = [$this->makeModulePathFromName($moduleName), 'Model', 'ResourceModel', $modelClassName];
-                $collectionPathArray = [$this->makeModulePathFromName($moduleName), 'Model', 'ResourceModel', $modelClassName];
+                $useResourceModelPathArray = [
+                    $this->makeModulePathFromName($moduleName),
+                    'Model',
+                    'ResourceModel',
+                    $modelClassName
+                ];
+                $collectionPathArray = [
+                    $this->makeModulePathFromName($moduleName),
+                    'Model',
+                    'ResourceModel',
+                    $modelClassName
+                ];
             } else {
                 $modelPathArray = [$this->makeModulePathFromName($moduleName), 'Model', $pathToModel];
-                $useModelPathArray = [$this->makeModulePathFromName($moduleName), 'Model', $pathToModel, $modelClassName];
-                $resourceModelPathArray = [$this->makeModulePathFromName($moduleName), 'Model', 'ResourceModel', $pathToModel];
-                $useResourceModelPathArray = [$this->makeModulePathFromName($moduleName), 'Model', 'ResourceModel', $pathToModel, $modelClassName];
-                $collectionPathArray = [$this->makeModulePathFromName($moduleName), 'Model', 'ResourceModel', $pathToModel, $modelClassName];
+                $useModelPathArray = [
+                    $this->makeModulePathFromName($moduleName),
+                    'Model',
+                    $pathToModel,
+                    $modelClassName
+                ];
+                $resourceModelPathArray = [
+                    $this->makeModulePathFromName($moduleName),
+                    'Model',
+                    'ResourceModel',
+                    $pathToModel
+                ];
+                $useResourceModelPathArray = [
+                    $this->makeModulePathFromName($moduleName),
+                    'Model',
+                    'ResourceModel',
+                    $pathToModel,
+                    $modelClassName
+                ];
+                $collectionPathArray = [
+                    $this->makeModulePathFromName($moduleName),
+                    'Model',
+                    'ResourceModel',
+                    $pathToModel,
+                    $modelClassName
+                ];
             }
             $modelDirectoryPath = $this->makePathFromArray($modelPathArray);
             $resourceModelDirectoryPath = $this->makePathFromArray($resourceModelPathArray);

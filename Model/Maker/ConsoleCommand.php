@@ -17,7 +17,9 @@ class ConsoleCommand extends AbstractMaker implements MakerConsoleCommandInterfa
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter Console Command class name. It can be also a directory. (e.g. Data or Test/Data)');
+        $question = $this->questionFactory->create(
+            'Enter Console Command class name. It can be also a directory. (e.g. Data or Test/Data)'
+        );
         QuestionValidator::validatePath(
             $question,
             "Console Command class name is not valid.",

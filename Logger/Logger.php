@@ -33,7 +33,7 @@ class Logger extends \Monolog\Logger
     /**
      * {@inheritdoc}
      */
-    public function info($message, array $context = array()): bool
+    public function info($message, array $context = []): bool
     {
         if ($this->isLoggingEnabled()) {
             return parent::info($message, $context);
@@ -44,7 +44,7 @@ class Logger extends \Monolog\Logger
     /**
      * {@inheritdoc}
      */
-    public function error($message, array $context = array()): bool
+    public function error($message, array $context = []): bool
     {
         if ($this->isLoggingEnabled()) {
             return parent::error($message, $context);

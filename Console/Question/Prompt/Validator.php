@@ -9,6 +9,7 @@ class Validator
 {
     /**
      * Module name validation pattern
+     * Validates module at command question
      */
     const MODULE_NAME_VALIDATION_PATTERN = '/[A-Z]+[A-Za-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}/';
 

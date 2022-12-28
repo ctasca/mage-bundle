@@ -17,7 +17,9 @@ class Block extends AbstractMaker implements MakerBlockInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter Block class name. It can be also a directory. (e.g. Test or Test/MyBlock)');
+        $question = $this->questionFactory->create(
+            'Enter Block class name. It can be also a directory. (e.g. Test or Test/MyBlock)'
+        );
         QuestionValidator::validatePath(
             $question,
             "Block class name is not valid.",

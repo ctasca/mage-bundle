@@ -17,7 +17,9 @@ class CustomerData extends AbstractMaker implements MakerCustomerDataInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter CustomerData class name. It can be also a directory. (e.g. Data or Test/Data)');
+        $question = $this->questionFactory->create(
+            'Enter CustomerData class name. It can be also a directory. (e.g. Data or Test/Data)'
+        );
         QuestionValidator::validatePath(
             $question,
             "Customer Data Name is not valid.",

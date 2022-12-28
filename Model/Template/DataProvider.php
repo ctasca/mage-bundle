@@ -16,7 +16,8 @@ class DataProvider
     /**
      * @param Logger $logger
      */
-    public function __construct(Logger $logger) {
+    public function __construct(Logger $logger)
+    {
         $this->logger = $logger;
     }
 

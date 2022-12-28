@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Api;
 
+use Magento\Framework\Filesystem\Io\File;
+use Magento\Framework\Filesystem\Directory\Read;
+use Magento\Framework\Filesystem\Directory\Write;
+
 interface LocatorInterface
 {
     /**
@@ -37,4 +41,21 @@ interface LocatorInterface
      * @return string
      */
     public function locate(): string;
+
+    /**
+     * @param string $path
+     * @return Read
+     */
+    public function getRead(string $path): Read;
+
+    /**
+     * @param string $path
+     * @return Write
+     */
+    public function getWrite(string $path): Write;
+
+    /**
+     * @return File
+     */
+    public function getIoFile(): File;
 }

@@ -50,7 +50,7 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
                 )
             );
             $output->writeln('');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
         }
     }

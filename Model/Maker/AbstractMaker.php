@@ -105,7 +105,7 @@ abstract class AbstractMaker implements MakerInterface
     {
         /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
         $templateLocator = $this->templateLocatorFactory->create(['dirname' => $directory]);
-        if (!is_null($templateFilename)) {
+        if ($templateFilename !== null) {
             return [$templateLocator, $templateLocator->setTemplateFilename($templateFilename)->locate()];
         }
         return [$templateLocator, $templateLocator->locate()];
@@ -134,7 +134,9 @@ abstract class AbstractMaker implements MakerInterface
     {
         $writer = $locator->getWrite($directory);
         $this->logger->info(__METHOD__ . " Writing file $filename in $directory");
-        if (file_exists($directory . $filename) || file_exists($directory . DIRECTORY_SEPARATOR . $filename)) {
+        if ($locator->getIoFile()->fileExists(
+            rtrim($directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $filename)
+        ) {
             throw new FileExistsException("File $filename already exists in $directory");
         }
         $writer->writeFile($filename, $bytes);
@@ -168,8 +170,7 @@ abstract class AbstractMaker implements MakerInterface
         DataProvider $dataProvider,
         string $filename = '',
         string $fileExtension = '.php'
-    ): void
-    {
+    ): void {
         $appCodeLocator = $this->getAppCodeLocator($locatorDirectory);
         $appCodeDirectory = $appCodeLocator->locate();
         list($template, $fileTemplate) = $this->getTemplateContentFromChoice($input, $output, $templateDirectory);
@@ -218,8 +219,7 @@ abstract class AbstractMaker implements MakerInterface
         InputInterface $input,
         OutputInterface $output,
         string $successMessage
-    ): void
-    {
+    ): void {
         list($pathToClass, $className, , $isOnlyClassName) = $this->extractPathParts($path);
         if ($isOnlyClassName) {
             $classPathArray = [$this->makeModulePathFromName($moduleName), $classDirectory];
@@ -291,8 +291,7 @@ abstract class AbstractMaker implements MakerInterface
         OutputInterface $output,
         string $templateDirectory,
         ?string $templateFilename = null
-    ): array
-    {
+    ): array {
         /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
         list($templateLocator, $locatedTemplateDirectory)  =
             $this->locateTemplateDirectory($templateDirectory, $templateFilename);

@@ -7,6 +7,7 @@ use Ctasca\MageBundle\Api\MakerSchemaPatchInterface;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
 class SchemaPatch extends AbstractMaker implements MakerSchemaPatchInterface
 {
     /**
@@ -16,7 +17,9 @@ class SchemaPatch extends AbstractMaker implements MakerSchemaPatchInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        $question = $this->questionFactory->create('Enter Schema Patch class name. File is created in Setup/Patch/Schema directory.');
+        $question = $this->questionFactory->create(
+            'Enter Schema Patch class name. File is created in Setup/Patch/Schema directory.'
+        );
         QuestionValidator::validateUcFirst(
             $question,
             "Schema Patch class name is not valid.",

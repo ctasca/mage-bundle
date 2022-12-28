@@ -28,7 +28,7 @@ class Maker implements FileMakerInterface
      */
     public function make(): string
     {
-        preg_match_all(self::DATA_PlACEHOLDER_PATTERN, $this->template, $matches);
+        preg_match_all(self::DATA_PLACEHOLDER_PATTERN, $this->template, $matches);
         $matchesIterator = new \ArrayIterator($matches[1]);
         while ($matchesIterator->valid()) {
             $match = $matchesIterator->current();

@@ -8,7 +8,7 @@ interface FileMakerInterface
     /**
      * Pattern to for preg_match_all function
      */
-    const DATA_PlACEHOLDER_PATTERN = '/{{([A-Za-z_]+)}}/';
+    const DATA_PLACEHOLDER_PATTERN = '/{{([A-Za-z_]+)}}/';
 
     /**
      * Replace placeholders with data provider data

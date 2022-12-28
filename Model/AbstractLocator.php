@@ -74,4 +74,12 @@ abstract class AbstractLocator implements LocatorInterface
     {
         return $this->writeFactory->create($path);
     }
+
+    /**
+     * @return File
+     */
+    public function getIoFile(): File
+    {
+        return $this->file;
+    }
 }
