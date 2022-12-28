@@ -2,7 +2,7 @@
 
 ## Installation
 ```bash
-composer require --dev ctasca/mage-bundle:dev-main
+composer require --dev ctasca/mage-bundle
 ```
 ### Copy template files to Magento root dev/ directory
 
