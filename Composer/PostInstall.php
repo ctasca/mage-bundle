@@ -3,11 +3,6 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Composer;
 
-/**
- * Require composer autoload file
- */
-require_once(__DIR__ . '/../../../autoload.php');
-
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\Util\Filesystem as ComposerFilesystem;
@@ -34,7 +29,7 @@ class PostInstall
     /**
      * Post install script
      *
-     * Copy files from Bundle/Skeleton directory to Magento /dev directory
+     * Copy files from Bundle/Skeleton directory to Magento root dev/ directory
      * Allows defining developer own templates
      *
      * @param Event $event
@@ -42,6 +37,11 @@ class PostInstall
      */
     public static function copyTemplates(Event $event): void
     {
+        /**
+         * Require composer autoload file
+         */
+        require_once __DIR__ . '/../../../autoload.php';
+
         $magentoFile = new File();
         $driver = (new DriverPool())->getDriver(DriverPool::FILE);
         $rootMagentoDirectory = $driver->getRealPath(self::MAGENTO_ROOT_REALPATH_ARGUMENT);
