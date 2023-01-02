@@ -160,13 +160,12 @@ bin/magento magebundle:api-interface:create
 ```bash
 bin/magento magebundle:jquery-widget:create
 ```
-<p>Creates an Ui Component JS file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
+<p>Creates a JQuery widget file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
 
 ```bash
 bin/magento magebundle:ui-component:create
 ```
-<p>Creates a JQuery widget file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
-
+<p>Creates an Ui Component JS file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
 
 ## Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>
