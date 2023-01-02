@@ -8,7 +8,7 @@
   "config": {
     "sort-packages": true
   },
-  "version": "v3.0.1-BETA",
+  "version": "v3.1.0-BETA",
   "require": {
     "php": ">=7.4"
   },
