@@ -80,8 +80,11 @@ class Validator implements QuestionPromptValidatorInterface
      * @param int $maxAttempts
      * @return void
      */
-    public static function validateJQueryWidgetName(Question $question, string $exceptionMessage, int $maxAttempts): void
-    {
+    public static function validateJQueryWidgetName(
+        Question $question,
+        string $exceptionMessage,
+        int $maxAttempts
+    ): void {
         self::validateQuestionByPattern(
             $question,
             self::JQUERY_WIDGET_NAME_VALIDATION_PATTERN,
@@ -133,7 +136,8 @@ class Validator implements QuestionPromptValidatorInterface
         Question $question,
         string $pattern,
         string $exceptionMessage,
-        int $maxAttempts): void {
+        int $maxAttempts
+    ): void {
         $question->setValidator(function ($answer) use ($pattern, $exceptionMessage) {
             if (empty($answer) || !preg_match($pattern, $answer)) {
                 throw new \RuntimeException($exceptionMessage);
