@@ -157,6 +157,11 @@ bin/magento magebundle:api-interface:create
 <p>For functional API interfaces, the generated file will be created in the Company/Module/Api directory</p>
 <p>For data API interfaces, the generated file will be created in the Company/Module/Api/Data directory</p>
 
+```bash
+bin/magento magebundle:jquery-widget:create
+```
+<p>Creates a JQuery widget file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
+
 ## Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>
 <p>In order to do so, simply create a JSON file in the <code>MAGENTO_ROOT/dev/mage-bundle/custom-data/#path-to-template#</code> directory, naming the file exactly as the template file that is being generated and defining a JSON Object with setter methods as keys and their corresponding values.</p>
