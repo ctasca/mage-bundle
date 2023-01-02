@@ -10,9 +10,11 @@ use Ctasca\MageBundle\Model\Template\DataProvider;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
 use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
+use Ctasca\MageBundle\Model\Template\Locator as TemplateLocator;
 use Ctasca\MageBundle\Model\Template\DataProviderFactory;
 use Ctasca\MageBundle\Model\Template\CustomData\LocatorFactory as CustomDataLocatorFactory;
 use Ctasca\MageBundle\Model\File\MakerFactory as FileMakerFactory;
@@ -271,6 +273,45 @@ abstract class AbstractMaker implements MakerInterface
         QuestionValidator::validateModuleName(
             $question,
             "Module Name is in the wrong format.",
+            self::MAX_QUESTION_ATTEMPTS
+        );
+
+        return $question;
+    }
+
+    /**
+     * @param TemplateLocator $locator
+     * @param string $question
+     * @return ChoiceQuestion
+     */
+    protected function makeWebAreaChoicesQuestion(TemplateLocator $locator, string $question): ChoiceQuestion
+    {
+        $question = $this->questionChoiceFactory->create(
+            $question,
+            $locator->getWebAreaChoices()
+        );
+        $question->setErrorMessage(
+            'Chosen area %s is invalid.'
+        );
+
+        return $question;
+    }
+
+    /**
+     * @param string $webArea
+     * @return Question
+     */
+    protected function makeJsFilenameQuestion(string $webArea): Question
+    {
+        $question = $this->questionFactory->create(
+            'Enter JS file name (without .js file extension).' .
+            "\n\t<comment>It can also be a directory. E.g. (my-jsfile) or dir/my-jsfile.\n\t" .
+            sprintf("File will be created in the Company/Module/view/%s/web/js directory", $webArea) .
+            "</comment>"
+        );
+        QuestionValidator::validateJsFilenamePath(
+            $question,
+            "Javascript filename is not valid. Only lowercase characters, underscores or dashes.",
             self::MAX_QUESTION_ATTEMPTS
         );
 

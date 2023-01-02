@@ -1,14 +1,14 @@
 {
   "name": "ctasca/mage-bundle",
   "type": "magento2-module",
-  "description": "Easily create Magento/Adobe Commerce PHP/XML files from a set of templates",
+  "description": "Easily create Magento/Adobe Commerce PHP/XML/JS files from a set of templates",
   "license": [
     "MIT"
   ],
   "config": {
     "sort-packages": true
   },
-  "version": "v3.1.1-BETA",
+  "version": "v3.2.0-BETA",
   "require": {
     "php": ">=7.4"
   },
