@@ -28,7 +28,7 @@ class JQueryWidget extends AbstractMaker implements MakerJQueryWidgetInterface
         $question = $this->questionFactory->create(
             'Enter widget file name (without .js file extension).' .
             "\n\t<comment>It can also be a directory. E.g. (my-widget) or widgets/my-widget." .
-            "\n\t" . strintf("File will be created in the Company/Module/view/%s/web/js directory", $webArea) .
+            "\n\t" . sprintf("File will be created in the Company/Module/view/%s/web/js directory", $webArea) .
             "</comment>"
         );
         QuestionValidator::validateJsFilenamePath(
