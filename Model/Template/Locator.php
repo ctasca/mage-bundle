@@ -88,6 +88,14 @@ class Locator extends AbstractLocator
     }
 
     /**
+     * @return array
+     */
+    public function getWebAreaChoices(): array
+    {
+        return ['base', 'adminhtml', 'frontend'];
+    }
+
+    /**
      * Returns whether template file is found in dev/mage-bundle/* directory
      *
      * @return string|null

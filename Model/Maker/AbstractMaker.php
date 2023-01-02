@@ -339,10 +339,10 @@ abstract class AbstractMaker implements MakerInterface
 
     /**
      * Returns path parts array
-     * First array value is the path to the class
-     * Second array value is the class name
-     * Third array value is exploded path array without the class name
-     * Fourth array value is a boolean specifying if $path is only a class name
+     * First array value is the path to the file
+     * Second array value is the file name
+     * Third array value is exploded path array without the file name
+     * Fourth array value is a boolean specifying if $path is only a file name
      *
      * For example if Dir/Dirname/ClassName is the path this method will return
      * ["Dir/Dirname", "ClassName", ["Dir","Dirname"]]
@@ -353,14 +353,14 @@ abstract class AbstractMaker implements MakerInterface
     protected function extractPathParts(string $path): array
     {
         $explodedPath = explode(DIRECTORY_SEPARATOR, $path);
-        $isOnlyClassName = false;
+        $isOnlyFilename = false;
         if (count($explodedPath) > 1) {
-            $className = array_pop($explodedPath);
+            $filename = array_pop($explodedPath);
         } else {
-            $isOnlyClassName = true;
-            $className = $path;
+            $isOnlyFilename = true;
+            $filename = $path;
         }
-        return [implode(DIRECTORY_SEPARATOR, $explodedPath), $className, $explodedPath, $isOnlyClassName];
+        return [implode(DIRECTORY_SEPARATOR, $explodedPath), $filename, $explodedPath, $isOnlyFilename];
     }
 
     /**

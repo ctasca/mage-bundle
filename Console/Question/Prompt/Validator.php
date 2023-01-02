@@ -3,33 +3,11 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Console\Question\Prompt;
 
+use Ctasca\MageBundle\Api\QuestionPromptValidatorInterface;
 use Symfony\Component\Console\Question\Question;
 
-class Validator
+class Validator implements QuestionPromptValidatorInterface
 {
-    /**
-     * Module name validation pattern
-     * Validates module at command question
-     */
-    const MODULE_NAME_VALIDATION_PATTERN = '/[A-Z]+[A-Za-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}/';
-
-    /**
-     * First uppercase letter validation pattern.
-     * Makes sure input given starts with an uppercase letter
-     */
-    const UC_FIRST_VALIDATION_PATTERN = '/^[A-Z]{1}/';
-
-    /**
-     * Validates path like:
-     *  - ClassName or Classname
-     *  - Dir/AnotherDir/ClassName
-     *
-     * Invalid paths:
-     *  - /Dir/AnotherDir/ClassName
-     *  - Dir/AnotherDir/ClassName/
-     */
-    const PATH_VALIDATION_PATTERN = '/^[A-Z]([\w]{0,}[\/]{0,})+([A-Z]|[\w]{0,})+[^\/]$/';
-
     /**
      * @param Question $question
      * @param string $exceptionMessage
@@ -56,14 +34,12 @@ class Validator
      */
     public static function validateUcFirst(Question $question, string $exceptionMessage, int $maxAttempts): void
     {
-        $question->setValidator(function ($answer) use ($exceptionMessage) {
-            if (empty($answer) || !preg_match(self::UC_FIRST_VALIDATION_PATTERN, $answer)) {
-                throw new \RuntimeException($exceptionMessage);
-            }
-            return $answer;
-        });
-
-        self::setNormalizerAndMaxAttempts($question, $maxAttempts);
+        self::validateQuestionByPattern(
+            $question,
+            self::UC_FIRST_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
     }
 
     /**
@@ -74,14 +50,44 @@ class Validator
      */
     public static function validatePath(Question $question, string $exceptionMessage, int $maxAttempts): void
     {
-        $question->setValidator(function ($answer) use ($exceptionMessage) {
-            if (empty($answer) || !preg_match(self::PATH_VALIDATION_PATTERN, $answer)) {
-                throw new \RuntimeException($exceptionMessage);
-            }
-            return $answer;
-        });
+        self::validateQuestionByPattern(
+            $question,
+            self::PATH_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
+    }
 
-        self::setNormalizerAndMaxAttempts($question, $maxAttempts);
+    /**
+     * @param Question $question
+     * @param string $exceptionMessage
+     * @param int $maxAttempts
+     * @return void
+     */
+    public static function validateJsFilenamePath(Question $question, string $exceptionMessage, int $maxAttempts): void
+    {
+        self::validateQuestionByPattern(
+            $question,
+            self::JS_FILE_PATH_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
+    }
+
+    /**
+     * @param Question $question
+     * @param string $exceptionMessage
+     * @param int $maxAttempts
+     * @return void
+     */
+    public static function validateJQueryWidgetName(Question $question, string $exceptionMessage, int $maxAttempts): void
+    {
+        self::validateQuestionByPattern(
+            $question,
+            self::JQUERY_WIDGET_NAME_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
     }
 
     /**
@@ -92,14 +98,12 @@ class Validator
      */
     public static function validateModuleName(Question $question, string $exceptionMessage, int $maxAttempts): void
     {
-        $question->setValidator(function ($answer) use ($exceptionMessage) {
-            if (empty($answer) || !preg_match(self::MODULE_NAME_VALIDATION_PATTERN, $answer)) {
-                throw new \RuntimeException($exceptionMessage);
-            }
-            return $answer;
-        });
-
-        self::setNormalizerAndMaxAttempts($question, $maxAttempts);
+        self::validateQuestionByPattern(
+            $question,
+            self::MODULE_NAME_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
     }
 
     /**
@@ -110,8 +114,28 @@ class Validator
      */
     public static function validateControllerName(Question $question, string $exceptionMessage, int $maxAttempts): void
     {
-        $question->setValidator(function ($answer) use ($exceptionMessage) {
-            if (empty($answer) || !preg_match(self::UC_FIRST_VALIDATION_PATTERN, $answer)) {
+        self::validateQuestionByPattern(
+            $question,
+            self::UC_FIRST_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
+    }
+
+    /**
+     * @param Question $question
+     * @param string $pattern
+     * @param string $exceptionMessage
+     * @param int $maxAttempts
+     * @return void
+     */
+    private static function validateQuestionByPattern(
+        Question $question,
+        string $pattern,
+        string $exceptionMessage,
+        int $maxAttempts): void {
+        $question->setValidator(function ($answer) use ($pattern, $exceptionMessage) {
+            if (empty($answer) || !preg_match($pattern, $answer)) {
                 throw new \RuntimeException($exceptionMessage);
             }
             return $answer;
