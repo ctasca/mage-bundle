@@ -22,7 +22,7 @@ class Locator extends AbstractLocator
      */
     public function setTemplateFilename(string $templateFilename): Locator
     {
-        $this->templateFilename = str_replace(['.xml', '.php'], ['.json'], $templateFilename);
+        $this->templateFilename = str_replace(['.xml', '.php', '.jst'], ['.json'], $templateFilename);
         return $this;
     }
 
