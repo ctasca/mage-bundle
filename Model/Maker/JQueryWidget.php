@@ -27,7 +27,7 @@ class JQueryWidget extends AbstractMaker implements MakerJQueryWidgetInterface
             $webArea = $this->questionHelper->ask($input, $output, $question);
             $question = $this->makeJsFilenameQuestion($webArea);
             $widgetPathFilename = $this->questionHelper->ask($input, $output, $question);
-            list(, $filename, ,) = $this->extractPathParts($widgetPathFilename);
+            list($pathToFile, $filename, , $isOnlyFilename) = $this->extractPathParts($widgetPathFilename);
             $question = $this->questionFactory->create(
                 'Enter widget name (e.g. widget.name)'
             );
@@ -40,7 +40,7 @@ class JQueryWidget extends AbstractMaker implements MakerJQueryWidgetInterface
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setWidgetName($widgetName);
-            $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'web', 'js'];
+            $pathArray = $this->makeJsPathArray($moduleName, $webArea, $isOnlyFilename, $pathToFile);
             $jsDirectoryPath = $this->makePathFromArray($pathArray);
             $this->writeFileFromTemplateChoice(
                 $jsDirectoryPath,

@@ -27,10 +27,10 @@ class UiComponent extends AbstractMaker implements MakerUiComponentInterface
             $webArea = $this->questionHelper->ask($input, $output, $question);
             $question = $this->makeJsFilenameQuestion($webArea);
             $uiComponentPathFilename = $this->questionHelper->ask($input, $output, $question);
-            list(, $filename, ,) = $this->extractPathParts($uiComponentPathFilename);
+            list($pathToFile, $filename, , $isOnlyFilename) = $this->extractPathParts($uiComponentPathFilename);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
-            $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'web', 'js'];
+            $pathArray = $this->makeJsPathArray($moduleName, $webArea, $isOnlyFilename, $pathToFile);
             $jsDirectoryPath = $this->makePathFromArray($pathArray);
             $this->writeFileFromTemplateChoice(
                 $jsDirectoryPath,

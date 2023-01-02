@@ -87,6 +87,27 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
+     * @param string $moduleName
+     * @param string $webArea
+     * @param bool $isOnlyFilename
+     * @param string $pathToFile
+     * @return array
+     */
+    protected function makeJsPathArray(
+        string $moduleName,
+        string $webArea,
+        bool $isOnlyFilename,
+        string $pathToFile
+    ): array {
+        $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'web', 'js'];
+        if (!$isOnlyFilename) {
+            $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'web', 'js', $pathToFile];
+        }
+
+        return $pathArray;
+    }
+
+    /**
      * @param string $locatorDirectory
      * @return LocatorInterface
      */
