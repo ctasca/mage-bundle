@@ -36,7 +36,7 @@ class ApiInterface extends AbstractMaker implements MakerApiInterfaceInterface
                 $pathArray = [$this->makeModulePathFromName($moduleName), 'Api'];
             }
             $apiDirectoryPath = $this->makePathFromArray($pathArray);
-            $question = $this->questionFactory->create('Enter Api interface name.');
+            $question = $this->questionFactory->create('Enter Api interface name');
             QuestionValidator::validateUcFirst(
                 $question,
                 "Api interface name is not valid.",
