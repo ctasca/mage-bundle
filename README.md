@@ -28,6 +28,207 @@ bin/magento setup:upgrade
 bin/magento setup:di:compile
 ```
 
+## Available commands
+```bash
+bin/magento magebundle:module:create
+```
+#### Shortcut
+```bash
+bin/magento m:modu:c
+```
+<p>Creates a skeleton Magento module in app/code directory, generating the required registration.php and etc/module.xml files</p>
+
+---
+
+```bash
+bin/magento magebundle:controller:create
+```
+#### Shortcut
+```bash
+bin/magento m:cont:c
+```
+<p>Creates a Controller namespace and Action class in specified module.
+Developer is prompted to choose a router (either standard or admin), and an Action template from the ones available in <code>mage-bundle/http-controller</code> or <code>mage-bundle/adminhtml-http-controller</code> directories.</p>
+
+---
+
+```bash
+bin/magento magebundle:etc:xml:create
+```
+#### Shortcut
+```bash
+bin/magento m:e:x:c
+```
+<p>Creates an XML file in Company/Module/etc directory. Templates can be chosen after specifying the area where the template applies to.</p>
+
+---
+
+```bash
+bin/magento magebundle:model:set:create
+```
+#### Shortcut
+```bash
+bin/magento m:m:s:c
+```
+<p>Creates a Model, Resource Model and Collection classes in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:model:create
+```
+#### Shortcut
+
+```bash
+bin/magento m:mode:c
+```
+<p>Creates a Model class in specified Company/Module. There is also the template to create an interface instead of a class.</p>
+
+---
+
+```bash
+bin/magento magebundle:block:create
+```
+#### Shortcut
+```bash
+bin/magento m:b:c
+```
+<p>Creates a template Block class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:helper:create
+```
+#### Shortcut
+```bash
+bin/magento m:h:c
+```
+<p>Creates a Helper class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:customer-data:create
+```
+#### Shortcut
+```bash
+bin/magento m:cu:c
+```
+<p>Creates a CustomerData class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:view-model:create
+```
+#### Shortcut
+```bash
+bin/magento m:v:c
+```
+<p>Creates a View Model class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:observer:create
+```
+#### Shortcut
+```bash
+bin/magento m:o:c
+```
+<p>Creates an Observer class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:plugin:create
+```
+#### Shortcut
+```bash
+bin/magento m:p:c
+```
+<p>Creates a Plugin class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:cron:create
+```
+#### Shortcut
+```bash
+bin/magento m:cr:c
+```
+<p>Creates a Cron class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:console-command:create
+```
+#### Shortcut
+```bash
+bin/magento m:cons:c
+```
+<p>Creates a Console Command class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:data-patch:create
+```
+#### Shortcut
+```bash
+bin/magento m:d:c
+```
+<p>Creates a Setup Data Patch class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:schema-patch:create
+```
+#### Shortcut
+```bash
+bin/magento m:s:c
+```
+<p>Creates a Setup Schema Patch class in specified Company/Module.</p>
+
+---
+
+```bash
+bin/magento magebundle:api-interface:create
+```
+#### Shortcut
+```bash
+bin/magento m:a:c
+```
+<p>Creates an API interface in specified Company/Module. Templates can be chosen after specifying the area where the template applies to.</p>
+<p>For functional API interfaces, the generated file will be created in the Company/Module/Api directory</p>
+<p>For data API interfaces, the generated file will be created in the Company/Module/Api/Data directory</p>
+
+---
+
+```bash
+bin/magento magebundle:jquery-widget:create
+```
+#### Shortcut
+```bash
+bin/magento m:j:c
+```
+<p>Creates a JQuery widget file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
+
+---
+
+```bash
+bin/magento magebundle:ui-component:create
+```
+#### Shortcut
+```bash
+bin/magento m:u:c
+```
+<p>Creates an Ui Component JS file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
+
 ## About template files:
 <p>Template files are written in PHP version 8.1.</p>
 <p>For example the <code>http-get-action-json-result.tpl.php</code> contains the following</p>
@@ -72,100 +273,6 @@ class {{class_name}} implements HttpGetActionInterface
 <p>For a list of the templates defined within the module go to...</p>
 
 [The repository wiki page](https://github.com/ctasca/mage-bundle/wiki)
-
-## Available commands
-```bash
-bin/magento magebundle:module:create
-```
-Creates a skeleton Magento module in app/code directory, generating the required registration.php and etc/module.xml files
-
-```bash
-bin/magento magebundle:controller:create
-```
-Creates a Controller namespace and Action class in specified module.
-Developer is prompted to choose a router (either standard or admin), and an Action template from the ones available in <code>mage-bundle/http-controller</code> or <code>mage-bundle/adminhtml-http-controller</code> directories.
-
-```bash
-bin/magento magebundle:etc:xml:create
-```
-Creates an XML file in Company/Module/etc directory. Templates can be chosen after specifying the area where the template applies to.
-
-```bash
-bin/magento magebundle:model:set:create
-```
-Creates a Model, Resource Model and Collection classes in specified Company/Module.
-
-```bash
-bin/magento magebundle:model:create
-```
-Creates a Model class in specified Company/Module. There is also the template to create an interface instead of a class.
-
-```bash
-bin/magento magebundle:block:create
-```
-Creates a template Block class in specified Company/Module.
-
-```bash
-bin/magento magebundle:helper:create
-```
-Creates a Helper class in specified Company/Module.
-
-```bash
-bin/magento magebundle:customer-data:create
-```
-Creates a CustomerData class in specified Company/Module. 
-
-```bash
-bin/magento magebundle:view-model:create
-```
-Creates a View Model class in specified Company/Module.
-
-```bash
-bin/magento magebundle:observer:create
-```
-Creates an Observer class in specified Company/Module.
-
-```bash
-bin/magento magebundle:plugin:create
-```
-Creates a Plugin class in specified Company/Module.
-
-```bash
-bin/magento magebundle:cron:create
-```
-Creates a Cron class in specified Company/Module.
-
-```bash
-bin/magento magebundle:console-command:create
-```
-Creates a Console Command class in specified Company/Module.
-
-```bash
-bin/magento magebundle:data-patch:create
-```
-Creates a Setup Data Patch class in specified Company/Module.
-
-```bash
-bin/magento magebundle:schema-patch:create
-```
-Creates a Setup Schema Patch class in specified Company/Module.
-
-```bash
-bin/magento magebundle:api-interface:create
-```
-<p>Creates an API interface in specified Company/Module. Templates can be chosen after specifying the area where the template applies to.</p>
-<p>For functional API interfaces, the generated file will be created in the Company/Module/Api directory</p>
-<p>For data API interfaces, the generated file will be created in the Company/Module/Api/Data directory</p>
-
-```bash
-bin/magento magebundle:jquery-widget:create
-```
-<p>Creates a JQuery widget file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
-
-```bash
-bin/magento magebundle:ui-component:create
-```
-<p>Creates an Ui Component JS file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
 
 ## Templates Data Provider
 <p>It is possible to define your own templates as well as the data that are passed when these are generated.</p>
