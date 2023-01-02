@@ -62,6 +62,12 @@ class JQueryWidget extends AbstractMaker implements MakerJQueryWidgetInterface
                 $filename,
                 '.js'
             );
+            $output->writeln(
+                sprintf(
+                    '<info>Completed! JS file successfully created in app/code/%s</info>',
+                    $jsDirectoryPath
+                )
+            );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
         }
