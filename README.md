@@ -1,4 +1,5 @@
 # ctasca/mage-bundle
+[![License](http://poser.pugx.org/phpstan/phpstan/license)](https://packagist.org/packages/phpstan/phpstan) [![PHP Version Require](http://poser.pugx.org/badges/poser/require/php)](https://packagist.org/packages/badges/poser)
 ### Easily create Magento2/AdobeCommerce PHP/XML/JS files from a set of templates via the command-line.
 <p>Allows you to define your own templates as well as the data provided at files' creation time.</p>
 
