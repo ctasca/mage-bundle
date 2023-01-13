@@ -368,8 +368,7 @@ abstract class AbstractMaker implements MakerInterface
         QuestionValidator::validateJsMixinFilenamePath(
             $question,
             "Javascript mixin filename is not valid. Only lowercase characters, underscores or dashes.".
-            " Must end with '-mixin' suffix."
-            ,
+            " Must end with '-mixin' suffix.",
             self::MAX_QUESTION_ATTEMPTS
         );
 
