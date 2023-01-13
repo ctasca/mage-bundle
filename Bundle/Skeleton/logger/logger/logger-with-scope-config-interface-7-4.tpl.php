@@ -12,6 +12,8 @@ class {{class_name}} extends \Monolog\Logger
      */
     const LOGGING_ENABLED_CONFIG_PATH = '';
 
+    private ScopeConfigInterface $scopeConfig;
+
     /**
      * @param string $name
      * @param ScopeConfigInterface $scopeConfig
@@ -20,7 +22,7 @@ class {{class_name}} extends \Monolog\Logger
      */
     public function __construct(
         string $name,
-        private readonly ScopeConfigInterface $scopeConfig,
+        ScopeConfigInterface $scopeConfig,
         array $handlers = [],
         array $processors = []
     ) {
