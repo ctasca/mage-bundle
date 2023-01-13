@@ -80,6 +80,24 @@ class Validator implements QuestionPromptValidatorInterface
      * @param int $maxAttempts
      * @return void
      */
+    public static function validateJsMixinFilenamePath(
+        Question $question,
+        string $exceptionMessage,
+        int $maxAttempts): void {
+        self::validateQuestionByPattern(
+            $question,
+            self::JS_MIXIN_FILE_PATH_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
+    }
+
+    /**
+     * @param Question $question
+     * @param string $exceptionMessage
+     * @param int $maxAttempts
+     * @return void
+     */
     public static function validateJQueryWidgetName(
         Question $question,
         string $exceptionMessage,

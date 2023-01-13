@@ -244,6 +244,16 @@ bin/magento m:l:c
 <p>Creates a Logger Handler and Logger classes files in specified Company/Module.</p>
 <p>Log filename can be specified when executing this command.</p>
 
+---
+
+```bash
+bin/magento magebundle:js:mixin:create
+```
+#### Shortcut
+```bash
+bin/magento m:j:m:c
+```
+<p>Creates a JS mixin file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
 
 ## About template files:
 <p>Template files are written in PHP version 8.1.</p>

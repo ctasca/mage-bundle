@@ -37,6 +37,14 @@ interface QuestionPromptValidatorInterface
     const JS_FILE_PATH_VALIDATION_PATTERN = '/^[a-z]([a-z-_]{0,}[\/]{0,})+([a-z]{0,})+[^\/\.]$/';
 
     /**
+     * Javascript mixin file name path validation pattern
+     *
+     * Validates paths to a JS mixin file. Filename must end with -mixin
+     * and only lowercase letters, underscores and dashes are allowed.
+     */
+    const JS_MIXIN_FILE_PATH_VALIDATION_PATTERN = '/^[a-z]([a-z-_]{0,}[\/]{0,})+([a-z]{0,})+[^\/\.]-mixin$/';
+
+    /**
      * Validates JQuery widget name
      *
      * Valid widget names:

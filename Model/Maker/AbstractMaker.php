@@ -340,13 +340,36 @@ abstract class AbstractMaker implements MakerInterface
     {
         $question = $this->questionFactory->create(
             'Enter JS file name (without .js file extension).' .
-            "\n\t<comment>It can also be a directory. E.g. (my-jsfile) or dir/my-jsfile.\n\t" .
+            "\n<comment>It can also be a directory. E.g. my-jsfile or dir/my-jsfile.\n" .
             sprintf("File will be created in the Company/Module/view/%s/web/js directory", $webArea) .
             "</comment>"
         );
         QuestionValidator::validateJsFilenamePath(
             $question,
             "Javascript filename is not valid. Only lowercase characters, underscores or dashes.",
+            self::MAX_QUESTION_ATTEMPTS
+        );
+
+        return $question;
+    }
+
+    /**
+     * @param string $webArea
+     * @return Question
+     */
+    protected function makeJsMixinFilenameQuestion(string $webArea): Question
+    {
+        $question = $this->questionFactory->create(
+            'Enter JS mixin file name (without .js file extension, must end with "-mixin").' .
+            "\n<comment>It can also be a directory. E.g. my-jsfile-mixin or dir/my-jsfile-mixin.\n" .
+            sprintf("File will be created in the Company/Module/view/%s/web/js directory", $webArea) .
+            "</comment>"
+        );
+        QuestionValidator::validateJsMixinFilenamePath(
+            $question,
+            "Javascript mixin filename is not valid. Only lowercase characters, underscores or dashes.".
+            " Must end with '-mixin' suffix."
+            ,
             self::MAX_QUESTION_ATTEMPTS
         );
 
