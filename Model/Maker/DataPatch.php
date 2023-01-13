@@ -27,7 +27,7 @@ class DataPatch extends AbstractMaker implements MakerDataPatchInterface
         );
         $dataPatchClassname = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $dataPatchClassname,
                 $moduleName,
                 'Setup/Patch/Data',

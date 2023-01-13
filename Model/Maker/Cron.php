@@ -27,7 +27,7 @@ class Cron extends AbstractMaker implements MakerCronInterface
         );
         $cronPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $cronPath,
                 $moduleName,
                 'Cron',

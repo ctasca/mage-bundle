@@ -48,4 +48,15 @@ interface QuestionPromptValidatorInterface
      * _ widget.Test
      */
     const JQUERY_WIDGET_NAME_VALIDATION_PATTERN = '/^[a-z]+\.[a-z][\w]+$/';
+
+    /**
+     * Logger Handler filename validation pattern
+     *
+     * Validates a Logger Handler filename. Filename must end with .log file extension
+     * and only lowercase letters, underscores and dashes are allowed.
+     *
+     * Must not start with directory separator.
+     *
+     */
+    const LOGGER_FILENAME_VALIDATION_PATTERN = '/^[a-z]([a-z-_]{0,}[\/]{0,})+([a-z]{0,})+[^\/\.]\.log$/';
 }

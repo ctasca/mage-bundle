@@ -27,7 +27,7 @@ class CustomerData extends AbstractMaker implements MakerCustomerDataInterface
         );
         $customerDataPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $customerDataPath,
                 $moduleName,
                 'CustomerData',

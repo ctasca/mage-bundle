@@ -27,7 +27,7 @@ class ViewModel extends AbstractMaker implements MakerViewModelInterface
         );
         $viewModelPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $viewModelPath,
                 $moduleName,
                 'ViewModel',

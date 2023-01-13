@@ -27,7 +27,7 @@ class Plugin extends AbstractMaker implements MakerPluginInterface
         );
         $pluginPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $pluginPath,
                 $moduleName,
                 'Plugin',

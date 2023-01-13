@@ -217,11 +217,13 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
-     * Create a class with common data provider data by specified path:
+     * Create a class with common DataProvider data by specified path from a template choice:
      *
      * - {{php}}
      * - {{namespace}}
      * - {{class_name}}
+     *
+     * Additional DataProvider data can be specified via the additionalData argument
      *
      * @param string $path
      * @param string $moduleName
@@ -230,17 +232,19 @@ abstract class AbstractMaker implements MakerInterface
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param string $successMessage
+     * @param array|null $additionalData
      * @return void
      * @throws \Exception
      */
-    protected function writeCommonDataClassByPath(
+    protected function writeClassFromTemplateChoice(
         string $path,
         string $moduleName,
         string $classDirectory,
         string $templatesDirectory,
         InputInterface $input,
         OutputInterface $output,
-        string $successMessage
+        string $successMessage,
+        ?array $additionalData = null
     ): void {
         list($pathToClass, $className, , $isOnlyClassName) = $this->extractPathParts($path);
         if ($isOnlyClassName) {
@@ -255,6 +259,16 @@ abstract class AbstractMaker implements MakerInterface
         $dataProvider->setPhp('<?php');
         $dataProvider->setNamespace($this->makeNamespace($classDirectoryPath));
         $dataProvider->setClassName($className);
+
+        if (is_array($additionalData)) {
+            $additionalDataIterator = new \ArrayIterator($additionalData);
+            while ($additionalDataIterator->valid()) {
+                $currentAdditionalDataSetter = $additionalDataIterator->key();
+                $currentAdditionalData = $additionalDataIterator->current();
+                $dataProvider->{$currentAdditionalDataSetter}($currentAdditionalData);
+                $additionalDataIterator->next();
+            }
+        }
 
         $this->writeFileFromTemplateChoice(
             $classDirectoryPath,

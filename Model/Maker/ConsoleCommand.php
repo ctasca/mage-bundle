@@ -27,7 +27,7 @@ class ConsoleCommand extends AbstractMaker implements MakerConsoleCommandInterfa
         );
         $consoleCommandPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $consoleCommandPath,
                 $moduleName,
                 'Console',

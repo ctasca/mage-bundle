@@ -99,6 +99,25 @@ class Validator implements QuestionPromptValidatorInterface
      * @param int $maxAttempts
      * @return void
      */
+    public static function validateLoggerFilename(
+        Question $question,
+        string $exceptionMessage,
+        int $maxAttempts
+    ): void {
+        self::validateQuestionByPattern(
+            $question,
+            self::LOGGER_FILENAME_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
+    }
+
+    /**
+     * @param Question $question
+     * @param string $exceptionMessage
+     * @param int $maxAttempts
+     * @return void
+     */
     public static function validateModuleName(Question $question, string $exceptionMessage, int $maxAttempts): void
     {
         self::validateQuestionByPattern(

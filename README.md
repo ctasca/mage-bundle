@@ -232,6 +232,17 @@ bin/magento m:u:c
 ```
 <p>Creates an Ui Component JS file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
 
+```bash
+bin/magento magebundle:logger:create
+```
+#### Shortcut
+```bash
+bin/magento m:l:c
+```
+<p>Creates a Logger Handler and Logger classes files in specified Company/Module.</p>
+<p>Log filename can be specified when executing this command.</p>
+
+
 ## About template files:
 <p>Template files are written in PHP version 8.1.</p>
 <p>For example the <code>http-get-action-json-result.tpl.php</code> contains the following</p>

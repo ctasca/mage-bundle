@@ -27,7 +27,7 @@ class Block extends AbstractMaker implements MakerBlockInterface
         );
         $blockPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $blockPath,
                 $moduleName,
                 'Block',

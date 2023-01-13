@@ -27,7 +27,7 @@ class Helper extends AbstractMaker implements MakerHelperInterface
         );
         $helperPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $helperPath,
                 $moduleName,
                 'Helper',

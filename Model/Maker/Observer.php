@@ -27,7 +27,7 @@ class Observer extends AbstractMaker implements MakerObserverInterface
         );
         $observerPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $observerPath,
                 $moduleName,
                 'Observer',

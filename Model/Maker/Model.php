@@ -27,7 +27,7 @@ class Model extends AbstractMaker implements MakerModelInterface
         );
         $modelPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $modelPath,
                 $moduleName,
                 'Model',

@@ -27,7 +27,7 @@ class SchemaPatch extends AbstractMaker implements MakerSchemaPatchInterface
         );
         $schemaPatchClassname = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeCommonDataClassByPath(
+            $this->writeClassFromTemplateChoice(
                 $schemaPatchClassname,
                 $moduleName,
                 'Setup/Patch/Schema',
