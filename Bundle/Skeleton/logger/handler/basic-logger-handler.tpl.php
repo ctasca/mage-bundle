@@ -18,5 +18,5 @@ class {{class_name}} extends Base
      * File name
      * @var string
      */
-    protected $fileName = '/var/log/{{log_filename}}}';
+    protected $fileName = '/var/log/{{log_filename}}';
 }
