@@ -232,6 +232,8 @@ bin/magento m:u:c
 ```
 <p>Creates an Ui Component JS file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
 
+---
+
 ```bash
 bin/magento magebundle:logger:create
 ```
