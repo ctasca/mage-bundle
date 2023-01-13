@@ -25,7 +25,6 @@ class {{class_name}} extends \Monolog\Logger
         array $processors = []
     ) {
         parent::__construct($name, $handlers, $processors);
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**
