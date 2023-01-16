@@ -30,7 +30,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
         list($pathToModel, $modelClassName, , $isOnlyClassName) = $this->extractPathParts($modelPath);
         // ask if the model implements an interface
         $confirmationQuestion = $this->confirmationQuestionFactory->create(
-            strintf('Does this model implement the API/Data %sInterface?', $modelClassName)
+            sprintf('Does this model implement the API/Data %sInterface?', $modelClassName)
         );
         $isImplementingInterface = $this->questionHelper->ask($input, $output, $confirmationQuestion);
         $interfaceName = null;
