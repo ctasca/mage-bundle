@@ -114,6 +114,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
             $dataProvider->setCollectionNamespace($this->makeNamespace($collectionDirectoryPath));
             $dataProvider->setUseModel($this->makeNamespace($useModelPathArray));
             $dataProvider->setUseResourceModel($this->makeNamespace($useResourceModelPathArray));
+            $dataProvider->setModuleNamespace($this->makeNamespace($this->makeModulePathFromName($moduleName)));
             if ($interfaceName !== null) {
                 $dataProvider->setDataInterface($interfaceName);
             }
