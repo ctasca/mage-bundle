@@ -51,10 +51,8 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $interfaceNamespace = $this->makeNamespace($interfacePathArray);
                 $modelInterface = $interfaceNamespace . "\\$modelClassName" . 'Interface';
             }
-            // check if interface already exists
-            $modelInterfacePathArray = [$modulePath, 'Api', 'Data', $modelClassName . 'Interface'];
             $apiPathArray = [$modulePath, 'Api'];
-            $interfaceLocator = $this->getAppCodeLocator($this->makePathFromArray($modelInterfacePathArray));
+            $interfaceLocator = $this->getAppCodeLocator($this->makePathFromArray($interfacePathArray));
             $interfaceDirectory = $interfaceLocator->locate();
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
