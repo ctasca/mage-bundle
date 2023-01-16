@@ -81,7 +81,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             if ($model->implementsInterface($modelInterface) === false) {
                 throw new ClassDoesNotImplementInterfaceException(
                     sprintf(
-                        "Specified Model %s does not implement interface %s",
+                        "Specified Model %s does not implement interface %s. Fix it and re-run the command",
                         $modelClassName,
                         $modelClassName . 'Interface'
                     )
