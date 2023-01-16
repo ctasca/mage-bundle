@@ -477,8 +477,8 @@ abstract class AbstractMaker implements MakerInterface
     {
         $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
         if (!is_a($e, FileExistsException::class) &&
-            !is_a($e,FileDoesNotExistException::class) &&
-            !is_a($e,ClassDoesNotImplementInterfaceException::class)
+            !is_a($e, FileDoesNotExistException::class) &&
+            !is_a($e, ClassDoesNotImplementInterfaceException::class)
         ) {
             $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
         } else {
