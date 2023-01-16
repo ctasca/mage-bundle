@@ -95,6 +95,14 @@ bin/magento m:r:c
 <li>The repository Model implementing the repository Interface</li>
 </ul>
 
+<p>Do not forget to add the preferences to your di.xml for the repository classes once created. For example:</p>
+
+```xml
+    <preference for="Company\Module\Api\Data\$MODEL_NAMEInterface" type="Company\Module\Model\$MODEL_NAME" />
+    <preference for="Company\Module\Api\$MODEL_NAMERepositoryInterface" type="Company\Module\Model\$MODEL_NAMERepository" />
+    <preference for="Company\Module\Api\Data\$MODEL_NAMESearchResultInterface" type="Company\Module\Model\$MODEL_NAMESearchResult" />
+```
+
 ---
 
 ```bash
