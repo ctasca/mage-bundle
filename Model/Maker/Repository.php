@@ -58,6 +58,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
+            $dataProvider->setNamespace($modelNamespace);
             $dataProvider->setApiNamespace($this->makeNamespace($apiPathArray));
             $dataProvider->setModelName($modelClassName);
             $dataProvider->setRepositoryName($modelClassName);

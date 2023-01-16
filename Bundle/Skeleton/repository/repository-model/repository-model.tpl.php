@@ -10,7 +10,7 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use {{api_namespace}}\Data\{{repository_name}}Interface;
 use {{api_namespace}}\Data\{{repository_name}}SearchResultInterface;
-use {{api_namespace}}\Api\{{repository_name}}RepositoryInterface;
+use {{api_namespace}}\{{repository_name}}RepositoryInterface;
 use {{namespace}}\ResourceModel\{{repository_name}} as {{repository_name}}Resource;
 use {{namespace}}\ResourceModel\{{repository_name}}\CollectionFactory as {{repository_name}}CollectionFactory;
 
