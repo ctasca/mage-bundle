@@ -82,6 +82,8 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                         $dataProvider,
                         $modelClassName . 'Interface'
                     );
+                    $output->writeln("<success>$modelClassName" . "Interface successfully created</success>");
+                    $output->writeln('');
                 }
             }
             $model = new \ReflectionClass($modelNamespace . "\\$modelClassName");
@@ -102,6 +104,8 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'RepositoryInterface'
             );
+            $output->writeln("<success>$modelClassName" . "RepositoryInterface successfully created</success>");
+            $output->writeln('');
             $this->writeFileFromTemplateChoice(
                 $this->makePathFromArray($apiDataPathArray),
                 $input,
@@ -110,6 +114,8 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'SearchResultInterface'
             );
+            $output->writeln("<success>$modelClassName" . "SearchResultInterface successfully created</success>");
+            $output->writeln('');
             $this->writeFileFromTemplateChoice(
                 $this->makePathFromArray($modelPathArray),
                 $input,
@@ -118,7 +124,9 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'Repository'
             );
-            $output->writeln('Completed! Repository classes successfully created');
+            $output->writeln("<success>$modelClassName" . "Repository successfully created</success>");
+            $output->writeln('');
+            $output->writeln('<success>Completed!</success>');
             $output->writeln('');
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
