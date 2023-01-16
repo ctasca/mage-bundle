@@ -47,19 +47,9 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 );
             } else {
                 $modelNamespace = $this->makeNamespace($modelPathArray);
-                $model = new \ReflectionClass($modelNamespace . "\\$modelClassName");
                 $interfacePathArray = [$modulePath, 'Api', 'Data'];
                 $interfaceNamespace = $this->makeNamespace($interfacePathArray);
                 $modelInterface = $interfaceNamespace . "\\$modelClassName" . 'Interface';
-                if ($model->implementsInterface($modelInterface) === false) {
-                    throw new ClassDoesNotImplementInterfaceException(
-                        sprintf(
-                            "Specified Model %s does not implement interface %s",
-                            $modelClassName,
-                            $modelClassName . 'Interface'
-                        )
-                    );
-                }
             }
             // check if interface already exists
             $modelInterfacePathArray = [$modulePath, 'Api', 'Data', $modelClassName . 'Interface'];
@@ -93,6 +83,16 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                         $modelClassName . 'Interface'
                     );
                 }
+            }
+            $model = new \ReflectionClass($modelNamespace . "\\$modelClassName");
+            if ($model->implementsInterface($modelInterface) === false) {
+                throw new ClassDoesNotImplementInterfaceException(
+                    sprintf(
+                        "Specified Model %s does not implement interface %s",
+                        $modelClassName,
+                        $modelClassName . 'Interface'
+                    )
+                );
             }
             $this->writeFileFromTemplateChoice(
                 $interfaceDirectory . DIRECTORY_SEPARATOR . 'Api',
