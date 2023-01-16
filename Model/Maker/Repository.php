@@ -47,7 +47,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 );
             } else {
                 $modelNamespace = $this->makeNamespace($modelPathArray);
-                $model = new \ReflectionClass($modelNamespace);
+                $model = new \ReflectionClass($modelNamespace . "\\$modelClassName");
                 $interfacePathArray = [$modulePath, 'Api', 'Data'];
                 $interfaceNamespace = $this->makeNamespace($interfacePathArray);
                 $modelInterface = $interfaceNamespace . "\\$modelClassName" . 'Interface';
