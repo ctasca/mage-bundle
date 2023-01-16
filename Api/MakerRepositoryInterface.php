@@ -14,4 +14,6 @@ interface MakerRepositoryInterface extends MakerInterface
         self::REPOSITORY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'repository-search-result-interface';
     const REPOSITORY_MODEL_TEMPLATES_DIR =
         self::REPOSITORY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'repository-model';
+    const REPOSITORY_SEARCH_RESULT_MODEL_TEMPLATES_DIR =
+        self::REPOSITORY_TEMPLATES_DIR . DIRECTORY_SEPARATOR . 'search-result-model';
 }

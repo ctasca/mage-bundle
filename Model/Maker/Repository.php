@@ -115,7 +115,17 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'Repository'
             );
-            $output->writeln("<comment>$modelClassName" . "Repository successfully created</comment>");
+            $output->writeln("<comment>$modelClassName" . "Repository class successfully created</comment>");
+            $output->writeln('');
+            $this->writeFileFromTemplateChoice(
+                $this->makePathFromArray($modelPathArray),
+                $input,
+                $output,
+                self::REPOSITORY_SEARCH_RESULT_MODEL_TEMPLATES_DIR,
+                $dataProvider,
+                $modelClassName . 'SearchResult'
+            );
+            $output->writeln("<comment>$modelClassName" . "SearchResult class successfully created</comment>");
             $output->writeln('');
             $output->writeln('<info>Completed!</info>');
             $output->writeln('');
