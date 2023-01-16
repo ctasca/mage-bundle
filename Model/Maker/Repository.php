@@ -54,7 +54,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             $apiPathArray = [$modulePath, 'Api'];
             $apiDataPathArray = [$modulePath, 'Api', 'Data'];
             $interfaceLocator = $this->getAppCodeLocator($this->makePathFromArray($apiDataPathArray));
-            $interfaceDirectory = $interfaceLocator->locate();
+            $interfaceDirectory = rtrim($interfaceLocator->locate(), DIRECTORY_SEPARATOR);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
             $dataProvider->setPhp('<?php');
@@ -64,7 +64,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             $dataProvider->setRepositoryName($modelClassName);
             $dataProvider->setRepositoryNameArgument(lcfirst($modelClassName));
             if (!$interfaceLocator->getIoFile()->fileExists(
-                $modelClassName . 'Interface.php'
+                $interfaceDirectory . DIRECTORY_SEPARATOR . $modelClassName . 'Interface.php'
             )) {
                 $createInterfaceConfirmationQuestion = $this->confirmationQuestionFactory->create(
                     sprintf(
