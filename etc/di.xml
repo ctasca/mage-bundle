@@ -20,6 +20,7 @@
     <preference for="Ctasca\MageBundle\Api\MakerUiComponentInterface" type="Ctasca\MageBundle\Model\Maker\UiComponent"/>
     <preference for="Ctasca\MageBundle\Api\MakerLoggerInterface" type="Ctasca\MageBundle\Model\Maker\Logger"/>
     <preference for="Ctasca\MageBundle\Api\MakerJsMixinInterface" type="Ctasca\MageBundle\Model\Maker\JsMixin"/>
+    <preference for="Ctasca\MageBundle\Api\MakerRepositoryInterface" type="Ctasca\MageBundle\Model\Maker\Repository"/>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
@@ -43,6 +44,7 @@
                 <item name="createUiComponentCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateUiComponentCommand</item>
                 <item name="createLoggerCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateLoggerCommand</item>
                 <item name="createJsMixinCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateJsMixinCommand</item>
+                <item name="createRepositoryCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateRepositoryCommand</item>
             </argument>
         </arguments>
     </type>

@@ -20,8 +20,11 @@ use Ctasca\MageBundle\Model\Template\CustomData\LocatorFactory as CustomDataLoca
 use Ctasca\MageBundle\Model\File\MakerFactory as FileMakerFactory;
 use Ctasca\MageBundle\Console\Question\Factory as QuestionFactory;
 use Ctasca\MageBundle\Console\Question\Choice\Factory as QuestionChoiceFactory;
+use Ctasca\MageBundle\Console\Question\ConfirmationQuestion\Factory as ConfirmationQuestionFactory;
 use Ctasca\MageBundle\Logger\Logger;
 use Ctasca\MageBundle\Exception\FileExistsException;
+use Ctasca\MageBundle\Exception\FileDoesNotExistException;
+use Ctasca\MageBundle\Exception\ClassDoesNotImplementInterfaceException;
 
 abstract class AbstractMaker implements MakerInterface
 {
@@ -33,6 +36,7 @@ abstract class AbstractMaker implements MakerInterface
     protected FileMakerFactory $fileMakerFactory;
     protected QuestionFactory $questionFactory;
     protected QuestionChoiceFactory $questionChoiceFactory;
+    protected ConfirmationQuestionFactory $confirmationQuestionFactory;
     protected Logger $logger;
 
     /**
@@ -44,6 +48,7 @@ abstract class AbstractMaker implements MakerInterface
      * @param FileMakerFactory $fileMakerFactory
      * @param QuestionFactory $questionFactory
      * @param QuestionChoiceFactory $questionChoiceFactory
+     * @param ConfirmationQuestionFactory $confirmationQuestionFactory
      * @param Logger $logger
      */
     public function __construct(
@@ -55,6 +60,7 @@ abstract class AbstractMaker implements MakerInterface
         FileMakerFactory $fileMakerFactory,
         QuestionFactory $questionFactory,
         QuestionChoiceFactory $questionChoiceFactory,
+        ConfirmationQuestionFactory $confirmationQuestionFactory,
         Logger $logger
     ) {
         $this->questionHelper = $questionHelper;
@@ -65,6 +71,7 @@ abstract class AbstractMaker implements MakerInterface
         $this->fileMakerFactory = $fileMakerFactory;
         $this->questionFactory = $questionFactory;
         $this->questionChoiceFactory = $questionChoiceFactory;
+        $this->confirmationQuestionFactory = $confirmationQuestionFactory;
         $this->logger = $logger;
     }
 
@@ -469,7 +476,10 @@ abstract class AbstractMaker implements MakerInterface
     protected function logAndOutputErrorMessage(\Exception $e, OutputInterface $output): void
     {
         $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
-        if (!is_a($e, FileExistsException::class)) {
+        if (!is_a($e, FileExistsException::class) ||
+            !is_a($e,FileDoesNotExistException::class) ||
+            !is_a($e,ClassDoesNotImplementInterfaceException::class)
+        ) {
             $output->writeln("<error>Something went wrong! Check the mage-bundle.log if logging is enabled.</error>");
         } else {
             $output->writeln('<error>' . $e->getMessage() . '</error>');

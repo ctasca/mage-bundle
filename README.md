@@ -78,6 +78,26 @@ bin/magento m:m:s:c
 ---
 
 ```bash
+bin/magento magebundle:repository:create
+```
+#### Shortcut
+```bash
+bin/magento m:r:c
+```
+<p>Creates all the required class for a Repository in specified Company/Module.</p>
+<p><strong>IMPORTANT:</strong> In order to create a repository a model implementing an interface must exist.</p>
+<p>If you need a Repository when creating a model-set with the command <code>magebundle:model:set:create</code> you can choose a template that will also create a Model implementing an interface</p>
+<p>This command creates the following:</p>
+<ul>
+<li>An API Interface for the repository</li>
+<li>An API Data Interface for the model (if it doesn't exist)</li>
+<li>An API Data Search Result Interface</li>
+<li>The repository Model implementing the repository Interface</li>
+</ul>
+
+---
+
+```bash
 bin/magento magebundle:model:create
 ```
 #### Shortcut

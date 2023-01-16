@@ -27,6 +27,16 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
             self::MAX_QUESTION_ATTEMPTS
         );
         $modelPath = $this->questionHelper->ask($input, $output, $question);
+        list($pathToModel, $modelClassName, , $isOnlyClassName) = $this->extractPathParts($modelPath);
+        // ask if the model implements an interface
+        $confirmationQuestion = $this->confirmationQuestionFactory->create(
+            strintf('Does this model implement the API/Data %sInterface?', $modelClassName)
+        );
+        $isImplementingInterface = $this->questionHelper->ask($input, $output, $confirmationQuestion);
+        $interfaceName = null;
+        if ($isImplementingInterface === true) {
+            $interfaceName = $modelClassName . 'Interface';
+        }
         // main table question
         $question = $this->questionFactory->create('Enter main table name');
         QuestionValidator::validateRequired(
@@ -44,7 +54,6 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
         );
         $fieldNameId = $this->questionHelper->ask($input, $output, $question);
         try {
-            list($pathToModel, $modelClassName, , $isOnlyClassName) = $this->extractPathParts($modelPath);
             if ($isOnlyClassName) {
                 $modelPathArray = [$this->makeModulePathFromName($moduleName), 'Model'];
                 $useModelPathArray = [$this->makeModulePathFromName($moduleName), 'Model', $modelClassName];
@@ -105,7 +114,9 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
             $dataProvider->setCollectionNamespace($this->makeNamespace($collectionDirectoryPath));
             $dataProvider->setUseModel($this->makeNamespace($useModelPathArray));
             $dataProvider->setUseResourceModel($this->makeNamespace($useResourceModelPathArray));
-
+            if ($interfaceName !== null) {
+                $dataProvider->setDataInterface($interfaceName);
+            }
             $this->writeFileFromTemplateChoice(
                 $modelDirectoryPath,
                 $input,

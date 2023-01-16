@@ -1,0 +1,127 @@
+<?php
+declare(strict_types=1);
+
+namespace Ctasca\MageBundle\Model\Maker;
+
+use Ctasca\MageBundle\Api\MakerRepositoryInterface;
+use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
+use Ctasca\MageBundle\Exception\ClassDoesNotImplementInterfaceException;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Ctasca\MageBundle\Exception\FileDoesNotExistException;
+
+class Repository extends AbstractMaker implements MakerRepositoryInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function make(InputInterface $input, OutputInterface $output): void
+    {
+        $question = $this->makeModuleNameQuestion();
+        $moduleName = $this->questionHelper->ask($input, $output, $question);
+        //ask for model filename
+        $question = $this->questionFactory->create(
+            'Enter Model class name. It can be also a directory. (e.g. Test or Test/MyModel)'
+        );
+        QuestionValidator::validatePath(
+            $question,
+            "Model class name is not valid.",
+            self::MAX_QUESTION_ATTEMPTS
+        );
+        $modelPath = $this->questionHelper->ask($input, $output, $question);
+        try {
+            list($pathToModel, $modelClassName, , $isOnlyClassName) = $this->extractPathParts($modelPath);
+            $modulePath = $this->makeModulePathFromName($moduleName);
+            $modelPathArray = [$modulePath, 'Model'];
+            if ($isOnlyClassName !== true) {
+                $modelPathArray = [$modulePath, 'Model', $pathToModel];
+            }
+            $modelDirectoryPath = $this->makePathFromArray($modelPathArray);
+            $modelLocator = $this->getAppCodeLocator($modelDirectoryPath);
+            $modelDirectory = $modelLocator->locate();
+            if (!$modelLocator->getIoFile()->fileExists(
+                $modelDirectory . DIRECTORY_SEPARATOR. $modelClassName . '.php'
+            )) {
+                throw new FileDoesNotExistException(
+                    sprintf("Specified Model %s does not exists in module %s", $modelClassName, $moduleName)
+                );
+            } else {
+                $modelNamespace = $this->makeNamespace($modelPathArray);
+                $model = new ReflectionClass($modelNamespace);
+                $interfacePathArray = [$modulePath, 'Api', 'Data'];
+                $interfaceNamespace = $this->makeNamespace($interfacePathArray);
+                $modelInterface = $interfaceNamespace . "\\$modelClassName" . 'Interface';
+                if ($model->implementsInterface($modelInterface) === false) {
+                    throw new ClassDoesNotImplementInterfaceException(
+                        sprintf(
+                            "Specified Model %s does not implement interface %s",
+                            $modelClassName,
+                            $modelClassName . 'Interface'
+                        )
+                    );
+                }
+            }
+            // check if interface already exists
+            $modelInterfacePathArray = [$modulePath, 'Api', 'Data', $modelClassName . 'Interface'];
+            $apiPathArray = [$modulePath, 'Api'];
+            $interfaceLocator = $this->getAppCodeLocator($this->makePathFromArray($modelInterfacePathArray));
+            $interfaceDirectory = $interfaceLocator->locate();
+            /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
+            $dataProvider = $this->dataProviderFactory->create();
+            $dataProvider->setPhp('<?php');
+            $dataProvider->setApiNamespace($this->makeNamespace($apiPathArray));
+            $dataProvider->setModelName($modelClassName);
+            $dataProvider->setRepositoryName($modelClassName);
+            $dataProvider->setRepositoryNameArgument(lcfirst($modelClassName));
+            if (!$interfaceLocator->getIoFile()->fileExists(
+                $interfaceDirectory . DIRECTORY_SEPARATOR . $modelClassName . 'Interface'
+            )) {
+                $createInterfaceConfirmationQuestion = $this->confirmationQuestionFactory->create(
+                    sprintf(
+                        "Interface $modelClassName%s does not exist. Do you want to create it?",
+                        'Interface'
+                    )
+                );
+                $doCreateInterface = $this->questionHelper->ask($input, $output, $createInterfaceConfirmationQuestion);
+                if ($doCreateInterface === true) {
+                    $this->writeFileFromTemplateChoice(
+                        $interfaceDirectory,
+                        $input,
+                        $output,
+                        self::REPOSITORY_DATA_INTERFACE_TEMPLATES_DIR,
+                        $dataProvider,
+                        $modelClassName . 'Interface'
+                    );
+                }
+            }
+            $this->writeFileFromTemplateChoice(
+                $interfaceDirectory . DIRECTORY_SEPARATOR . 'Api',
+                $input,
+                $output,
+                self::REPOSITORY_INTERFACE_TEMPLATES_DIR,
+                $dataProvider,
+                $modelClassName . 'RepositoryInterface'
+            );
+            $this->writeFileFromTemplateChoice(
+                $interfaceDirectory . DIRECTORY_SEPARATOR . 'Api' .DIRECTORY_SEPARATOR . 'Data',
+                $input,
+                $output,
+                self::REPOSITORY_SEARCH_RESULT_INTERFACE_TEMPLATES_DIR,
+                $dataProvider,
+                $modelClassName . 'SearchResultInterface'
+            );
+            $this->writeFileFromTemplateChoice(
+                $modelDirectory,
+                $input,
+                $output,
+                self::REPOSITORY_MODEL_TEMPLATES_DIR,
+                $dataProvider,
+                $modelClassName . 'Repository'
+            );
+            $output->writeln('Completed! Repository classes successfully created');
+            $output->writeln('');
+        } catch (\Exception $e) {
+            $this->logAndOutputErrorMessage($e, $output);
+        }
+    }
+}
