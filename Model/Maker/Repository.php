@@ -66,25 +66,16 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             if (!$interfaceLocator->getIoFile()->fileExists(
                 $interfaceDirectory . DIRECTORY_SEPARATOR . $modelClassName . 'Interface.php'
             )) {
-                $createInterfaceConfirmationQuestion = $this->confirmationQuestionFactory->create(
-                    sprintf(
-                        "Interface $modelClassName%s does not exist. Do you want to create it?",
-                        'Interface'
-                    )
+                $this->writeFileFromTemplateChoice(
+                    $this->makePathFromArray($apiDataPathArray),
+                    $input,
+                    $output,
+                    self::REPOSITORY_DATA_INTERFACE_TEMPLATES_DIR,
+                    $dataProvider,
+                    $modelClassName . 'Interface'
                 );
-                $doCreateInterface = $this->questionHelper->ask($input, $output, $createInterfaceConfirmationQuestion);
-                if ($doCreateInterface === true) {
-                    $this->writeFileFromTemplateChoice(
-                        $this->makePathFromArray($apiDataPathArray),
-                        $input,
-                        $output,
-                        self::REPOSITORY_DATA_INTERFACE_TEMPLATES_DIR,
-                        $dataProvider,
-                        $modelClassName . 'Interface'
-                    );
-                    $output->writeln("<info>$modelClassName" . "Interface successfully created</info>");
-                    $output->writeln('');
-                }
+                $output->writeln("<comment>$modelClassName" . "Interface successfully created</comment>");
+                $output->writeln('');
             }
             $model = new \ReflectionClass($modelNamespace . "\\$modelClassName");
             if ($model->implementsInterface($modelInterface) === false) {
@@ -104,7 +95,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'RepositoryInterface'
             );
-            $output->writeln("<info>$modelClassName" . "RepositoryInterface successfully created</info>");
+            $output->writeln("<comment>$modelClassName" . "RepositoryInterface successfully created</comment>");
             $output->writeln('');
             $this->writeFileFromTemplateChoice(
                 $this->makePathFromArray($apiDataPathArray),
@@ -114,7 +105,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'SearchResultInterface'
             );
-            $output->writeln("<info>$modelClassName" . "SearchResultInterface successfully created</info>");
+            $output->writeln("<comment>$modelClassName" . "SearchResultInterface successfully created</comment>");
             $output->writeln('');
             $this->writeFileFromTemplateChoice(
                 $this->makePathFromArray($modelPathArray),
@@ -124,7 +115,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'Repository'
             );
-            $output->writeln("<info>$modelClassName" . "Repository successfully created</info>");
+            $output->writeln("<comment>$modelClassName" . "Repository successfully created</comment>");
             $output->writeln('');
             $output->writeln('<info>Completed!</info>');
             $output->writeln('');
