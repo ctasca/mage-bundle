@@ -52,7 +52,8 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $modelInterface = $interfaceNamespace . "\\$modelClassName" . 'Interface';
             }
             $apiPathArray = [$modulePath, 'Api'];
-            $interfaceLocator = $this->getAppCodeLocator($this->makePathFromArray($interfacePathArray));
+            $apiDataPathArray = [$modulePath, 'Api', 'Data'];
+            $interfaceLocator = $this->getAppCodeLocator($this->makePathFromArray($apiDataPathArray));
             $interfaceDirectory = $interfaceLocator->locate();
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
             $dataProvider = $this->dataProviderFactory->create();
@@ -73,7 +74,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $doCreateInterface = $this->questionHelper->ask($input, $output, $createInterfaceConfirmationQuestion);
                 if ($doCreateInterface === true) {
                     $this->writeFileFromTemplateChoice(
-                        $interfaceDirectory,
+                        $this->makePathFromArray($apiDataPathArray),
                         $input,
                         $output,
                         self::REPOSITORY_DATA_INTERFACE_TEMPLATES_DIR,
@@ -93,7 +94,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 );
             }
             $this->writeFileFromTemplateChoice(
-                $interfaceDirectory . DIRECTORY_SEPARATOR . 'Api',
+                $this->makePathFromArray($apiPathArray),
                 $input,
                 $output,
                 self::REPOSITORY_INTERFACE_TEMPLATES_DIR,
@@ -101,7 +102,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $modelClassName . 'RepositoryInterface'
             );
             $this->writeFileFromTemplateChoice(
-                $interfaceDirectory . DIRECTORY_SEPARATOR . 'Api' .DIRECTORY_SEPARATOR . 'Data',
+                $this->makePathFromArray($apiDataPathArray),
                 $input,
                 $output,
                 self::REPOSITORY_SEARCH_RESULT_INTERFACE_TEMPLATES_DIR,
@@ -109,7 +110,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $modelClassName . 'SearchResultInterface'
             );
             $this->writeFileFromTemplateChoice(
-                $modelDirectory,
+                $this->makePathFromArray($modelPathArray),
                 $input,
                 $output,
                 self::REPOSITORY_MODEL_TEMPLATES_DIR,
