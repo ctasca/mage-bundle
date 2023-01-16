@@ -82,7 +82,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                         $dataProvider,
                         $modelClassName . 'Interface'
                     );
-                    $output->writeln("<success>$modelClassName" . "Interface successfully created</success>");
+                    $output->writeln("<info>$modelClassName" . "Interface successfully created</info>");
                     $output->writeln('');
                 }
             }
@@ -104,7 +104,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'RepositoryInterface'
             );
-            $output->writeln("<success>$modelClassName" . "RepositoryInterface successfully created</success>");
+            $output->writeln("<info>$modelClassName" . "RepositoryInterface successfully created</info>");
             $output->writeln('');
             $this->writeFileFromTemplateChoice(
                 $this->makePathFromArray($apiDataPathArray),
@@ -114,7 +114,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'SearchResultInterface'
             );
-            $output->writeln("<success>$modelClassName" . "SearchResultInterface successfully created</success>");
+            $output->writeln("<info>$modelClassName" . "SearchResultInterface successfully created</info>");
             $output->writeln('');
             $this->writeFileFromTemplateChoice(
                 $this->makePathFromArray($modelPathArray),
@@ -124,9 +124,9 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $dataProvider,
                 $modelClassName . 'Repository'
             );
-            $output->writeln("<success>$modelClassName" . "Repository successfully created</success>");
+            $output->writeln("<info>$modelClassName" . "Repository successfully created</info>");
             $output->writeln('');
-            $output->writeln('<success>Completed!</success>');
+            $output->writeln('<info>Completed!</info>');
             $output->writeln('');
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
