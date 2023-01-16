@@ -64,7 +64,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             $dataProvider->setRepositoryName($modelClassName);
             $dataProvider->setRepositoryNameArgument(lcfirst($modelClassName));
             if (!$interfaceLocator->getIoFile()->fileExists(
-                $interfaceDirectory . DIRECTORY_SEPARATOR . $modelClassName . 'Interface'
+                $modelClassName . 'Interface.php'
             )) {
                 $createInterfaceConfirmationQuestion = $this->confirmationQuestionFactory->create(
                     sprintf(
