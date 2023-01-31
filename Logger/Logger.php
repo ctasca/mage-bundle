@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Ctasca\MageBundle\Logger;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Monolog\DateTimeImmutable;
 
 class Logger extends \Monolog\Logger
 {
@@ -32,22 +31,27 @@ class Logger extends \Monolog\Logger
     }
 
     /**
-     * @param int $level
-     * @param string $message
+     * @param $message
      * @param array $context
-     * @param DateTimeImmutable|null $datetime
-     * @return bool
+     * @return void
      */
-    public function addRecord(
-        int $level,
-        string $message,
-        array $context = [],
-        DateTimeImmutable $datetime = null
-    ): bool {
+    public function logInfo($message, array $context = []): void
+    {
         if ($this->isLoggingEnabled()) {
-            return parent::addRecord($level, $message, $context, $datetime);
+            $this->info($message, $context);
         }
-        return false;
+    }
+
+    /**
+     * @param $message
+     * @param array $context
+     * @return void
+     */
+    public function logError($message, array $context = []): void
+    {
+        if ($this->isLoggingEnabled()) {
+            $this->error($message, $context);
+        }
     }
 
     /**

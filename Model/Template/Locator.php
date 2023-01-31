@@ -34,7 +34,7 @@ class Locator extends AbstractLocator
     {
         $templateFileDirectory = $this->isTemplateFoundInDevDirectory();
         if ($templateFileDirectory !== null) {
-            $this->logger->info(
+            $this->logger->logInfo(
                 __METHOD__ . " Locating directory -> caller:",
                 [$templateFileDirectory, debug_backtrace()[1]['function']]
             );
@@ -42,7 +42,7 @@ class Locator extends AbstractLocator
         }
         $templateFileDirectory = $this->isTemplateFoundInSkeletonDirectory();
         if ($templateFileDirectory !== null) {
-            $this->logger->info(
+            $this->logger->logInfo(
                 __METHOD__ . " Locating directory -> caller:",
                 [$templateFileDirectory, debug_backtrace()[1]['function']]
             );

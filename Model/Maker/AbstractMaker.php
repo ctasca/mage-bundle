@@ -164,7 +164,7 @@ abstract class AbstractMaker implements MakerInterface
     {
         $directory = rtrim($directory, DIRECTORY_SEPARATOR);
         $writer = $locator->getWrite($directory);
-        $this->logger->info(__METHOD__ . " Writing file $filename in $directory");
+        $this->logger->logInfo(__METHOD__ . " Writing file $filename in $directory");
         if ($locator->getIoFile()->fileExists($directory . DIRECTORY_SEPARATOR. $filename)) {
             throw new FileExistsException("File $filename already exists in $directory");
         }
@@ -417,7 +417,7 @@ abstract class AbstractMaker implements MakerInterface
      */
     protected function setDataProviderCustomData(DataProvider $dataProvider, string $template): void
     {
-        $this->logger->info(
+        $this->logger->logInfo(
             __METHOD__ . " initialised template file",
             [
                 $template
@@ -475,7 +475,7 @@ abstract class AbstractMaker implements MakerInterface
      */
     protected function logAndOutputErrorMessage(\Exception $e, OutputInterface $output): void
     {
-        $this->logger->error(__METHOD__ . " Exception in command:", [$e->getMessage()]);
+        $this->logger->logError(__METHOD__ . " Exception in command:", [$e->getMessage()]);
         if (!is_a($e, FileExistsException::class) &&
             !is_a($e, FileDoesNotExistException::class) &&
             !is_a($e, ClassDoesNotImplementInterfaceException::class)

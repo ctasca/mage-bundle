@@ -39,7 +39,7 @@ class Locator extends AbstractLocator
             ->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath(self::DEV_CUSTOM_DATA_DIR);
         $this->file->checkAndCreateFolder($customDataDirectory);
-        $this->logger->info(
+        $this->logger->logInfo(
             __METHOD__ . " Locating directory -> caller:",
             [
                 $customDataDirectory,
@@ -55,7 +55,7 @@ class Locator extends AbstractLocator
     public function getCustomData(): array
     {
         $devMageBundleCustomDataDir = $this->locate();
-        $this->logger->info(
+        $this->logger->logInfo(
             __METHOD__ . " Locating file",
             [
                 $this->getTemplateFilename(),
@@ -65,7 +65,7 @@ class Locator extends AbstractLocator
         if (!empty($this->getTemplateFilename()) &&
             $this->file->fileExists($devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
         ) {
-            $this->logger->info(
+            $this->logger->logInfo(
                 __METHOD__ . " Found custom data file",
                 [
                     $devMageBundleCustomDataDir . $this->getTemplateFilename(),
@@ -77,7 +77,7 @@ class Locator extends AbstractLocator
 
             $unserializedData = $this->jsonSerializer->unserialize($fileContent);
 
-            $this->logger->info(
+            $this->logger->logInfo(
                 __METHOD__ . " Unserialized Data",
                 [
                     $unserializedData,
@@ -87,7 +87,7 @@ class Locator extends AbstractLocator
 
             return $this->jsonSerializer->unserialize($fileContent);
         }
-        $this->logger->info(
+        $this->logger->logInfo(
             __METHOD__ . " Did not get custom data file",
             [
                 $devMageBundleCustomDataDir . $this->getTemplateFilename(),

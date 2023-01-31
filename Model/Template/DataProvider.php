@@ -33,16 +33,16 @@ class DataProvider
     {
         $methodType = strtolower(substr($method, 0, 3));
         $dataKey = $this->_underscore(substr($method, 3));
-        $this->logger->info(__METHOD__ . " __call method:", [$method]);
-        $this->logger->info(__METHOD__ . " __call extracted key:", [$dataKey]);
+        $this->logger->logInfo(__METHOD__ . " __call method:", [$method]);
+        $this->logger->logInfo(__METHOD__ . " __call extracted key:", [$dataKey]);
         switch ($methodType) {
             case 'get':
-                $this->logger->info(__METHOD__ . " get data:", $this->data);
+                $this->logger->logInfo(__METHOD__ . " get data:", $this->data);
                 return $this->getData($dataKey);
             case 'set':
                 $value = $args[0] ?? null;
                 $this->data[$dataKey] = $value;
-                $this->logger->info(__METHOD__ . " set data:", $this->data);
+                $this->logger->logInfo(__METHOD__ . " set data:", $this->data);
                 break;
             default:
                 return null;
@@ -64,7 +64,7 @@ class DataProvider
      */
     public function setCustomData(array $customData): void
     {
-        $this->logger->info(__METHOD__ . " custom data loaded", $customData);
+        $this->logger->logInfo(__METHOD__ . " custom data loaded", $customData);
         $customDataIterator = new \ArrayIterator($customData);
         while ($customDataIterator->valid()) {
             $currentCustomDataSetter = $customDataIterator->key();
