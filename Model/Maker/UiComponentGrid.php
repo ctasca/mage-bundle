@@ -32,10 +32,13 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
 
             $pathToFile = "ui-component/$namespace";
 
-            $pathArray = $this->makeUiComponentXmlPathArray($moduleName, "adminhtml", true, $pathToFile);
+            $pathArray = $this->makeUiComponentXmlPathArray(
+                $moduleName,
+                "adminhtml",
+                true,
+                $pathToFile);
 
-            $jsDirectoryPath = $this->makePathFromArray($pathArray);
-
+            $xmlDirectoryPath = $this->makePathFromArray($pathArray);
             $dataProvider->setModule($moduleName);
             $dataProvider->setLowercaseModule(strtolower($moduleName));
             $dataProvider->setNamespace($namespace);
@@ -43,7 +46,7 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
             $gridXmlFilename = "{$namespace}_grid";
 
             $this->writeFileFromTemplateChoice(
-                $jsDirectoryPath,
+                $xmlDirectoryPath,
                 $input,
                 $output,
                 self::UI_COMPONENT_TEMPLATES_DIR,
@@ -54,15 +57,61 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
             $output->writeln(
                 sprintf(
                     '<info>Completed! Xml file successfully created in app/code/%s</info>',
-                    $jsDirectoryPath
+                    $xmlDirectoryPath
                 )
             );
+
+            $this->showFollowingStepsTips($moduleName, $output, $namespace);
+
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
         }
     }
 
+    /**
+     * @param mixed $moduleName
+     * @param OutputInterface $output
+     * @param mixed $namespace
+     */
+    protected function showFollowingStepsTips(mixed $moduleName, OutputInterface $output, mixed $namespace): void
+    {
+        $vendor = explode("_", $moduleName)[0];
+        $module = explode("_", $moduleName)[1];
 
 
+        $output->writeln(
+            sprintf('
+<info>
+Remember to add this on your di.xml:
+    <virtualType name="GridDataProvider"
+         type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object"
+                      shared="false">%1$s\%2$s\Model\ResourceModel\YourModel\Collection</argument>
+            <argument name="filterPool" xsi:type="object"
+                      shared="false">FilterPool</argument>
+        </arguments>
+    </virtualType>
 
+        <virtualType name="FilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+
+    <type name="%1$s\%2$s\Model\ResourceModel\YourModel\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">%3$s_grid</argument>
+            <argument name="eventPrefix" xsi:type="string">%3$s_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">%1$s\%2$s\Model\ResourceModel\YourModel</argument>
+        </arguments>
+    </type>
+</info>'
+                , $vendor, $module, $namespace));
+    }
 }
