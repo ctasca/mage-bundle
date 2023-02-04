@@ -114,6 +114,21 @@ abstract class AbstractMaker implements MakerInterface
         return $pathArray;
     }
 
+    protected function makeUiComponentXmlPathArray(
+        $moduleName,
+        string $webArea,
+        bool $isOnlyFilename,
+        string $pathToFile
+    ): array
+    {
+        $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'ui-component'];
+        if (!$isOnlyFilename) {
+            $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'ui-component', $pathToFile];
+        }
+
+        return $pathArray;
+    }
+
     /**
      * @param string $locatorDirectory
      * @return LocatorInterface
@@ -377,6 +392,21 @@ abstract class AbstractMaker implements MakerInterface
             "Javascript mixin filename is not valid. Only lowercase characters, underscores or dashes.".
             " Must end with '-mixin' suffix.",
             self::MAX_QUESTION_ATTEMPTS
+        );
+
+        return $question;
+    }
+
+    protected function makeGridNamespaceQuestion(
+        \Ctasca\MageBundle\Model\Template\Locator $templateLocator,
+        string $string
+    )
+    {
+        $question = $this->questionFactory->create(
+            'Enter the namespace for the ui component' .
+            "\n<comment>The name of xml will be {{namespace}}_grid \n" .
+            "File will be created in the Company/Module/view/adminhtml/ui-component directory" .
+            "</comment>"
         );
 
         return $question;
