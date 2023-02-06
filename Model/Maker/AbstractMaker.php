@@ -119,8 +119,7 @@ abstract class AbstractMaker implements MakerInterface
         string $webArea,
         bool $isOnlyFilename,
         string $pathToFile
-    ): array
-    {
+    ): array {
         $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'ui-component'];
         if (!$isOnlyFilename) {
             $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'ui-component', $pathToFile];

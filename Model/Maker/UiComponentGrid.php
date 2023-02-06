@@ -20,7 +20,7 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         try {
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
-            list($templateLocator,)  = $this->locateTemplateDirectory(self::UI_COMPONENT_TEMPLATES_DIR);
+            list($templateLocator,)  = $this->locateTemplateDirectory(self::UI_COMPONENT_XML_TEMPLATES_DIR);
             $question = $this->makeGridNamespaceQuestion(
                 $templateLocator,
                 'Please type the namespace for grid Ui component'
@@ -49,7 +49,7 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
                 $xmlDirectoryPath,
                 $input,
                 $output,
-                self::UI_COMPONENT_TEMPLATES_DIR,
+                self::UI_COMPONENT_XML_TEMPLATES_DIR,
                 $dataProvider,
                 $gridXmlFilename,
                 '.xml'

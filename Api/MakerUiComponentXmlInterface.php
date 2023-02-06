@@ -5,5 +5,5 @@ namespace Ctasca\MageBundle\Api;
 
 interface MakerUiComponentXmlInterface extends MakerInterface
 {
-    const UI_COMPONENT_TEMPLATES_DIR =  'xml';
+    const UI_COMPONENT_XML_TEMPLATES_DIR =  'ui-component' . DIRECTORY_SEPARATOR . 'xml';
 }
