@@ -115,7 +115,7 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     protected function makeUiComponentXmlPathArray(
-        $moduleName,
+        string $moduleName,
         string $webArea,
         bool $isOnlyFilename,
         string $pathToFile
