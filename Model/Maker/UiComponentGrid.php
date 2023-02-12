@@ -11,6 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterface
 {
+
+    protected $componentType = "grid";
+
     /**
      * {@inheritdoc}
      */
@@ -21,9 +24,9 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
         try {
             /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
             list($templateLocator,)  = $this->locateTemplateDirectory(self::UI_COMPONENT_XML_TEMPLATES_DIR);
-            $question = $this->makeGridNamespaceQuestion(
+            $question = $this->makeUiComponentNamespaceQuestion(
                 $templateLocator,
-                'Please type the namespace for grid Ui component'
+                'Please type the namespace for the Ui component'
             );
             $namespace = $this->questionHelper->ask($input, $output, $question);
 

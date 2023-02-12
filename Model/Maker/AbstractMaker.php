@@ -38,6 +38,7 @@ abstract class AbstractMaker implements MakerInterface
     protected QuestionChoiceFactory $questionChoiceFactory;
     protected ConfirmationQuestionFactory $confirmationQuestionFactory;
     protected Logger $logger;
+    protected $componentType;
 
     /**
      * @param SymfonyQuestionHelper $questionHelper
@@ -396,14 +397,14 @@ abstract class AbstractMaker implements MakerInterface
         return $question;
     }
 
-    protected function makeGridNamespaceQuestion(
+    protected function makeUiComponentNamespaceQuestion(
         \Ctasca\MageBundle\Model\Template\Locator $templateLocator,
         string $string
     )
     {
         $question = $this->questionFactory->create(
             'Enter the namespace for the ui component' .
-            "\n<comment>The name of xml will be {{namespace}}_grid \n" .
+            "\n<comment>The name of xml will be {{namespace}}_". $this->componentType ."\n" .
             "File will be created in the Company/Module/view/adminhtml/ui-component directory" .
             "</comment>"
         );
