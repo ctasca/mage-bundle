@@ -73,7 +73,7 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
      * @param OutputInterface $output
      * @param mixed $namespace
      */
-    protected function showFollowingStepsTips(mixed $moduleName, OutputInterface $output, mixed $namespace): void
+    protected function showFollowingStepsTips(string $moduleName, OutputInterface $output, mixed $namespace): void
     {
         $vendor = explode("_", $moduleName)[0];
         $module = explode("_", $moduleName)[1];
