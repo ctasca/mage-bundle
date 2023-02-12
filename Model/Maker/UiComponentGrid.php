@@ -42,8 +42,6 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
                 $pathToFile);
 
             $xmlDirectoryPath = $this->makePathFromArray($pathArray);
-            $dataProvider->setModule($moduleName);
-            $dataProvider->setLowercaseModule(strtolower($moduleName));
             $dataProvider->setNamespace($namespace);
 
             $gridXmlFilename = "{$namespace}_grid";
@@ -76,7 +74,7 @@ class UiComponentGrid extends AbstractMaker implements MakerUiComponentXmlInterf
      * @param OutputInterface $output
      * @param mixed $namespace
      */
-    protected function showFollowingStepsTips(string $moduleName, OutputInterface $output, mixed $namespace): void
+    protected function showFollowingStepsTips(string $moduleName, OutputInterface $output, string $namespace): void
     {
         $vendor = explode("_", $moduleName)[0];
         $module = explode("_", $moduleName)[1];
