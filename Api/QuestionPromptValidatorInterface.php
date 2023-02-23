@@ -67,4 +67,10 @@ interface QuestionPromptValidatorInterface
      *
      */
     const LOGGER_FILENAME_VALIDATION_PATTERN = '/^[a-z]([a-z-_]{0,}[\/]{0,})+([a-z]{0,})+[^\/\.]\.log$/';
+
+    /**
+     * Ui component namespace validation pattern
+     *
+     */
+    const UI_NAMESPACE_VALIDATION_PATTERN = '/^([a-z-_])+[a-z]{1}$/';
 }

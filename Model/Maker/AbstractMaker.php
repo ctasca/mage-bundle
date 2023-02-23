@@ -409,6 +409,12 @@ abstract class AbstractMaker implements MakerInterface
             "</comment>"
         );
 
+        QuestionValidator::validateUiComponentNamespace(
+            $question,
+            "Namespace is not valid. Only lowercase characters, underscores or dashes are allowed.",
+            self::MAX_QUESTION_ATTEMPTS
+        );
+
         return $question;
     }
 

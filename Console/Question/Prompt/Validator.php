@@ -201,4 +201,19 @@ class Validator implements QuestionPromptValidatorInterface
 
         $question->setMaxAttempts($maxAttempts);
     }
+
+    public static function validateUiComponentNamespace(
+        Question $question,
+        string $exceptionMessage,
+        int $maxAttempts
+    )
+    {
+        self::validateQuestionByPattern(
+            $question,
+            self::UI_NAMESPACE_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
+
+    }
 }
