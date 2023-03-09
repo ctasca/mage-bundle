@@ -18,23 +18,23 @@ class {{repository_name}}Repository implements {{repository_name}}RepositoryInte
 {
 
     public function __construct(
-        protected {{repository_name}}Resource ${{repository_name_argument}}Resource,
-        protected {{repository_name}}Factory ${{repository_name_argument}}Factory,
-        protected {{repository_name}}CollectionFactory ${{repository_name_argument}}CollectionFactory,
-        protected CollectionProcessorInterface $collectionProcessor,
-        protected {{repository_name}}SearchResultInterface ${{repository_name_argument}}SearchResult
+        private readonly {{repository_name}}Resource ${{repository_name_argument}}Resource,
+        private readonly {{repository_name}}Factory ${{repository_name_argument}}Factory,
+        private readonly {{repository_name}}CollectionFactory ${{repository_name_argument}}CollectionFactory,
+        private readonly CollectionProcessorInterface $collectionProcessor,
+        private readonly {{repository_name}}SearchResultInterface ${{repository_name_argument}}SearchResult
     ){}
 
     /**
-     * @param $id
+     * @param int $id
      * @return {{repository_name}}Interface
      * @throws NoSuchEntityException
      */
-    public function getById($id): {{repository_name}}Interface
+    public function getById(int $id): {{repository_name}}Interface
     {
         ${{repository_name_argument}} = $this->{{repository_name_argument}}Factory->create();
         $this->{{repository_name_argument}}Resource->load(${{repository_name_argument}}, $id);
-        if (!${{repository_name_argument}}->getEntityId()) {
+        if (!${{repository_name_argument}}->{{entity_getter_method}}()) {
             throw new NoSuchEntityException(__('Entity with id "%1" does not exist.', $id));
         }
 
@@ -42,7 +42,7 @@ class {{repository_name}}Repository implements {{repository_name}}RepositoryInte
     }
 
     /**
-     * @param {{repository_name}}Interface $deliveryBlacklist
+     * @param {{repository_name}}Interface ${{repository_name_argument}}
      * @return {{repository_name}}Interface
      * @throws CouldNotSaveException
      */
@@ -57,7 +57,7 @@ class {{repository_name}}Repository implements {{repository_name}}RepositoryInte
     }
 
     /**
-     * @param DeliveryBlacklistInterface ${{repository_name_argument}}
+     * @param {{repository_name}}Interface ${{repository_name_argument}}
      * @return bool
      * @throws CouldNotDeleteException
      */

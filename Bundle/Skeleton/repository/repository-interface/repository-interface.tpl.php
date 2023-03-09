@@ -11,11 +11,11 @@ use {{api_namespace}}\Data\{{repository_name}}SearchResultInterface;
 interface {{repository_name}}RepositoryInterface
 {
     /**
-     * @param $id
+     * @param int $id
      * @return {{repository_name}}Interface
      * @throws NoSuchEntityException
      */
-    public function getById($id): {{repository_name}}Interface;
+    public function getById(int $id): {{repository_name}}Interface;
 
     /**
      * @param {{repository_name}}Interface ${{repository_name_argument}}

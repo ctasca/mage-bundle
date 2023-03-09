@@ -107,6 +107,16 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             );
             $output->writeln("<comment>$modelClassName" . "SearchResultInterface successfully created</comment>");
             $output->writeln('');
+            $question = $this->questionFactory->create(
+                'Enter getter method for entity id, e.g. getEntityId or getId.'
+            );
+            QuestionValidator::validateGetterMethod(
+                $question,
+                "Entity getter method is not valid.",
+                self::MAX_QUESTION_ATTEMPTS
+            );
+            $getterMethod = $this->questionHelper->ask($input, $output, $question);
+            $dataProvider->setEntityGetterMethod($getterMethod);
             $this->writeFileFromTemplateChoice(
                 $this->makePathFromArray($modelPathArray),
                 $input,

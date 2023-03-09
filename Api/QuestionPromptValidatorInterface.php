@@ -67,4 +67,13 @@ interface QuestionPromptValidatorInterface
      *
      */
     const LOGGER_FILENAME_VALIDATION_PATTERN = '/^[a-z]([a-z-_]{0,}[\/]{0,})+([a-z]{0,})+[^\/\.]\.log$/';
+
+    /**
+     * Validates getter methods
+     *
+     * Ensure starts with get and follows with Camel-cased string
+     *
+     * Should not include parenthesis
+     */
+    const GETTER_METHOD_VALIDATION_PATTERN = '/^get([A-Z][a-z]+)+$/';
 }

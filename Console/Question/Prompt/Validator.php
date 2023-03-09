@@ -165,6 +165,22 @@ class Validator implements QuestionPromptValidatorInterface
 
     /**
      * @param Question $question
+     * @param string $exceptionMessage
+     * @param int $maxAttempts
+     * @return void
+     */
+    public static function validateGetterMethod(Question $question, string $exceptionMessage, int $maxAttempts): void
+    {
+        self::validateQuestionByPattern(
+            $question,
+            self::GETTER_METHOD_VALIDATION_PATTERN,
+            $exceptionMessage,
+            $maxAttempts
+        );
+    }
+
+    /**
+     * @param Question $question
      * @param string $pattern
      * @param string $exceptionMessage
      * @param int $maxAttempts
