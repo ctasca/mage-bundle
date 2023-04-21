@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
@@ -11,7 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ApiInterface extends AbstractMaker implements MakerApiInterfaceInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
@@ -27,14 +30,17 @@ class ApiInterface extends AbstractMaker implements MakerApiInterfaceInterface
             $question->setErrorMessage('Chosen area %s is invalid.');
             $area = $this->questionHelper->ask($input, $output, $question);
             $areaDirectory = $area;
-            if (self::FUNCTIONAL_AREA_NAME === $area) {
+
+            if ($area === self::FUNCTIONAL_AREA_NAME) {
                 $areaDirectory = '';
             }
+
             if (!empty($areaDirectory)) {
                 $pathArray = [$this->makeModulePathFromName($moduleName), 'Api', ucfirst($areaDirectory)];
             } else {
                 $pathArray = [$this->makeModulePathFromName($moduleName), 'Api'];
             }
+
             $apiDirectoryPath = $this->makePathFromArray($pathArray);
             $question = $this->questionFactory->create('Enter Api interface name');
             QuestionValidator::validateUcFirst(
@@ -63,7 +69,6 @@ class ApiInterface extends AbstractMaker implements MakerApiInterfaceInterface
                 )
             );
             $output->writeln('');
-
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
         }

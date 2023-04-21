@@ -1,58 +1,50 @@
-<?php
-// phpcs:ignoreFile
+{{php}}
 
 declare(strict_types=1);
 
-namespace Ctasca\MageBundle\Logger;
+namespace {{namespace}};
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
-class Logger extends \Monolog\Logger
+class {{class_name}} extends \Monolog\Logger
 {
     /**
      * Path to system config
      */
-    const LOGGING_ENABLED_CONFIG_PATH = 'ctasca_magebundle/settings/logging_enabled';
-
-    private ScopeConfigInterface $scopeConfig;
+    public const LOGGING_ENABLED_CONFIG_PATH = '';
 
     /**
      * @param string $name
-     * @param ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $handlers
      * @param array $processors
      */
     public function __construct(
         string $name,
-        ScopeConfigInterface $scopeConfig,
+        private readonly ScopeConfigInterface $scopeConfig,
         array $handlers = [],
         array $processors = []
     ) {
         parent::__construct($name, $handlers, $processors);
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**
-     * @param $message
-     * @param array $context
-     * @return void
+     * {@inheritdoc}
      */
-    public function logInfo($message, array $context = []): void
+    public function info($message, array $context = []): void
     {
         if ($this->isLoggingEnabled()) {
-            $this->info($message, $context);
+            return parent::info($message, $context);
         }
     }
 
     /**
-     * @param $message
-     * @param array $context
-     * @return void
+     * {@inheritdoc}
      */
-    public function logError($message, array $context = []): void
+    public function error($message, array $context = []): void
     {
         if ($this->isLoggingEnabled()) {
-            $this->error($message, $context);
+            parent::error($message, $context);
         }
     }
 

@@ -1,4 +1,5 @@
 {{php}}
+
 declare(strict_types=1);
 
 namespace {{api_namespace}};
@@ -13,7 +14,7 @@ interface {{repository_name}}RepositoryInterface
     /**
      * @param int $id
      * @return {{repository_name}}Interface
-     * @throws NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getById(int $id): {{repository_name}}Interface;
 
@@ -30,7 +31,7 @@ interface {{repository_name}}RepositoryInterface
     public function delete({{repository_name}}Interface ${{repository_name_argument}}): bool;
 
     /**
-     * @param SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return {{repository_name}}SearchResultInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria): {{repository_name}}SearchResultInterface;

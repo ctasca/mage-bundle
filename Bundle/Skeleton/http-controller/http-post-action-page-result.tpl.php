@@ -1,4 +1,5 @@
 {{php}}
+
 declare(strict_types=1);
 
 namespace {{namespace}};
@@ -11,16 +12,17 @@ use Magento\Framework\View\Result\Page;
 class {{class_name}} implements HttpPostActionInterface
 {
     /**
-     * @param RequestInterface $request
-     * @param PageFactory $resultPageFactory
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      */
     public function __construct(
         private readonly RequestInterface $request,
         private readonly PageFactory $resultPageFactory
-    ){}
+    ) {
+    }
 
     /**
-     * @return Page
+     * @return \Magento\Framework\View\Result\Page
      */
     public function execute(): Page
     {

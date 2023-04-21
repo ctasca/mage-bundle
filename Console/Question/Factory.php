@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Console\Question;
@@ -9,7 +10,7 @@ class Factory
 {
     /**
      * @param string $question
-     * @return Question
+     * @return \Symfony\Component\Console\Question\Question
      */
     public function create(string $question): Question
     {

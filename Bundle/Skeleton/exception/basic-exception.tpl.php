@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace {{namespace}};
 
-class {{class_name}} extends \Monolog\Logger
+class {{class_name}} extends \Exception
 {
 }

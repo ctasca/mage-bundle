@@ -7,20 +7,20 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Console\Command;
 
-use Ctasca\MageBundle\Api\MakerConsoleCommandInterface;
+use Ctasca\MageBundle\Api\MakerExceptionInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateConsoleCommandCommand extends Command
+class CreateExceptionCommand extends Command
 {
-    private MakerConsoleCommandInterface $maker;
+    private MakerExceptionInterface $maker;
 
     /**
-     * @param \Ctasca\MageBundle\Api\MakerConsoleCommandInterface $maker
+     * @param \Ctasca\MageBundle\Api\MakerExceptionInterface $maker
      */
     public function __construct(
-        MakerConsoleCommandInterface $maker
+        MakerExceptionInterface $maker
     ) {
         $this->maker = $maker;
         parent::__construct();
@@ -31,8 +31,8 @@ class CreateConsoleCommandCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('magebundle:console-command:create')
-            ->setDescription('Creates a Console Command class in specified Company/Module');
+        $this->setName('magebundle:exception:create')
+            ->setDescription('Creates an Exception class in specified Company/Module');
 
         parent::configure();
     }

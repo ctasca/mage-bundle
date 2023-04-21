@@ -1,4 +1,8 @@
 <?php
+
+// phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
@@ -11,7 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ModelSet extends AbstractMaker implements MakerModelSetInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
@@ -34,9 +40,11 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
         );
         $isImplementingInterface = $this->questionHelper->ask($input, $output, $confirmationQuestion);
         $interfaceName = null;
+
         if ($isImplementingInterface === true) {
             $interfaceName = $modelClassName . 'Interface';
         }
+
         // main table question
         $question = $this->questionFactory->create('Enter main table name');
         QuestionValidator::validateRequired(
@@ -99,6 +107,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
                     $modelClassName
                 ];
             }
+
             $modelDirectoryPath = $this->makePathFromArray($modelPathArray);
             $resourceModelDirectoryPath = $this->makePathFromArray($resourceModelPathArray);
             $collectionDirectoryPath = $this->makePathFromArray($collectionPathArray);
@@ -115,9 +124,11 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
             $dataProvider->setUseModel($this->makeNamespace($useModelPathArray));
             $dataProvider->setUseResourceModel($this->makeNamespace($useResourceModelPathArray));
             $dataProvider->setModuleNamespace($this->makeNamespace($this->makeModulePathFromName($moduleName)));
+
             if ($interfaceName !== null) {
                 $dataProvider->setDataInterface($interfaceName);
             }
+
             $this->writeFileFromTemplateChoice(
                 $modelDirectoryPath,
                 $input,

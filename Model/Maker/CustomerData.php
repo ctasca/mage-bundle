@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
@@ -11,7 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CustomerData extends AbstractMaker implements MakerCustomerDataInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {

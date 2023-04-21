@@ -1,10 +1,15 @@
 <?php
+
+// phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
+// phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
+
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Template\CustomData;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Ctasca\MageBundle\Model\AbstractLocator;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Locator extends AbstractLocator
 {
@@ -18,7 +23,7 @@ class Locator extends AbstractLocator
 
     /**
      * @param string $templateFilename
-     * @return Locator
+     * @return \Ctasca\MageBundle\Model\Template\CustomData\Locator
      */
     public function setTemplateFilename(string $templateFilename): Locator
     {
@@ -27,15 +32,16 @@ class Locator extends AbstractLocator
             array_fill(0, 3, '.json'),
             $templateFilename
         );
+
         return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function locate(): string
     {
-        $customDataDirectory =  $this->filesystem
+        $customDataDirectory = $this->filesystem
             ->getDirectoryRead(DirectoryList::ROOT)
             ->getAbsolutePath(self::DEV_CUSTOM_DATA_DIR);
         $this->file->checkAndCreateFolder($customDataDirectory);
@@ -46,6 +52,7 @@ class Locator extends AbstractLocator
                 debug_backtrace()[1]['function']
             ]
         );
+
         return $customDataDirectory;
     }
 
@@ -62,7 +69,9 @@ class Locator extends AbstractLocator
                 debug_backtrace()[1]['function']
             ]
         );
-        if (!empty($this->getTemplateFilename()) &&
+
+        if (
+            !empty($this->getTemplateFilename()) &&
             $this->file->fileExists($devMageBundleCustomDataDir . DIRECTORY_SEPARATOR . $this->getTemplateFilename())
         ) {
             $this->logger->logInfo(
@@ -87,6 +96,7 @@ class Locator extends AbstractLocator
 
             return $this->jsonSerializer->unserialize($fileContent);
         }
+
         $this->logger->logInfo(
             __METHOD__ . " Did not get custom data file",
             [
@@ -94,6 +104,7 @@ class Locator extends AbstractLocator
                 debug_backtrace()[1]['function']
             ]
         );
+
         return [];
     }
 }

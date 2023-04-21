@@ -1,28 +1,29 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Api;
 
-use Magento\Framework\Filesystem\Io\File;
 use Magento\Framework\Filesystem\Directory\Read;
 use Magento\Framework\Filesystem\Directory\Write;
+use Magento\Framework\Filesystem\Io\File;
 
 interface LocatorInterface
 {
     /**
      * Code directory name (within app directory)
      */
-    const CODE_DIR = 'code/';
+    public const CODE_DIR = 'code/';
 
     /**
      * Directory name to be created in dev directory
      */
-    const DEV_MAGEBUNDLE_DIRNAME = 'mage-bundle/';
+    public const DEV_MAGEBUNDLE_DIRNAME = 'mage-bundle/';
 
     /**
      * Bundle/Skeleton directory relative path
      */
-    const VENDOR_SKELETON_PATH_DIR = 'vendor/ctasca/mage-bundle/Bundle/Skeleton/';
+    public const VENDOR_SKELETON_PATH_DIR = 'vendor/ctasca/mage-bundle/Bundle/Skeleton/';
 
     /**
      * Directory where custom data for templates should be located.
@@ -33,7 +34,7 @@ interface LocatorInterface
      * corresponding file from the template.
      *
      */
-    const DEV_CUSTOM_DATA_DIR = 'dev/mage-bundle/custom-data/';
+    public const DEV_CUSTOM_DATA_DIR = 'dev/mage-bundle/custom-data/';
 
     /**
      * Locate a directory within a Magento application
@@ -44,18 +45,18 @@ interface LocatorInterface
 
     /**
      * @param string $path
-     * @return Read
+     * @return \Magento\Framework\Filesystem\Directory\Read
      */
     public function getRead(string $path): Read;
 
     /**
      * @param string $path
-     * @return Write
+     * @return \Magento\Framework\Filesystem\Directory\Write
      */
     public function getWrite(string $path): Write;
 
     /**
-     * @return File
+     * @return \Magento\Framework\Filesystem\Io\File
      */
     public function getIoFile(): File;
 }

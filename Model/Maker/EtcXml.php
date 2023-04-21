@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
@@ -10,7 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
@@ -26,9 +29,11 @@ class EtcXml extends AbstractMaker implements MakerEtcXmlInterface
             $question->setErrorMessage('Chosen area %s is invalid.');
             $area = $this->questionHelper->ask($input, $output, $question);
             $areaDirectory = $area . DIRECTORY_SEPARATOR;
-            if (self::GLOBAL_AREA_NAME === $area) {
+
+            if ($area === self::GLOBAL_AREA_NAME) {
                 $areaDirectory = '';
             }
+
             $pathArray = [$this->makeModulePathFromName($moduleName), self::XML_TEMPLATES_DIR, $areaDirectory];
             $etcDirectoryPath = $this->makePathFromArray($pathArray);
             /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */

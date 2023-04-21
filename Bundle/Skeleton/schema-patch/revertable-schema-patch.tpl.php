@@ -1,4 +1,5 @@
 {{php}}
+
 declare(strict_types=1);
 
 namespace {{namespace}};
@@ -11,11 +12,12 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 class {{class_name}} implements SchemaPatchInterface, PatchRevertableInterface
 {
     /**
-     * @param ModuleDataSetupInterface $moduleDataSetup
+     * @param \Magento\Framework\Setup\ModuleDataSetupInterface $moduleDataSetup
      */
     public function __construct(
         private readonly ModuleDataSetupInterface $moduleDataSetup
-    ){}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

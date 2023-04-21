@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
@@ -11,7 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Logger extends AbstractMaker implements MakerLoggerInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
@@ -29,7 +32,7 @@ class Logger extends AbstractMaker implements MakerLoggerInterface
         $handlerPath = $this->questionHelper->ask($input, $output, $question);
         // Logger Handler filename question
         $question = $this->questionFactory->create(
-            'Enter log filename name. It can be also a directory. (e.g. my-logger.log or dummy/my-logger.log)'.
+            'Enter log filename name. It can be also a directory. (e.g. my-logger.log or dummy/my-logger.log)' .
             "\n<comment>This should be relative to the path MAGENTO_ROOT/var/log directory</comment>"
         );
         QuestionValidator::validateLoggerFilename(

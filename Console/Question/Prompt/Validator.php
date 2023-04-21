@@ -1,4 +1,6 @@
 <?php
+// phpcs:ignoreFile
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Console\Question\Prompt;

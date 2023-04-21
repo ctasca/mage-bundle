@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
 
-use Ctasca\MageBundle\Api\MakerDataPatchInterface;
+use Ctasca\MageBundle\Api\MakerExceptionInterface;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DataPatch extends AbstractMaker implements MakerDataPatchInterface
+class Exception extends AbstractMaker implements MakerExceptionInterface
 {
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
@@ -21,23 +21,23 @@ class DataPatch extends AbstractMaker implements MakerDataPatchInterface
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         $question = $this->questionFactory->create(
-            'Enter Data Patch class name. File is created in Setup/Patch/Data directory.'
+            'Enter Exception class name. It can be also a directory. (e.g. DummyException or Dummy/MyException)'
         );
-        QuestionValidator::validateUcFirst(
+        QuestionValidator::validatePath(
             $question,
-            "Data Patch class name is not valid.",
+            "Exception class name is not valid.",
             self::MAX_QUESTION_ATTEMPTS
         );
-        $dataPatchClassname = $this->questionHelper->ask($input, $output, $question);
+        $blockPath = $this->questionHelper->ask($input, $output, $question);
         try {
             $this->writeClassFromTemplateChoice(
-                $dataPatchClassname,
+                $blockPath,
                 $moduleName,
-                'Setup/Patch/Data',
-                self::DATA_PATCH_TEMPLATES_DIR,
+                'Exception',
+                self::EXCEPTION_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Setup Data Patch created in app/code/%s"
+                "Exception class successfully created in app/code/%s"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

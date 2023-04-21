@@ -301,6 +301,18 @@ bin/magento m:j:m:c
 ```
 <p>Creates a JS mixin file in specified Company/Module. JS file will be created in the specified module's <code>view/$AREA/web/js</code> directory.</p>
 
+---
+
+```bash
+bin/magento magebundle:exception:create
+```
+#### Shortcut
+```bash
+bin/magento m:e:c
+```
+<p>Creates an Exception class in specified Company/Module.</p>
+
+
 ## About template files:
 <p>Template files are written in PHP version 8.1.</p>
 <p>For example the <code>http-get-action-json-result.tpl.php</code> contains the following</p>

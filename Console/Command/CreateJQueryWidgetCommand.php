@@ -1,19 +1,23 @@
 <?php
+
+// phpcs:disable SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion.RequiredConstructorPropertyPromotion
+
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Console\Command;
 
+use Ctasca\MageBundle\Api\MakerJQueryWidgetInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Ctasca\MageBundle\Api\MakerJQueryWidgetInterface;
 
 class CreateJQueryWidgetCommand extends Command
 {
     private MakerJQueryWidgetInterface $maker;
 
     /**
-     * @param MakerJQueryWidgetInterface $maker
+     * @param \Ctasca\MageBundle\Api\MakerJQueryWidgetInterface $maker
      */
     public function __construct(
         MakerJQueryWidgetInterface $maker
@@ -23,7 +27,7 @@ class CreateJQueryWidgetCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     protected function configure(): void
     {
@@ -34,7 +38,9 @@ class CreateJQueryWidgetCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
