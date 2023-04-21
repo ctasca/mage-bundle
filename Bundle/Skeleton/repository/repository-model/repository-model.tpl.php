@@ -1,4 +1,5 @@
 {{php}}
+
 declare(strict_types=1);
 
 namespace {{namespace}};
@@ -17,13 +18,21 @@ use {{namespace}}\ResourceModel\{{repository_name}}\CollectionFactory as {{repos
 class {{repository_name}}Repository implements {{repository_name}}RepositoryInterface
 {
 
+    /**
+    * @param {{repository_name}}Resource ${{repository_name_argument}}Resource
+    * @param {{repository_name}}Factory ${{repository_name_argument}}Factory
+    * @param {{repository_name}}CollectionFactory ${{repository_name_argument}}CollectionFactory
+    * @param CollectionProcessorInterface $collectionProcessor
+    * @param {{repository_name}}SearchResultInterface ${{repository_name_argument}}SearchResult
+    */
     public function __construct(
         private readonly {{repository_name}}Resource ${{repository_name_argument}}Resource,
         private readonly {{repository_name}}Factory ${{repository_name_argument}}Factory,
         private readonly {{repository_name}}CollectionFactory ${{repository_name_argument}}CollectionFactory,
         private readonly CollectionProcessorInterface $collectionProcessor,
         private readonly {{repository_name}}SearchResultInterface ${{repository_name_argument}}SearchResult
-    ){}
+    ) {
+    }
 
     /**
      * @param int $id

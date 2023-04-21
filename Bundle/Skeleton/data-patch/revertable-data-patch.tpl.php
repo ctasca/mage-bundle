@@ -1,4 +1,5 @@
 {{php}}
+
 declare(strict_types=1);
 
 namespace {{namespace}};
@@ -14,7 +15,8 @@ class {{class_name}} implements DataPatchInterface, PatchRevertableInterface
      */
     public function __construct(
         private readonly ModuleDataSetupInterface $moduleDataSetup
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

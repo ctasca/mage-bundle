@@ -13,8 +13,6 @@ class {{class_name}} extends \Monolog\Logger
      */
     public const LOGGING_ENABLED_CONFIG_PATH = '';
 
-    private ScopeConfigInterface $scopeConfig;
-
     /**
      * @param string $name
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -23,34 +21,31 @@ class {{class_name}} extends \Monolog\Logger
      */
     public function __construct(
         string $name,
-        ScopeConfigInterface $scopeConfig,
+        private readonly ScopeConfigInterface $scopeConfig,
         array $handlers = [],
         array $processors = []
     ) {
         parent::__construct($name, $handlers, $processors);
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function info($message, array $context = []): bool
+    public function info($message, array $context = []): void
     {
         if ($this->isLoggingEnabled()) {
             return parent::info($message, $context);
         }
-        return false;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function error($message, array $context = []): bool
+    public function error($message, array $context = []): void
     {
         if ($this->isLoggingEnabled()) {
-            return parent::error($message, $context);
+            parent::error($message, $context);
         }
-        return false;
     }
 
     /**

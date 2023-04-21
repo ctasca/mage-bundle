@@ -1,4 +1,5 @@
 {{php}}
+
 declare(strict_types=1);
 
 namespace {{namespace}};
@@ -9,7 +10,7 @@ use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 class {{class_name}} extends Generic implements ButtonProviderInterface
 {
     /**
-     * @inerhitDoc
+     * @inheritDoc
      */
     public function getButtonData(): array
     {
