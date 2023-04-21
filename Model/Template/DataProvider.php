@@ -1,4 +1,12 @@
 <?php
+
+// phpcs:disable SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion.RequiredConstructorPropertyPromotion
+// phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
+// phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
+// phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+// phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
+
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Template;
@@ -10,43 +18,18 @@ use Ctasca\MageBundle\Logger\Logger;
  */
 class DataProvider
 {
-    private Logger $logger;
+    /**
+     * @var array<string,mixed>
+     */
     protected array $data = [];
+    private Logger $logger;
 
     /**
-     * @param Logger $logger
+     * @param \Ctasca\MageBundle\Logger\Logger $logger
      */
     public function __construct(Logger $logger)
     {
         $this->logger = $logger;
-    }
-
-    /**
-     * Set/Get attribute wrapper
-     *
-     * @param   string $method
-     * @param   array $args
-     * @return  string|null
-     * @throws LocalizedException
-     */
-    public function __call(string $method, array $args)
-    {
-        $methodType = strtolower(substr($method, 0, 3));
-        $dataKey = $this->_underscore(substr($method, 3));
-        $this->logger->logInfo(__METHOD__ . " __call method:", [$method]);
-        $this->logger->logInfo(__METHOD__ . " __call extracted key:", [$dataKey]);
-        switch ($methodType) {
-            case 'get':
-                $this->logger->logInfo(__METHOD__ . " get data:", $this->data);
-                return $this->getData($dataKey);
-            case 'set':
-                $value = $args[0] ?? null;
-                $this->data[$dataKey] = $value;
-                $this->logger->logInfo(__METHOD__ . " set data:", $this->data);
-                break;
-            default:
-                return null;
-        }
     }
 
     /**
@@ -85,5 +68,36 @@ class DataProvider
     protected function _underscore(string $name): string
     {
         return strtolower(trim(preg_replace('/([A-Z]|[0-9]+)/', "_$1", $name), '_'));
+    }
+
+    /**
+     * Set/Get attribute wrapper
+     *
+     * @param string $method
+     * @param array $args
+     * @return string|null
+     * @throws \Ctasca\MageBundle\Model\Template\LocalizedException
+     */
+    public function __call(string $method, array $args): ?string
+    {
+        $methodType = strtolower(substr($method, 0, 3));
+        $dataKey = $this->_underscore(substr($method, 3));
+        $this->logger->logInfo(__METHOD__ . " __call method:", [$method]);
+        $this->logger->logInfo(__METHOD__ . " __call extracted key:", [$dataKey]);
+        switch ($methodType) {
+            case 'get':
+                $this->logger->logInfo(__METHOD__ . " get data:", $this->data);
+
+                return $this->getData($dataKey);
+            case 'set':
+                $value = $args[0] ?? null;
+                $this->data[$dataKey] = $value;
+                $this->logger->logInfo(__METHOD__ . " set data:", $this->data);
+                break;
+            default:
+                return null;
+        }
+
+        return null;
     }
 }

@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\App\Code;
 
 use Ctasca\MageBundle\Api\LocatorInterface;
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Ctasca\MageBundle\Model\AbstractLocator;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Locate a company/module directory within app/code.
@@ -14,7 +15,6 @@ use Ctasca\MageBundle\Model\AbstractLocator;
  */
 class Locator extends AbstractLocator
 {
-
     /**
      * {@inheritdoc}
      * @throws \Exception
@@ -30,6 +30,7 @@ class Locator extends AbstractLocator
                 __METHOD__ . " Locating directory -> caller:",
                 [$directory, debug_backtrace()[1]['function']]
             );
+
             return $directory;
         } catch (\Exception $e) {
             $this->logger->logError(__METHOD__ . " Exception during creating/locating directory", [$directory]);
@@ -39,7 +40,7 @@ class Locator extends AbstractLocator
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getTemplateFilename(): string
     {
@@ -47,11 +48,13 @@ class Locator extends AbstractLocator
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $templateFilename
+     * @return \Ctasca\MageBundle\Api\LocatorInterface
      */
     public function setTemplateFilename(string $templateFilename): LocatorInterface
     {
         $this->templateFilename = $templateFilename;
+
         return $this;
     }
 }

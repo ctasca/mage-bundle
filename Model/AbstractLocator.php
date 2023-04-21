@@ -1,17 +1,21 @@
 <?php
+
+// phpcs:disable SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion.RequiredConstructorPropertyPromotion
+
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model;
 
 use Ctasca\MageBundle\Api\LocatorInterface;
-use Magento\Framework\Filesystem;
-use Magento\Framework\Filesystem\Io\File;
-use Magento\Framework\Filesystem\Directory\ReadFactory;
-use Magento\Framework\Filesystem\Directory\WriteFactory;
-use Magento\Framework\Filesystem\Directory\Read;
-use Magento\Framework\Filesystem\Directory\Write;
-use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 use Ctasca\MageBundle\Logger\Logger;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\Directory\Read;
+use Magento\Framework\Filesystem\Directory\ReadFactory;
+use Magento\Framework\Filesystem\Directory\Write;
+use Magento\Framework\Filesystem\Directory\WriteFactory;
+use Magento\Framework\Filesystem\Io\File;
+use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 
 abstract class AbstractLocator implements LocatorInterface
 {
@@ -25,12 +29,23 @@ abstract class AbstractLocator implements LocatorInterface
     protected string $templateFilename = '';
 
     /**
-     * @param Filesystem $filesystem
-     * @param File $file
-     * @param ReadFactory $readFactory
-     * @param WriteFactory $writeFactory
-     * @param Logger $logger
-     * @param JsonSerializer $jsonSerializer
+     * @return string
+     */
+    abstract public function getTemplateFilename(): string;
+
+    /**
+     * @param string $templateFilename
+     * @return \Ctasca\MageBundle\Api\LocatorInterface
+     */
+    abstract public function setTemplateFilename(string $templateFilename): LocatorInterface;
+
+    /**
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem\Io\File $file
+     * @param \Magento\Framework\Filesystem\Directory\ReadFactory $readFactory
+     * @param \Magento\Framework\Filesystem\Directory\WriteFactory $writeFactory
+     * @param \Ctasca\MageBundle\Logger\Logger $logger
+     * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
      * @param string $dirname
      */
     public function __construct(
@@ -52,19 +67,8 @@ abstract class AbstractLocator implements LocatorInterface
     }
 
     /**
-     * @return string
-     */
-    abstract public function getTemplateFilename(): string;
-
-    /**
-     * @param string $templateFilename
-     * @return LocatorInterface
-     */
-    abstract public function setTemplateFilename(string $templateFilename): LocatorInterface;
-
-    /**
      * @param string $path
-     * @return Read
+     * @return \Magento\Framework\Filesystem\Directory\Read
      */
     public function getRead(string $path): Read
     {
@@ -73,7 +77,7 @@ abstract class AbstractLocator implements LocatorInterface
 
     /**
      * @param string $path
-     * @return Write
+     * @return \Magento\Framework\Filesystem\Directory\Write
      */
     public function getWrite(string $path): Write
     {
@@ -81,7 +85,7 @@ abstract class AbstractLocator implements LocatorInterface
     }
 
     /**
-     * @return File
+     * @return \Magento\Framework\Filesystem\Io\File
      */
     public function getIoFile(): File
     {

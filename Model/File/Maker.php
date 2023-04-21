@@ -1,4 +1,8 @@
 <?php
+
+// phpcs:disable SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion.RequiredConstructorPropertyPromotion
+
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\File;
@@ -12,7 +16,7 @@ class Maker implements FileMakerInterface
     private string $template;
 
     /**
-     * @param DataProvider $dataProvider
+     * @param \Ctasca\MageBundle\Model\Template\DataProvider $dataProvider
      * @param string $template
      */
     public function __construct(
@@ -24,7 +28,7 @@ class Maker implements FileMakerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function make(): string
     {
@@ -34,16 +38,19 @@ class Maker implements FileMakerInterface
             $match = $matchesIterator->current();
             $dataProviderMethod = 'get' . ucfirst($match);
             $data = $this->dataProvider->{$dataProviderMethod}();
+
             if (is_array($data)) {
                 $data = implode(PHP_EOL, $data);
             }
+
             $this->template = str_replace(
-                '{{'.$match.'}}',
+                '{{' . $match . '}}',
                 $data,
                 $this->template
             );
             $matchesIterator->next();
         }
+
         return $this->template;
     }
 }

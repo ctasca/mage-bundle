@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Console\Question\Choice;
@@ -9,8 +10,8 @@ class Factory
 {
     /**
      * @param string $question
-     * @param array $choices
-     * @return ChoiceQuestion
+     * @param array<int,string> $choices
+     * @return \Symfony\Component\Console\Question\ChoiceQuestion
      */
     public function create(string $question, array $choices): ChoiceQuestion
     {

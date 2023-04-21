@@ -1,17 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
 
 use Ctasca\MageBundle\Api\MakerUiComponentInterface;
-use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UiComponent extends AbstractMaker implements MakerUiComponentInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {

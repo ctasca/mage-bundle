@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
@@ -11,7 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 class HttpController extends AbstractMaker implements MakerHttpControllerInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
+     * @throws \Exception
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
@@ -24,9 +28,11 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
         $question->setErrorMessage('Chosen router %s is invalid.');
         $router = $this->questionHelper->ask($input, $output, $question);
         $controllerTemplatesDirectory = self::STANDARD_CONTROLLER_TEMPLATES_DIR;
+
         if ($router === 'admin') {
             $controllerTemplatesDirectory = self::ADMINHTML_CONTROLLER_TEMPLATES_DIR;
         }
+
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
         $question = $this->questionFactory->create('Enter Controller Name (e.g. Test)');
@@ -37,9 +43,11 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
         );
         $controllerName = $this->questionHelper->ask($input, $output, $question);
         $pathArray = [$this->makeModulePathFromName($moduleName), 'Controller', $controllerName];
+
         if ($router === 'admin') {
             $pathArray = [$this->makeModulePathFromName($moduleName), 'Controller', 'Adminhtml', $controllerName];
         }
+
         $controllerDirectoryPath = $this->makePathFromArray($pathArray);
         $question = $this->questionFactory->create('Enter Action Name (e.g. Test)');
         QuestionValidator::validateUcFirst(

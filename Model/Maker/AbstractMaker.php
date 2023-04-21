@@ -1,30 +1,37 @@
 <?php
+
+// phpcs:disable SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion.RequiredConstructorPropertyPromotion
+// phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
+// phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
+// phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
 
 use Ctasca\MageBundle\Api\LocatorInterface;
 use Ctasca\MageBundle\Api\MakerInterface;
-use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
-use Ctasca\MageBundle\Model\Template\DataProvider;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
-use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
-use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
-use Ctasca\MageBundle\Model\Template\Locator as TemplateLocator;
-use Ctasca\MageBundle\Model\Template\DataProviderFactory;
-use Ctasca\MageBundle\Model\Template\CustomData\LocatorFactory as CustomDataLocatorFactory;
-use Ctasca\MageBundle\Model\File\MakerFactory as FileMakerFactory;
-use Ctasca\MageBundle\Console\Question\Factory as QuestionFactory;
 use Ctasca\MageBundle\Console\Question\Choice\Factory as QuestionChoiceFactory;
 use Ctasca\MageBundle\Console\Question\ConfirmationQuestion\Factory as ConfirmationQuestionFactory;
-use Ctasca\MageBundle\Logger\Logger;
-use Ctasca\MageBundle\Exception\FileExistsException;
-use Ctasca\MageBundle\Exception\FileDoesNotExistException;
+use Ctasca\MageBundle\Console\Question\Factory as QuestionFactory;
+use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Ctasca\MageBundle\Exception\ClassDoesNotImplementInterfaceException;
+use Ctasca\MageBundle\Exception\FileDoesNotExistException;
+use Ctasca\MageBundle\Exception\FileExistsException;
+use Ctasca\MageBundle\Logger\Logger;
+use Ctasca\MageBundle\Model\App\Code\LocatorFactory as AppCodeLocatorFactory;
+use Ctasca\MageBundle\Model\File\MakerFactory as FileMakerFactory;
+use Ctasca\MageBundle\Model\Template\CustomData\LocatorFactory as CustomDataLocatorFactory;
+use Ctasca\MageBundle\Model\Template\DataProvider;
+use Ctasca\MageBundle\Model\Template\DataProviderFactory;
+use Ctasca\MageBundle\Model\Template\Locator as TemplateLocator;
+use Ctasca\MageBundle\Model\Template\LocatorFactory as TemplateLocatorFactory;
+use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\Question;
 
 abstract class AbstractMaker implements MakerInterface
 {
@@ -40,16 +47,16 @@ abstract class AbstractMaker implements MakerInterface
     protected Logger $logger;
 
     /**
-     * @param SymfonyQuestionHelper $questionHelper
-     * @param AppCodeLocatorFactory $appCodeLocatorFactory
-     * @param TemplateLocatorFactory $templateLocatorFactory
-     * @param DataProviderFactory $dataProviderFactory
-     * @param CustomDataLocatorFactory $customDataLocatorFactory
-     * @param FileMakerFactory $fileMakerFactory
-     * @param QuestionFactory $questionFactory
-     * @param QuestionChoiceFactory $questionChoiceFactory
-     * @param ConfirmationQuestionFactory $confirmationQuestionFactory
-     * @param Logger $logger
+     * @param \Symfony\Component\Console\Helper\SymfonyQuestionHelper $questionHelper
+     * @param \Ctasca\MageBundle\Model\App\Code\LocatorFactory $appCodeLocatorFactory
+     * @param \Ctasca\MageBundle\Model\Template\LocatorFactory $templateLocatorFactory
+     * @param \Ctasca\MageBundle\Model\Template\DataProviderFactory $dataProviderFactory
+     * @param \Ctasca\MageBundle\Model\Template\CustomData\LocatorFactory $customDataLocatorFactory
+     * @param \Ctasca\MageBundle\Model\File\MakerFactory $fileMakerFactory
+     * @param \Ctasca\MageBundle\Console\Question\Factory $questionFactory
+     * @param \Ctasca\MageBundle\Console\Question\Choice\Factory $questionChoiceFactory
+     * @param \Ctasca\MageBundle\Console\Question\ConfirmationQuestion\Factory $confirmationQuestionFactory
+     * @param \Ctasca\MageBundle\Logger\Logger $logger
      */
     public function __construct(
         SymfonyQuestionHelper $questionHelper,
@@ -107,6 +114,7 @@ abstract class AbstractMaker implements MakerInterface
         string $pathToFile
     ): array {
         $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'web', 'js'];
+
         if (!$isOnlyFilename) {
             $pathArray = [$this->makeModulePathFromName($moduleName), 'view', $webArea, 'web', 'js', $pathToFile];
         }
@@ -116,7 +124,7 @@ abstract class AbstractMaker implements MakerInterface
 
     /**
      * @param string $locatorDirectory
-     * @return LocatorInterface
+     * @return \Ctasca\MageBundle\Api\LocatorInterface
      */
     protected function getAppCodeLocator(string $locatorDirectory): LocatorInterface
     {
@@ -135,39 +143,44 @@ abstract class AbstractMaker implements MakerInterface
     {
         /** @var \Ctasca\MageBundle\Model\Template\Locator $templateLocator */
         $templateLocator = $this->templateLocatorFactory->create(['dirname' => $directory]);
+
         if ($templateFilename !== null) {
             return [$templateLocator, $templateLocator->setTemplateFilename($templateFilename)->locate()];
         }
+
         return [$templateLocator, $templateLocator->locate()];
     }
 
     /**
-     * @param DataProvider $dataProvider
+     * @param \Ctasca\MageBundle\Model\Template\DataProvider $dataProvider
      * @param string $template
      * @return string
      */
     protected function makeFile(DataProvider $dataProvider, string $template): string
     {
         $maker = $this->fileMakerFactory->create($dataProvider, $template);
+
         return $maker->make();
     }
 
     /**
-     * @param LocatorInterface $locator
+     * @param \Ctasca\MageBundle\Api\LocatorInterface $locator
      * @param string $directory
      * @param string $filename
      * @param string $bytes
      * @return void
-     * @throws FileExistsException
+     * @throws \Ctasca\MageBundle\Exception\FileExistsException
      */
     protected function writeFile(LocatorInterface $locator, string $directory, string $filename, string $bytes): void
     {
         $directory = rtrim($directory, DIRECTORY_SEPARATOR);
         $writer = $locator->getWrite($directory);
         $this->logger->logInfo(__METHOD__ . " Writing file $filename in $directory");
-        if ($locator->getIoFile()->fileExists($directory . DIRECTORY_SEPARATOR. $filename)) {
+
+        if ($locator->getIoFile()->fileExists($directory . DIRECTORY_SEPARATOR . $filename)) {
             throw new FileExistsException("File $filename already exists in $directory");
         }
+
         $writer->writeFile($filename, $bytes);
     }
 
@@ -182,10 +195,10 @@ abstract class AbstractMaker implements MakerInterface
      *
      *
      * @param string $locatorDirectory
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param string $templateDirectory
-     * @param DataProvider $dataProvider
+     * @param \Ctasca\MageBundle\Model\Template\DataProvider $dataProvider
      * @param string $filename
      * @param string $fileExtension
      * @return void
@@ -205,6 +218,7 @@ abstract class AbstractMaker implements MakerInterface
         list($template, $fileTemplate) = $this->getTemplateContentFromChoice($input, $output, $templateDirectory);
         $this->setDataProviderCustomData($dataProvider, $templateDirectory . DIRECTORY_SEPARATOR . $template);
         $file = $this->makeFile($dataProvider, $fileTemplate);
+
         if (empty($filename)) {
             $template = preg_replace(self::CUSTOM_TEMPLATE_PATTERN_MATCH, '', $template);
             $this->writeFile(
@@ -236,8 +250,8 @@ abstract class AbstractMaker implements MakerInterface
      * @param string $moduleName
      * @param string $classDirectory
      * @param string $templatesDirectory
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param string $successMessage
      * @param array|null $additionalData
      * @return void
@@ -254,11 +268,13 @@ abstract class AbstractMaker implements MakerInterface
         ?array $additionalData = null
     ): void {
         list($pathToClass, $className, , $isOnlyClassName) = $this->extractPathParts($path);
+
         if ($isOnlyClassName) {
             $classPathArray = [$this->makeModulePathFromName($moduleName), $classDirectory];
         } else {
             $classPathArray = [$this->makeModulePathFromName($moduleName), $classDirectory, $pathToClass];
         }
+
         $classDirectoryPath = $this->makePathFromArray($classPathArray);
         // create data provider
         /** @var \Ctasca\MageBundle\Model\Template\DataProvider  $dataProvider */
@@ -295,7 +311,7 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
-     * @param LocatorInterface $templateLocator
+     * @param \Ctasca\MageBundle\Api\LocatorInterface $templateLocator
      * @param string $directory
      * @return string
      */
@@ -307,7 +323,7 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
-     * @return Question
+     * @return \Symfony\Component\Console\Question\Question
      */
     protected function makeModuleNameQuestion(): Question
     {
@@ -322,9 +338,9 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
-     * @param TemplateLocator $locator
+     * @param \Ctasca\MageBundle\Model\Template\Locator $locator
      * @param string $question
-     * @return ChoiceQuestion
+     * @return \Symfony\Component\Console\Question\ChoiceQuestion
      */
     protected function makeWebAreaChoicesQuestion(TemplateLocator $locator, string $question): ChoiceQuestion
     {
@@ -341,7 +357,7 @@ abstract class AbstractMaker implements MakerInterface
 
     /**
      * @param string $webArea
-     * @return Question
+     * @return \Symfony\Component\Console\Question\Question
      */
     protected function makeJsFilenameQuestion(string $webArea): Question
     {
@@ -362,7 +378,7 @@ abstract class AbstractMaker implements MakerInterface
 
     /**
      * @param string $webArea
-     * @return Question
+     * @return \Symfony\Component\Console\Question\Question
      */
     protected function makeJsMixinFilenameQuestion(string $webArea): Question
     {
@@ -374,7 +390,7 @@ abstract class AbstractMaker implements MakerInterface
         );
         QuestionValidator::validateJsMixinFilenamePath(
             $question,
-            "Javascript mixin filename is not valid. Only lowercase characters, underscores or dashes.".
+            "Javascript mixin filename is not valid. Only lowercase characters, underscores or dashes." .
             " Must end with '-mixin' suffix.",
             self::MAX_QUESTION_ATTEMPTS
         );
@@ -383,8 +399,8 @@ abstract class AbstractMaker implements MakerInterface
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @param string $templateDirectory
      * @param string|null $templateFilename
      * @return array
@@ -405,13 +421,14 @@ abstract class AbstractMaker implements MakerInterface
         );
         $question->setErrorMessage('Chosen template %s is invalid.');
         $template = $this->questionHelper->ask($input, $output, $question);
-        $output->writeln('<info>You have selected: '. $template . '</info>');
+        $output->writeln('<info>You have selected: ' . $template . '</info>');
         $templateLocator->setTemplateFilename($template);
+
         return [$template, $this->getTemplateContent($templateLocator, $locatedTemplateDirectory)];
     }
 
     /**
-     * @param DataProvider $dataProvider
+     * @param \Ctasca\MageBundle\Model\Template\DataProvider $dataProvider
      * @param string $template
      * @return void
      */
@@ -439,6 +456,7 @@ abstract class AbstractMaker implements MakerInterface
         if (is_array($path)) {
             $path = implode(DIRECTORY_SEPARATOR, $path);
         }
+
         return str_replace(DIRECTORY_SEPARATOR, '\\', $path);
     }
 
@@ -459,24 +477,28 @@ abstract class AbstractMaker implements MakerInterface
     {
         $explodedPath = explode(DIRECTORY_SEPARATOR, $path);
         $isOnlyFilename = false;
+
         if (count($explodedPath) > 1) {
             $filename = array_pop($explodedPath);
         } else {
             $isOnlyFilename = true;
             $filename = $path;
         }
+
         return [implode(DIRECTORY_SEPARATOR, $explodedPath), $filename, $explodedPath, $isOnlyFilename];
     }
 
     /**
      * @param \Exception $e
-     * @param OutputInterface $output
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @return void
      */
     protected function logAndOutputErrorMessage(\Exception $e, OutputInterface $output): void
     {
         $this->logger->logError(__METHOD__ . " Exception in command:", [$e->getMessage()]);
-        if (!is_a($e, FileExistsException::class) &&
+
+        if (
+            !is_a($e, FileExistsException::class) &&
             !is_a($e, FileDoesNotExistException::class) &&
             !is_a($e, ClassDoesNotImplementInterfaceException::class)
         ) {

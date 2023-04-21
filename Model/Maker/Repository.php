@@ -1,4 +1,8 @@
 <?php
+
+// phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+
+
 declare(strict_types=1);
 
 namespace Ctasca\MageBundle\Model\Maker;
@@ -6,14 +10,16 @@ namespace Ctasca\MageBundle\Model\Maker;
 use Ctasca\MageBundle\Api\MakerRepositoryInterface;
 use Ctasca\MageBundle\Console\Question\Prompt\Validator as QuestionValidator;
 use Ctasca\MageBundle\Exception\ClassDoesNotImplementInterfaceException;
+use Ctasca\MageBundle\Exception\FileDoesNotExistException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Ctasca\MageBundle\Exception\FileDoesNotExistException;
 
 class Repository extends AbstractMaker implements MakerRepositoryInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @return void
      */
     public function make(InputInterface $input, OutputInterface $output): void
     {
@@ -33,15 +39,20 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             list($pathToModel, $modelClassName, , $isOnlyClassName) = $this->extractPathParts($modelPath);
             $modulePath = $this->makeModulePathFromName($moduleName);
             $modelPathArray = [$modulePath, 'Model'];
+
             if ($isOnlyClassName !== true) {
                 $modelPathArray = [$modulePath, 'Model', $pathToModel];
             }
+
             $modelDirectoryPath = $this->makePathFromArray($modelPathArray);
             $modelLocator = $this->getAppCodeLocator($modelDirectoryPath);
             $modelDirectory = $modelLocator->locate();
-            if (!$modelLocator->getIoFile()->fileExists(
-                $modelDirectory . DIRECTORY_SEPARATOR. $modelClassName . '.php'
-            )) {
+
+            if (
+                !$modelLocator->getIoFile()->fileExists(
+                    $modelDirectory . DIRECTORY_SEPARATOR . $modelClassName . '.php'
+                )
+            ) {
                 throw new FileDoesNotExistException(
                     sprintf("Specified Model %s does not exists in module %s", $modelClassName, $moduleName)
                 );
@@ -51,6 +62,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $interfaceNamespace = $this->makeNamespace($interfacePathArray);
                 $modelInterface = $interfaceNamespace . "\\$modelClassName" . 'Interface';
             }
+
             $apiPathArray = [$modulePath, 'Api'];
             $apiDataPathArray = [$modulePath, 'Api', 'Data'];
             $interfaceLocator = $this->getAppCodeLocator($this->makePathFromArray($apiDataPathArray));
@@ -63,9 +75,12 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
             $dataProvider->setModelName($modelClassName);
             $dataProvider->setRepositoryName($modelClassName);
             $dataProvider->setRepositoryNameArgument(lcfirst($modelClassName));
-            if (!$interfaceLocator->getIoFile()->fileExists(
-                $interfaceDirectory . DIRECTORY_SEPARATOR . $modelClassName . 'Interface.php'
-            )) {
+
+            if (
+                !$interfaceLocator->getIoFile()->fileExists(
+                    $interfaceDirectory . DIRECTORY_SEPARATOR . $modelClassName . 'Interface.php'
+                )
+            ) {
                 $this->writeFileFromTemplateChoice(
                     $this->makePathFromArray($apiDataPathArray),
                     $input,
@@ -77,7 +92,9 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                 $output->writeln("<comment>$modelClassName" . "Interface successfully created</comment>");
                 $output->writeln('');
             }
+
             $model = new \ReflectionClass($modelNamespace . "\\$modelClassName");
+
             if ($model->implementsInterface($modelInterface) === false) {
                 throw new ClassDoesNotImplementInterfaceException(
                     sprintf(
@@ -87,6 +104,7 @@ class Repository extends AbstractMaker implements MakerRepositoryInterface
                     )
                 );
             }
+
             $this->writeFileFromTemplateChoice(
                 $this->makePathFromArray($apiPathArray),
                 $input,
