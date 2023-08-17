@@ -44,10 +44,7 @@ class JsMixin extends AbstractMaker implements MakerJsMixinInterface
                 '.js'
             );
             $output->writeln(
-                sprintf(
-                    '<info>Completed! JS mixin file successfully created in app/code/%s</info>',
-                    $jsDirectoryPath
-                )
+                '<info>JS mixin file successfully created</info>'
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

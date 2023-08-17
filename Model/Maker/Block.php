@@ -37,7 +37,7 @@ class Block extends AbstractMaker implements MakerBlockInterface
                 self::BLOCK_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Block created in app/code/%s"
+                "Block successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

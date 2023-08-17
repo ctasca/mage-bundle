@@ -63,10 +63,7 @@ class ApiInterface extends AbstractMaker implements MakerApiInterfaceInterface
             );
 
             $output->writeln(
-                sprintf(
-                    '<info>Completed! Api interface file successfully created in app/code/%s</info>',
-                    $apiDirectoryPath
-                )
+                '<info>Api interface file successfully created</info>'
             );
             $output->writeln('');
         } catch (\Exception $e) {

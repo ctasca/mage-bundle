@@ -74,10 +74,7 @@ class HttpController extends AbstractMaker implements MakerHttpControllerInterfa
             );
 
             $output->writeln(
-                sprintf(
-                    '<info>Controller action successfully created in app/code/%s</info>',
-                    $controllerDirectoryPath
-                )
+                '<info>Controller action successfully created</info>'
             );
             $output->writeln('');
         } catch (\Exception $e) {

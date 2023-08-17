@@ -61,11 +61,7 @@ class Module extends AbstractMaker implements MakerModuleInterface
                 $dataProvider
             );
             $output->writeln(
-                sprintf(
-                    '<info>Completed! Module successfully created in app/code/%s/%s</info>',
-                    $companyName,
-                    $moduleName
-                )
+                '<info>Module successfully created</info>'
             );
             $output->writeln('');
         } catch (\Exception $e) {

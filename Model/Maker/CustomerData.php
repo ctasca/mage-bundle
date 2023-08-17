@@ -37,7 +37,7 @@ class CustomerData extends AbstractMaker implements MakerCustomerDataInterface
                 self::CUSTOMER_DATA_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Customer Data class created in app/code/%s"
+                "Customer Data class successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

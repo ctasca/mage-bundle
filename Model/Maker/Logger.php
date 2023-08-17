@@ -59,7 +59,7 @@ class Logger extends AbstractMaker implements MakerLoggerInterface
                 self::LOGGER_HANDLER_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Logger Handler successfully created in app/code/%s",
+                "Logger Handler successfully created",
                 ['setLogFilename' => $logFilename]
             );
             $this->writeClassFromTemplateChoice(
@@ -69,7 +69,7 @@ class Logger extends AbstractMaker implements MakerLoggerInterface
                 self::LOGGER_LOGGER_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Logger successfully created in app/code/%s"
+                "Logger successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

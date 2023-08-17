@@ -37,7 +37,7 @@ class Cron extends AbstractMaker implements MakerCronInterface
                 self::CRON_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Cron class created in app/code/%s"
+                "Cron class successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

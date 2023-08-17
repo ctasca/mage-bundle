@@ -37,7 +37,7 @@ class Plugin extends AbstractMaker implements MakerPluginInterface
                 self::PLUGIN_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Plugin created in app/code/%s"
+                "Plugin successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

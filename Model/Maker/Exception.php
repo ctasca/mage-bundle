@@ -37,7 +37,7 @@ class Exception extends AbstractMaker implements MakerExceptionInterface
                 self::EXCEPTION_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Exception class successfully created in app/code/%s"
+                "Exception class successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

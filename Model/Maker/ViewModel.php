@@ -37,7 +37,7 @@ class ViewModel extends AbstractMaker implements MakerViewModelInterface
                 self::VIEW_MODEL_TEMPLATES_DIR,
                 $input,
                 $output,
-                "View Model created in app/code/%s"
+                "View Model successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

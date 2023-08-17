@@ -139,10 +139,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
             );
 
             $output->writeln(
-                sprintf(
-                    '<info>Model created in app/code/%s</info>',
-                    $modelDirectoryPath
-                )
+                '<info>Model successfully created</info>'
             );
 
             $this->writeFileFromTemplateChoice(
@@ -155,10 +152,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
             );
 
             $output->writeln(
-                sprintf(
-                    '<info>Resource model created in app/code/%s</info>',
-                    $resourceModelDirectoryPath
-                )
+                '<info>Resource model successfully created in app/code/%s</info>'
             );
 
             $this->writeFileFromTemplateChoice(
@@ -171,10 +165,7 @@ class ModelSet extends AbstractMaker implements MakerModelSetInterface
             );
 
             $output->writeln(
-                sprintf(
-                    '<info>Collection class created in app/code/%s</info>',
-                    $collectionDirectoryPath
-                )
+                '<info>Collection class successfully created</info>'
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

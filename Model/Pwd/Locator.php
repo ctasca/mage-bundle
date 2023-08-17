@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ctasca\MageBundle\Model\App\Code;
+namespace Ctasca\MageBundle\Model\Pwd;
 
 use Ctasca\MageBundle\Api\LocatorInterface;
 use Ctasca\MageBundle\Model\AbstractLocator;
@@ -21,26 +21,18 @@ class Locator extends AbstractLocator
      */
     public function locate(): string
     {
-        if ($this->getIoFile()->fileExists(self::PWD_FILENAME)) {
-            $dirname = explode(DIRECTORY_SEPARATOR, $this->dirname);
-            unset($dirname[0]);
-            unset($dirname[1]);
-            $this->dirname = implode(DIRECTORY_SEPARATOR, $dirname);
-            $pwdLocator = $this->pwdLocatorFactory->create(['dirname' => $this->dirname]);
-            $directory = $pwdLocator->locate();
-            $this->logger->logInfo(
-                __METHOD__ . " Locating directory -> caller:",
-                [$directory, debug_backtrace()[1]['function']]
-            );
-
-            return $directory;
-        }
-
-        $directory = $this->filesystem
-            ->getDirectoryRead(DirectoryList::APP)
-            ->getAbsolutePath(self::CODE_DIR . $this->dirname);
         try {
-            $this->file->checkAndCreateFolder($directory);
+            $pwdJson = $this->getRead('dev/mage-bundle')
+                ->readFile('pwd.json');
+        } catch(\Exception) {
+            return '';
+        }
+        $pwd = $this->jsonSerializer->unserialize($pwdJson);
+        $directory = $this->filesystem
+            ->getDirectoryRead(DirectoryList::ROOT)
+            ->getAbsolutePath($pwd['pwd'] . $this->dirname);
+        $this->file->checkAndCreateFolder($directory);
+        try {
             $this->logger->logInfo(
                 __METHOD__ . " Locating directory -> caller:",
                 [$directory, debug_backtrace()[1]['function']]
@@ -59,7 +51,7 @@ class Locator extends AbstractLocator
      */
     public function getTemplateFilename(): string
     {
-        return $this->templateFilename;
+        return '';
     }
 
     /**
@@ -68,8 +60,6 @@ class Locator extends AbstractLocator
      */
     public function setTemplateFilename(string $templateFilename): LocatorInterface
     {
-        $this->templateFilename = $templateFilename;
-
         return $this;
     }
 }

@@ -303,10 +303,7 @@ abstract class AbstractMaker implements MakerInterface
         );
 
         $output->writeln(
-            sprintf(
-                "<info>$successMessage</info>",
-                $classDirectoryPath
-            )
+            "<info>$successMessage</info>"
         );
     }
 

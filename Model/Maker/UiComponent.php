@@ -44,10 +44,7 @@ class UiComponent extends AbstractMaker implements MakerUiComponentInterface
                 '.js'
             );
             $output->writeln(
-                sprintf(
-                    '<info>Completed! JS file successfully created in app/code/%s</info>',
-                    $jsDirectoryPath
-                )
+                '<info>JS file successfully created</info>'
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

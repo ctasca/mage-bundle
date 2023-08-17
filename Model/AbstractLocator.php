@@ -9,6 +9,7 @@ namespace Ctasca\MageBundle\Model;
 
 use Ctasca\MageBundle\Api\LocatorInterface;
 use Ctasca\MageBundle\Logger\Logger;
+use Ctasca\MageBundle\Model\Pwd\LocatorFactory as PwdLocatorFactory;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\Read;
 use Magento\Framework\Filesystem\Directory\ReadFactory;
@@ -25,8 +26,12 @@ abstract class AbstractLocator implements LocatorInterface
     protected WriteFactory $writeFactory;
     protected Logger $logger;
     protected JsonSerializer $jsonSerializer;
+    protected PwdLocatorFactory $pwdLocatorFactory;
     protected string $dirname;
     protected string $templateFilename = '';
+    /**
+     * @var \Ctasca\MageBundle\Model\Pwd\Locator
+     */
 
     /**
      * @return string
@@ -46,6 +51,7 @@ abstract class AbstractLocator implements LocatorInterface
      * @param \Magento\Framework\Filesystem\Directory\WriteFactory $writeFactory
      * @param \Ctasca\MageBundle\Logger\Logger $logger
      * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+     * @param \Ctasca\MageBundle\Model\Pwd\LocatorFactory $pwdLocatorFactory
      * @param string $dirname
      */
     public function __construct(
@@ -55,6 +61,7 @@ abstract class AbstractLocator implements LocatorInterface
         WriteFactory $writeFactory,
         Logger $logger,
         JsonSerializer $jsonSerializer,
+        PwdLocatorFactory $pwdLocatorFactory,
         string $dirname
     ) {
         $this->filesystem = $filesystem;
@@ -64,6 +71,7 @@ abstract class AbstractLocator implements LocatorInterface
         $this->logger = $logger;
         $this->jsonSerializer = $jsonSerializer;
         $this->dirname = $dirname;
+        $this->pwdLocatorFactory = $pwdLocatorFactory;
     }
 
     /**

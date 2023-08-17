@@ -37,7 +37,7 @@ class Observer extends AbstractMaker implements MakerObserverInterface
                 self::OBSERVER_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Observer created in app/code/%s"
+                "Observer successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

@@ -21,6 +21,14 @@ interface LocatorInterface
     public const DEV_MAGEBUNDLE_DIRNAME = 'mage-bundle/';
 
     /**
+     * File to override working directory when creating files.
+     * 
+     * If it exists, files won't be created in app/code directory but in the one specified in the
+     * json file. 
+     */
+    public const PWD_FILENAME = 'dev/mage-bundle/pwd.json';
+
+    /**
      * Bundle/Skeleton directory relative path
      */
     public const VENDOR_SKELETON_PATH_DIR = 'vendor/ctasca/mage-bundle/Bundle/Skeleton/';

@@ -37,7 +37,7 @@ class Helper extends AbstractMaker implements MakerHelperInterface
                 self::HELPER_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Helper created in app/code/%s"
+                "Helper successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

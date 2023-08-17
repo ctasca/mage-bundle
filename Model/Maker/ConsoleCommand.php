@@ -37,7 +37,7 @@ class ConsoleCommand extends AbstractMaker implements MakerConsoleCommandInterfa
                 self::CONSOLE_COMMAND_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Console Command created in app/code/%s"
+                "Console Command successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

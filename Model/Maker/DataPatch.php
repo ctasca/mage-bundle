@@ -37,7 +37,7 @@ class DataPatch extends AbstractMaker implements MakerDataPatchInterface
                 self::DATA_PATCH_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Setup Data Patch created in app/code/%s"
+                "Setup Data Patch successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

@@ -37,7 +37,7 @@ class Model extends AbstractMaker implements MakerModelInterface
                 self::MODEL_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Model created in app/code/%s"
+                "Model successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);

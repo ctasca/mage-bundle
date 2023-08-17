@@ -37,7 +37,7 @@ class SchemaPatch extends AbstractMaker implements MakerSchemaPatchInterface
                 self::SCHEMA_PATCH_TEMPLATES_DIR,
                 $input,
                 $output,
-                "Setup Schema Patch created in app/code/%s"
+                "Setup Schema Patch successfully created"
             );
         } catch (\Exception $e) {
             $this->logAndOutputErrorMessage($e, $output);
