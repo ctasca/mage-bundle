@@ -20,27 +20,34 @@ class Logger extends AbstractMaker implements MakerLoggerInterface
     {
         $question = $this->makeModuleNameQuestion();
         $moduleName = $this->questionHelper->ask($input, $output, $question);
-        // Logger Handler class name question
-        $question = $this->questionFactory->create(
-            'Enter Logger Handler class name. It can be also a directory. (e.g. Handler or Dummy/Handler)'
+        // ask if handler is a virtual type
+        $confirmationQuestion = $this->confirmationQuestionFactory->create(
+            'Is the handler defined as a virtual type in di.xml?'
         );
-        QuestionValidator::validatePath(
-            $question,
-            "Logger Handler class name is not valid.",
-            self::MAX_QUESTION_ATTEMPTS
-        );
-        $handlerPath = $this->questionHelper->ask($input, $output, $question);
-        // Logger Handler filename question
-        $question = $this->questionFactory->create(
-            'Enter log filename name. It can be also a directory. (e.g. my-logger.log or dummy/my-logger.log)' .
-            "\n<comment>This should be relative to the path MAGENTO_ROOT/var/log directory</comment>"
-        );
-        QuestionValidator::validateLoggerFilename(
-            $question,
-            "Log filename is not valid.",
-            self::MAX_QUESTION_ATTEMPTS
-        );
-        $logFilename = $this->questionHelper->ask($input, $output, $question);
+        $isHandlerAVirtualType = $this->questionHelper->ask($input, $output, $confirmationQuestion);
+        if ($isHandlerAVirtualType === false) {
+            // Logger Handler class name question
+            $question = $this->questionFactory->create(
+                'Enter Logger Handler class name. It can be also a directory. (e.g. Handler or Dummy/Handler)'
+            );
+            QuestionValidator::validatePath(
+                $question,
+                "Logger Handler class name is not valid.",
+                self::MAX_QUESTION_ATTEMPTS
+            );
+            $handlerPath = $this->questionHelper->ask($input, $output, $question);
+            // Logger Handler filename question
+            $question = $this->questionFactory->create(
+                'Enter log filename name. It can be also a directory. (e.g. my-logger.log or dummy/my-logger.log)' .
+                "\n<comment>This should be relative to the path MAGENTO_ROOT/var/log directory</comment>"
+            );
+            QuestionValidator::validateLoggerFilename(
+                $question,
+                "Log filename is not valid.",
+                self::MAX_QUESTION_ATTEMPTS
+            );
+            $logFilename = $this->questionHelper->ask($input, $output, $question);
+        }
         // Logger class name question
         $question = $this->questionFactory->create(
             'Enter Logger class name. It can be also a directory. (e.g. Logger or Dummy/Logger)'
@@ -52,16 +59,19 @@ class Logger extends AbstractMaker implements MakerLoggerInterface
         );
         $loggerPath = $this->questionHelper->ask($input, $output, $question);
         try {
-            $this->writeClassFromTemplateChoice(
-                $handlerPath,
-                $moduleName,
-                'Logger',
-                self::LOGGER_HANDLER_TEMPLATES_DIR,
-                $input,
-                $output,
-                "Logger Handler successfully created",
-                ['setLogFilename' => $logFilename]
-            );
+            if ($isHandlerAVirtualType === false) {
+                $this->writeClassFromTemplateChoice(
+                    $handlerPath,
+                    $moduleName,
+                    'Logger',
+                    self::LOGGER_HANDLER_TEMPLATES_DIR,
+                    $input,
+                    $output,
+                    "Logger Handler successfully created",
+                    ['setLogFilename' => $logFilename]
+                );
+            }
+
             $this->writeClassFromTemplateChoice(
                 $loggerPath,
                 $moduleName,
