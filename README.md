@@ -116,9 +116,11 @@ bin/magento m:r:c
 <p>Do not forget to add the preferences to your di.xml for the repository classes once created. For example:</p>
 
 ```xml
+<config>
     <preference for="Company\Module\Api\Data\$MODEL_NAMEInterface" type="Company\Module\Model\$MODEL_NAME" />
     <preference for="Company\Module\Api\$MODEL_NAMERepositoryInterface" type="Company\Module\Model\$MODEL_NAMERepository" />
     <preference for="Company\Module\Api\Data\$MODEL_NAMESearchResultInterface" type="Company\Module\Model\$MODEL_NAMESearchResult" />
+</config>
 ```
 
 ---
@@ -311,6 +313,33 @@ bin/magento magebundle:exception:create
 bin/magento m:e:c
 ```
 <p>Creates an Exception class in specified Company/Module.</p>
+
+## Utilities commands
+
+```bash
+bin/magento magebundle:util:encryptor
+```
+#### Shortcut
+```bash
+bin/magento m:u:e
+```
+<p>Encrypts/Decrypts a string using Magento crypt key</p>
+
+## Setting custom working directory
+<p>By default, MageBundle creates files in the <code>app/code</code> directory and in the specified module's namespace</p>
+<p>It is possible, to change this behaviour by creating a json file named <code>pwd.json</code> in the <code>$MAGENTO-ROOT/dev/mage-bundle</code> directory and specifying the directory (relative to magento root) where files will be created when executing MageBundle commands.</p>
+<p>This can be useful, for example, when developing a module which is not located in <code>app/code</code> directory</p>
+
+### Important:
+The directory specified in <code>pwd.json</code> must end with a forward-slash
+
+#### pwd.json example:
+
+```json
+{
+  "pwd" : "packages/my-package/"
+}
+```
 
 
 ## About template files:

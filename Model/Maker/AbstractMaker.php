@@ -220,6 +220,7 @@ abstract class AbstractMaker implements MakerInterface
         $file = $this->makeFile($dataProvider, $fileTemplate);
 
         if (empty($filename)) {
+            //@phpcs:ignore Security.BadFunctions.PregReplace.PregReplaceDyn
             $template = preg_replace(self::CUSTOM_TEMPLATE_PATTERN_MATCH, '', $template);
             $this->writeFile(
                 $appCodeLocator,

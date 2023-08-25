@@ -24,7 +24,7 @@ class Locator extends AbstractLocator
         try {
             $pwdJson = $this->getRead('dev/mage-bundle')
                 ->readFile('pwd.json');
-        } catch(\Exception) {
+        } catch (\Exception) {
             return '';
         }
         $pwd = $this->jsonSerializer->unserialize($pwdJson);
@@ -58,7 +58,7 @@ class Locator extends AbstractLocator
      * @param string $templateFilename
      * @return \Ctasca\MageBundle\Api\LocatorInterface
      */
-    public function setTemplateFilename(string $templateFilename): LocatorInterface
+    public function setTemplateFilename(string $templateFilename): LocatorInterface //@phpcs:ignore
     {
         return $this;
     }

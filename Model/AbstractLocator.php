@@ -29,9 +29,6 @@ abstract class AbstractLocator implements LocatorInterface
     protected PwdLocatorFactory $pwdLocatorFactory;
     protected string $dirname;
     protected string $templateFilename = '';
-    /**
-     * @var \Ctasca\MageBundle\Model\Pwd\Locator
-     */
 
     /**
      * @return string

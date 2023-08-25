@@ -25,6 +25,7 @@ class Logger extends AbstractMaker implements MakerLoggerInterface
             'Is the handler defined as a virtual type in di.xml?'
         );
         $isHandlerAVirtualType = $this->questionHelper->ask($input, $output, $confirmationQuestion);
+
         if ($isHandlerAVirtualType === false) {
             // Logger Handler class name question
             $question = $this->questionFactory->create(
@@ -48,6 +49,7 @@ class Logger extends AbstractMaker implements MakerLoggerInterface
             );
             $logFilename = $this->questionHelper->ask($input, $output, $question);
         }
+
         // Logger class name question
         $question = $this->questionFactory->create(
             'Enter Logger class name. It can be also a directory. (e.g. Logger or Dummy/Logger)'

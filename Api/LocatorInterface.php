@@ -22,9 +22,9 @@ interface LocatorInterface
 
     /**
      * File to override working directory when creating files.
-     * 
+     *
      * If it exists, files won't be created in app/code directory but in the one specified in the
-     * json file. 
+     * json file.
      */
     public const PWD_FILENAME = 'dev/mage-bundle/pwd.json';
 

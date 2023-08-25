@@ -47,6 +47,7 @@
                 <item name="createJsMixinCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateJsMixinCommand</item>
                 <item name="createRepositoryCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateRepositoryCommand</item>
                 <item name="createExceptionCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\CreateExceptionCommand</item>
+                <item name="utilEncryptorCommand" xsi:type="object">Ctasca\MageBundle\Console\Command\EncryptorCommand</item>
             </argument>
         </arguments>
     </type>
