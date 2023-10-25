@@ -8,23 +8,6 @@
 composer require --dev ctasca/mage-bundle
 ```
 
-<p><strong>Note: If you are getting the following composer error, it is due to your minimum-stability settings.</strong></p>
-
-```
-Could not find a version of package ctasca/mage-bundle matching your minimum-stability (stable). Require it with an explicit version constraint allowing its desired stability
-```
-
-### Workaround
-
-```bash
-composer require --dev ctasca/mage-bundle:v3.8.x
-```
-or
-
-```bash
-composer require --dev ctasca/mage-bundle
-```
-
 ### Copy template files to Magento root dev/ directory
 
 ```bash
