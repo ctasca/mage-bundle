@@ -17,7 +17,7 @@ Could not find a version of package ctasca/mage-bundle matching your minimum-sta
 ### Workaround
 
 ```bash
-composer require --dev ctasca/mage-bundle:v3.x.x-RC
+composer require --dev ctasca/mage-bundle:v3.8.x
 ```
 or
 
