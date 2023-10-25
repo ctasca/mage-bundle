@@ -3,12 +3,12 @@
 ### Easily create Magento2/AdobeCommerce PHP/XML/JS files from a set of templates via the command-line.
 <p>Allows you to define your own templates as well as the data provided at files' creation time.</p>
 
-## Installation
+## #1 Installation
 ```bash
 composer require --dev ctasca/mage-bundle
 ```
 
-### Copy template files to Magento root dev/ directory
+### #2 Copy template files to Magento root dev/ directory
 
 ```bash
 cd <magento_root>/vendor/ctasca/mage-bundle && composer run-script post-install-cmd
