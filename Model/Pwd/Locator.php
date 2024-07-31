@@ -24,7 +24,7 @@ class Locator extends AbstractLocator
         try {
             $pwdJson = $this->getRead('dev/mage-bundle')
                 ->readFile('pwd.json');
-        } catch (\Exception) {
+        } catch (\Exception $e) {
             return '';
         }
         $pwd = $this->jsonSerializer->unserialize($pwdJson);
